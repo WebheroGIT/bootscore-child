@@ -28,8 +28,18 @@ if (!function_exists('the_breadcrumb')) :
         // Aggiungi qui altri post types e le loro tassonomie
       ];
 
+      // GESTIONE ARCHIVE PAGES per i post types
+      if (is_post_type_archive()) {
+        $post_type = get_post_type();
+        $post_type_obj = get_post_type_object($post_type);
+        
+        if ($post_type_obj) {
+          echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($post_type_obj->labels->name) . '</li>';
+        }
+      }
+
       // Se è un single post o custom post
-      if (is_single()) {
+      elseif (is_single()) {
         $post_type = get_post_type();
 
         // Se è un custom post type (diverso da "post")
@@ -37,7 +47,7 @@ if (!function_exists('the_breadcrumb')) :
           $post_type_obj = get_post_type_object($post_type);
           if ($post_type_obj && $post_type_obj->has_archive) {
             $archive_link = get_post_type_archive_link($post_type);
-            echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($archive_link) . '">' . esc_html($post_type_obj->labels->singular_name) . '</a></li>';
+            echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($archive_link) . '">' . esc_html($post_type_obj->labels->name) . '</a></li>';
           }
 
           // GESTIONE TASSONOMIE per i Custom Post Types configurati
@@ -92,10 +102,13 @@ if (!function_exists('the_breadcrumb')) :
             echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . get_term_link($cat->term_id) . '">' . esc_html($cat->name) . '</a></li>';
           }
         }
+        
+        // Titolo del post corrente
+        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html(get_the_title()) . '</li>';
       }
 
       // GESTIONE ARCHIVE PAGES per le tassonomie
-      if (is_tax()) {
+      elseif (is_tax()) {
         $current_term = get_queried_object();
         $taxonomy = $current_term->taxonomy;
         
@@ -113,7 +126,7 @@ if (!function_exists('the_breadcrumb')) :
           $post_type_obj = get_post_type_object($associated_post_type);
           if ($post_type_obj && $post_type_obj->has_archive) {
             $archive_link = get_post_type_archive_link($associated_post_type);
-            echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($archive_link) . '">' . esc_html($post_type_obj->labels->singular_name) . '</a></li>';
+            echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($archive_link) . '">' . esc_html($post_type_obj->labels->name) . '</a></li>';
           }
         }
         
@@ -140,17 +153,14 @@ if (!function_exists('the_breadcrumb')) :
             echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($term_link) . '">' . esc_html($term_hierarchy[$i]->name) . '</a></li>';
           }
         }
-      }
-
-      // Titolo della pagina o post corrente
-      if (is_page() || is_single()) {
-        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html(get_the_title()) . '</li>';
+        
+        // Termine corrente come attivo
+        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($current_term->name) . '</li>';
       }
       
-      // Se è una pagina di tassonomia, mostra il termine corrente come attivo
-      if (is_tax()) {
-        $current_term = get_queried_object();
-        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($current_term->name) . '</li>';
+      // Titolo della pagina
+      elseif (is_page()) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html(get_the_title()) . '</li>';
       }
 
       echo '</ol>';

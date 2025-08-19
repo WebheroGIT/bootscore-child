@@ -223,3 +223,15 @@ function register_sortable_columns() {
 
 add_action('admin_init', 'register_sortable_columns');
 // END VISTA CATEGORIE SUI POS TYPE BACKEND
+
+
+// TODO 2025 08 19 
+// Register new 3 level depth nav-walker
+// Register new 3 level depth nav-walker
+function register_navwalker() {
+  require_once('inc/class-bootstrap-5-navwalker.php');
+  // Register Menus
+  register_nav_menu('main-menu', 'Main menu');
+  register_nav_menu('footer-menu', 'Footer menu');
+}
+add_action('init', 'register_navwalker');

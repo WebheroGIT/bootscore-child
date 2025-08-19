@@ -25,6 +25,8 @@ get_header();
 
           <main id="main" class="site-main">
 
+            <?php the_breadcrumb(); ?>
+
             <div class="entry-header">
               <?php do_action( 'bootscore_before_title', 'archive' ); ?>
               <?php the_archive_title('<h1 class="entry-title ' . apply_filters('bootscore/class/entry/title', '', 'archive') . '">', '</h1>'); ?>

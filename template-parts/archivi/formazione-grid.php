@@ -11,7 +11,7 @@ defined('ABSPATH') || exit;
 ?>
 
 <!-- Grid container for formazione posts -->
-<div class="grid-3 grid-m-1 gap-4 grid-box-formazione">
+<div class="grid-3 grid-m-1 gap-4 grid-box-formazione mb-5">
   
   <?php while (have_posts()) : the_post(); ?>
   
@@ -58,10 +58,41 @@ defined('ABSPATH') || exit;
         <?php endif; ?>
       </div>
 
-      <div class="card-footer">
+      <div class="card-footer bg-primary text-light">
         <!-- Green band with "Scopri di più" -->
-        <div class="mt-auto">
-          <a href="<?php the_permalink(); ?>" class="btn bg-primary text-light w-100">
+        <div class="d-flex gap-2 justify-content-between">
+  
+        <?php
+        // Recupera i valori dei campi
+        $corso_modalita = rwmb_meta('corso_modalita', '', get_the_ID());
+        $corso_cfu = rwmb_meta('corso_cfu', '', get_the_ID());
+        $corso_durata = rwmb_meta('corso_durata', '', get_the_ID());
+
+        // Controlla se almeno uno dei tre campi è presente
+        if (!empty($corso_modalita) || !empty($corso_cfu) || !empty($corso_durata)) {
+          echo '<div class="d-flex gap-1">'; // Apri il div contenitore
+          
+          if (!empty($corso_modalita)) {
+            // Display the label instead of the value
+            echo '<p class="m-0 small fw-bold">';
+            rwmb_the_value('corso_modalita', '', get_the_ID());
+            echo '</p>';
+          } else {
+            // If corso_modalita is not present, check for corso_cfu and corso_durata
+            if (!empty($corso_cfu)) {
+              echo '<p class="m-0 small fw-bold">' . esc_html($corso_cfu) . ' CFU</p><p class="m-0 small">|</p>';
+            }
+            
+            if (!empty($corso_durata)) {
+              echo '<p class="m-0 small fw-bold">' . esc_html($corso_durata) . ' anni</p>';
+            }
+          }
+          
+          echo '</div>'; // Chiudi il div contenitore
+        }
+        ?>
+        
+          <a href="<?php the_permalink(); ?>" class="m-0 small text-light">
             Scopri di più
           </a>
         </div>
