@@ -11,7 +11,7 @@ defined('ABSPATH') || exit;
 ?>
 
 <!-- Grid container for formazione posts -->
-<div class="grid-3 grid-m-1 gap-4">
+<div class="grid-3 grid-m-1 gap-4 grid-box-formazione">
   
   <?php while (have_posts()) : the_post(); ?>
   
@@ -36,7 +36,7 @@ defined('ABSPATH') || exit;
           $terms = get_the_terms(get_the_ID(), 'cat-formazione');
           if ($terms && !is_wp_error($terms)) :
             foreach ($terms as $term) : ?>
-              <span class="badge bg-secondary me-1"><?php echo esc_html($term->name); ?></span>
+              <span class=""><?php echo esc_html($term->name); ?> in</span>
             <?php endforeach;
           endif;
           
@@ -54,9 +54,11 @@ defined('ABSPATH') || exit;
         </h5>
         
         <?php if (has_excerpt()) : ?>
-          <p class="card-text flex-grow-1"><?php the_excerpt(); ?></p>
+          <p class="card-text flex-grow-1 excerpt-4-lines"><?php the_excerpt(); ?></p>
         <?php endif; ?>
-        
+      </div>
+
+      <div class="card-footer">
         <!-- Green band with "Scopri di più" -->
         <div class="mt-auto">
           <a href="<?php the_permalink(); ?>" class="btn bg-primary text-light w-100">
