@@ -35,7 +35,16 @@ get_header();
             <?php do_action( 'bootscore_before_loop', 'archive' ); ?>
 
             <?php if (have_posts()) : ?>
-              <?php while (have_posts()) : the_post(); ?>
+              
+              <?php 
+              // Check if this is formazione post type or cat-formazione taxonomy
+              $is_formazione = (is_post_type_archive('formazione') || is_tax('cat-formazione'));
+              ?>
+              
+              <?php if ($is_formazione) : ?>
+                <?php get_template_part('template-parts/archivi/formazione-grid'); ?>
+              <?php else : ?>
+                <?php while (have_posts()) : the_post(); ?>
             
               <?php do_action('bootscore_before_loop_item', 'archive'); ?>
 
@@ -109,8 +118,9 @@ get_header();
             
                 <?php do_action('bootscore_after_loop_item', 'archive'); ?>
 
-              <?php endwhile; ?>
-            <?php endif; ?>
+                <?php endwhile; ?>
+              <?php endif; // end else ?>
+            <?php endif; // end have_posts ?>
             
             <?php do_action('bootscore_after_loop', 'archive'); ?>
 
