@@ -1,0 +1,39 @@
+.card-header {
+    position: relative;
+}
+
+.card-header .badge {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #fff;
+    color: #000;
+}
+
+.card-footer {
+    border-top: 1px solid #ddd;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-body a {
+    text-decoration: none;
+    color: #333;
+}
+
+.card-body a:hover {
+    color: #007bff;
+}
+
+.eventi-loop .card {
+    padding: 15px;
+    border: initial;
+}
+
+.eventi-loop .badge {
+    box-shadow: 0 0 0 1px #00000011;
+}

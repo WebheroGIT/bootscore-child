@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+package-lock.json
+.prettierrc
+assets/css/main.css
+assets/css/main.css.map
+assets/css/editor.css
+assets/css/editor.css.map
+
+# Exclude _dev build and config files
+_dev/build/
+_dev/package.json
+_dev/package-lock.json
+_dev/webpack.config.js

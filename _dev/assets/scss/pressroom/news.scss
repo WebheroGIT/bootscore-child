@@ -1,0 +1,25 @@
+/* Forziamo tutte le slide a occupare l'intera altezza disponibile */
+.swiper-article-container {
+    height: 100%!important; /* Impostiamo l'altezza al 100% del contenitore Swiper */
+}
+
+.swiper-article-container .swiper-slide {
+    display: flex!important;
+    flex-direction: column!important;
+    height: 100%!important; /* Le slide devono occupare tutta l'altezza */
+    justify-content: space-between!important; /* Forza la distribuzione dello spazio */
+}
+
+
+/* Le card all'interno delle slide devono avere la stessa altezza */
+.swiper-article-container .swiper-slide .card {
+    display: flex!important;
+    flex-direction: column!important;
+    height: 100%!important; /* La card deve occupare tutta l'altezza della slide */
+    justify-content: space-between!important; /* Distribuisce lo spazio tra i vari contenuti */
+}
+
+/* Assicuriamoci che il contenuto interno della card si adatti */
+.swiper-article-container .swiper-slide .card-body {
+    flex-grow: 1!important; /* La body della card può crescere per occupare spazio */
+}

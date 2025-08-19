@@ -1,0 +1,35 @@
+@media (max-width: 991px) {
+  .col-featured {
+    min-height: 400px;
+  }
+}
+
+
+/* se ti serve personalizzare via CSS anziché utilità Boot */
+.row-iscrizioni-formazione {
+  /* override di align-items-center */
+  align-items: stretch;
+}
+
+.row-iscrizioni-formazione .col-md-5 {
+  position: relative; /* il contenitore per l’absolute */
+}
+
+.row-iscrizioni-formazione .img-wrapper {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+}
+
+.row-iscrizioni-formazione .img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.row-iscrizioni-formazione .img-formazione {
+  object-fit: cover;
+  object-position: center;  /* opzionale, per centrare il crop */
+  width: 100%;
+  height: 100%;
+  display: block;           /* assicura che object-fit funzioni correttamente */
+}

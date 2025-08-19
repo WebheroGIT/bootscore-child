@@ -1,0 +1,17 @@
+figure.position-absolute img {
+    height: 100%;
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+#content a {
+    text-decoration: none;
+}
+
+body .wpgb-facet ul.wpgb-expanded li[hidden] {
+    display: inherit!important;
+}
+
+.znegativ-1 { z-index: -1;}
+.znegativ-2 { z-index: -2;}

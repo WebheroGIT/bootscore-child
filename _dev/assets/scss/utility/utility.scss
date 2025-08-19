@@ -1,0 +1,96 @@
+@use 'btn.scss' as btn;
+@use 'new-classes.scss' as newclasses;
+@use 'util-gut.scss' as utilgut;
+@use 'sede.scss' as sede;
+@use 'footer.scss' as footer;
+@use 'effects.scss' as effects;
+
+.clickable-parent::after {
+    content: "";
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.grid-7-5 {
+  display: grid !important;
+  grid-template-columns: 7fr 5fr;
+  width: 100%;
+}
+
+.grid-5-7 {
+  display: grid !important;
+  grid-template-columns: 5fr 7fr;
+  width: 100%;
+}
+
+// 2) Breakpoints “max-width” (in ordine decrescente)
+$breakpoints-max: (
+  xxl: 1400px,
+  xl: 1200px,
+  lg: 992px,
+  md: 768px,
+  sm: 576px
+);
+
+// 3) Mixin base per grid con N colonne
+@mixin grid-cols($n) {
+  display: grid !important;
+  grid-template-columns: repeat($n, 1fr);
+  width: 100%;
+}
+
+// 4) Default desktop: .grid-1 … .grid-7
+@for $i from 1 through 7 {
+  .grid-#{$i} {
+    @include grid-cols($i);
+  }
+}
+
+// 5) Override “sotto” ogni breakpoint, dal più grande al più piccolo
+@each $bp, $max in $breakpoints-max {
+  @media (max-width: #{$max}) {
+    @for $i from 1 through 7 {
+      .grid-#{$bp}-#{$i} {
+        @include grid-cols($i);
+      }
+    }
+  }
+}
+
+
+/*
+ USO:
+ // Griglie:
+ .grid-5 {
+   // 5 colonne di default (viewport > lg)
+ }
+ .grid-lg-2 {
+   // 2 colonne sotto 992px
+ }
+ .grid-md-1 {
+   // 1 colonna sotto 768px
+ }
+ .grid-sm-3 {
+   // 3 colonne sotto 576px
+ }
+ .grid-7-5, .grid-5-7 {
+   // layout frazionale personalizzato
+ }
+
+ // Gap:
+ .gap-1 … .gap-6
+   // gap uniforme tra righe e colonne
+   // gap lo prendiamo dalle regole di bootstrap 5
+*/
+
+
+
+.very-small {
+  font-size: 0.75rem;
+  line-height: 1;
+}

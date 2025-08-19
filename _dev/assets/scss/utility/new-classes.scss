@@ -1,0 +1,21 @@
+.box-300 {
+    min-height: 250px;
+  }
+  
+  @media (min-width: 768px) {
+    .custom-box {
+      min-height: 300px;
+    }
+  }
+.box-400 {
+    min-height: 350px;
+  }
+  
+  @media (min-width: 768px) {
+    .custom-box {
+      min-height: 400px;
+    }
+  }  
+
+
+  

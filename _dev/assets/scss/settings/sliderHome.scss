@@ -1,0 +1,59 @@
+.swiperHome {
+  height: 300px;
+
+    .swiper-container {
+      height: 100%;
+    }
+  
+    .swiperHome-slide {
+      height: 100%;
+      width: auto;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+  
+    .swiperHome-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+  
+    .swiperHome-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+  
+    .swiperHome-content {
+      position: relative;
+      z-index: 2;
+      height: 300px;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  
+    .swiperHome-title {
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    }
+  
+    .swiperHome-prev,
+    .swiperHome-next {
+      color: white;
+      z-index: 3;
+    }
+  
+    .swiperHome-pagination .swiper-pagination-bullet {
+      background: white;
+      opacity: 1;
+    }
+  
+    .swiperHome-pagination .swiper-pagination-bullet-active {
+      background: #0d6efd; // colore primary Bootstrap
+    }
+  }
+  

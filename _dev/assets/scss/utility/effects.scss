@@ -1,0 +1,10 @@
+.box-bounce {
+  display: inline-block;
+  transition: transform 0.4s ease;
+  transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+}
+
+.box-bounce:hover {
+  /* Scala il box a circa il 70% usando matrix3d */
+  transform: matrix3d(0.7, 0, 0, 0, 0, 0.7, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+}
