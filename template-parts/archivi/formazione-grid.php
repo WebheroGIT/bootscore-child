@@ -54,7 +54,7 @@ defined('ABSPATH') || exit;
         </h5>
         
         <?php if (has_excerpt()) : ?>
-          <p class="card-text flex-grow-1 excerpt-4-lines"><?php echo wp_strip_all_tags(get_the_excerpt()); ?></p>
+          <p class="card-text flex-grow-1 excerpt-4-lines small"><?php echo wp_strip_all_tags(get_the_excerpt()); ?></p>
         <?php endif; ?>
       </div>
 

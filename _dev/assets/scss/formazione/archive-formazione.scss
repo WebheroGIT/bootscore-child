@@ -8,3 +8,10 @@
   line-height: 1.4;
   max-height: calc(1.4em * 4); /* fallback for browsers that don't support line-clamp */
 }
+
+.grid-box-formazione {
+    .card-body {
+        background-color: var(--bs-card-cap-bg);
+    }
+
+}
