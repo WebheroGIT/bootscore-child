@@ -1,31 +1,26 @@
-// Funzioni JS globali
+// Main JavaScript entry point
+// Importa tutti i moduli JavaScript
 
+// Moduli di utilità
+import './utility/search.js';
 
-// JS vanilla per gestire il togle della lente di ricerca
-document.addEventListener('DOMContentLoaded', function () {
-  const toggleBtn = document.querySelector('.search-toggle');
-  const overlay = document.querySelector('.search-form-overlay');
+// Moduli specifici per funzionalità
+import './plugins/platform-interceptor.js';
 
-  toggleBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    overlay.classList.remove('d-none');
-  });
+// Moduli header (se necessari in futuro)
+// import './header/menu.js';
 
-  // Chiudi cliccando fuori dal form
-  overlay.addEventListener('click', function (e) {
-    if (!e.target.closest('.search-form-container')) {
-      overlay.classList.add('d-none');
-    }
-  });
+// Moduli settings (se necessari in futuro)
+// import './settings/config.js';
 
-  // Optional: ESC per chiudere
-  document.addEventListener('keydown', function (e) {
-    if (e.key === "Escape") {
-      overlay.classList.add('d-none');
-    }
-  });
-});
+// Moduli whatsapp (se necessari in futuro)
+// import './whatsapp/widget.js';
 
+// Moduli pressroom (se necessari in futuro)
+// import './pressroom/events.js';
+// import './pressroom/news.js';
 
+// Moduli formazione (se necessari in futuro)
+// import './formazione/courses.js';
 
-
+console.log('[Main JS] All modules loaded successfully');

@@ -35,7 +35,17 @@ module.exports = (env, argv) => {
                     use: {
                         loader: 'babel-loader',      // Usa Babel per la compilazione del codice JS
                         options: {
-                            presets: ['@babel/preset-env'], // Usa preset per ES6/ES7
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        modules: false,  // Mantieni i moduli ES6 per webpack
+                                        targets: {
+                                            browsers: ['> 1%', 'last 2 versions']
+                                        }
+                                    }
+                                ]
+                            ]
                         },
                     },
                 },
