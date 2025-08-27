@@ -1,6 +1,6 @@
 <?php
 $taxonomy = 'cat-formazione';
-$valid_cats = [4, 5, 9, 27];
+$valid_cats = [4, 5, 9, 27, 40];
 $has_valid_cat = false;
 
 // Recupera le categorie assegnate

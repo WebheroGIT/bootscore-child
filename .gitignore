@@ -10,3 +10,5 @@ assets/css/editor.css.map
 # Exclude _dev build and config files
 _dev/build/
 _dev/package-lock.json
+
+*copy*

@@ -11,7 +11,7 @@ defined('ABSPATH') || exit;
 ?>
 
 <!-- Grid container for formazione posts -->
-<div class="grid-3 grid-m-1 gap-4 grid-box-formazione mb-5">
+<div class="grid-3 grid-lg-2 grid-md-1 gap-4 grid-box-formazione mb-5">
   
   <?php while (have_posts()) : the_post(); ?>
   
@@ -84,7 +84,7 @@ defined('ABSPATH') || exit;
             }
             
             if (!empty($corso_durata)) {
-              echo '<p class="m-0 small fw-bold">' . esc_html($corso_durata) . ' anni</p>';
+              echo '<p class="m-0 small fw-bold">' . esc_html($corso_durata) . '</p>';
             }
           }
           
