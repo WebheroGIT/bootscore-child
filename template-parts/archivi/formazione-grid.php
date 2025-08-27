@@ -10,9 +10,17 @@
 defined('ABSPATH') || exit;
 ?>
 
+<!-- Prima del grid container -->
+<?php 
+// Filtri per la formazione tramite hook
+do_action('formazione_grid_filters'); ?>
+
+
 <!-- Grid container for formazione posts -->
-<div class="grid-3 grid-lg-2 grid-md-1 gap-4 grid-box-formazione mb-5">
-  
+<div class="grid-3 grid-lg-2 grid-md-1 gap-4 grid-box-formazione mb-5" 
+     data-wpgb-grid="formazione-posts" 
+     id="formazione-posts">
+     
   <?php while (have_posts()) : the_post(); ?>
   
   <?php do_action('bootscore_before_loop_item', 'formazione-grid'); ?>
