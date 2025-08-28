@@ -220,7 +220,7 @@ jQuery(document).ready(function($) {
 /* Box del primo livello - stile Bootstrap */
 #menu-menuformativa .menu-item-level-1 {
     position: relative;
-    flex: 0 0 calc(33.333% - 14px); /* 3 colonne con gap */
+    width: 100%;
 }
 @media (max-width: 991px) {
     #menu-menuformativa {

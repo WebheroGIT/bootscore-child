@@ -1,16 +1,13 @@
 .wp-block-wh-blocks-accordion {
   .accordion {
 
-    li.accordion-item {
+    .accordion-item {
           border-radius: var(--bs-accordion-inner-border-radius)!important;
           overflow: hidden;
-              border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
-      &:not(:first-child) {
-        margin-top: 8px;
-       
-        
-       
-      }
+          border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+        &:not(:first-child) {
+            margin-top: 8px;
+        }
 
       .accordion-header {
         button.accordion-button {

@@ -39,3 +39,6 @@ require_once get_stylesheet_directory(). '/_dev/inc/logic/formazione/utility-sho
 
 // Sidebar include
 require_once get_stylesheet_directory(). '/_dev/inc/logic/sidebar/sidebar-mod.php';
+
+// plugins include
+require_once get_stylesheet_directory(). '/_dev/inc/logic/plugin/plugins.php';
