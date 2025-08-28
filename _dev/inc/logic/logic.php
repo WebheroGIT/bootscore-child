@@ -42,3 +42,6 @@ require_once get_stylesheet_directory(). '/_dev/inc/logic/sidebar/sidebar-mod.ph
 
 // plugins include
 require_once get_stylesheet_directory(). '/_dev/inc/logic/plugin/plugins.php';
+
+// Video Modal utility include
+require_once get_stylesheet_directory(). '/_dev/inc/logic/utility/video-modal.php';
