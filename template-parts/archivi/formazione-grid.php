@@ -51,13 +51,22 @@ $formazione_query = new WP_Query($args);
   
     <?php do_action('bootscore_before_loop_item', 'formazione-grid'); ?>
 
-      <article id="post-<?php the_ID(); ?>" <?php post_class('card formazione-card'); ?>>
+      <article id="post-<?php the_ID(); ?>" <?php post_class('card formazione-card position-relative'); ?>>
         
         <?php if (has_post_thumbnail()) : ?>
           <div class="card-img-wrapper">
             <a href="<?php the_permalink(); ?>">
               <?php the_post_thumbnail('medium', ['class' => 'card-img-top', 'alt' => get_the_title()]); ?>
             </a>
+          </div>
+        <?php endif; ?>
+        
+        <?php 
+        // Badge corso_modalita in alto a sinistra
+        $corso_modalita = rwmb_meta('corso_modalita', '', get_the_ID());
+        if (!empty($corso_modalita)) : ?>
+          <div class="position-absolute top-0 start-0 m-2">
+            <span class="badge bg-warning text-dark fw-bold"><?php echo esc_html($corso_modalita); ?></span>
           </div>
         <?php endif; ?>
         
@@ -97,29 +106,23 @@ $formazione_query = new WP_Query($args);
           <div class="d-flex gap-2 justify-content-between">
     
           <?php
-          // Recupera i valori dei campi
-          $corso_modalita = rwmb_meta('corso_modalita', '', get_the_ID());
+          // Recupera i valori dei campi CFU e durata
           $corso_cfu = rwmb_meta('corso_cfu', '', get_the_ID());
           $corso_durata = rwmb_meta('corso_durata', '', get_the_ID());
 
-          // Controlla se almeno uno dei tre campi è presente
-          if (!empty($corso_modalita) || !empty($corso_cfu) || !empty($corso_durata)) {
+          // Mostra CFU e durata se presenti (indipendentemente da corso_modalita)
+          if (!empty($corso_cfu) || !empty($corso_durata)) {
             echo '<div class="d-flex gap-1">'; // Apri il div contenitore
             
-            if (!empty($corso_modalita)) {
-              // Display the label instead of the value
-              echo '<p class="m-0 small fw-bold">';
-              rwmb_the_value('corso_modalita', '', get_the_ID());
-              echo '</p>';
-            } else {
-              // If corso_modalita is not present, check for corso_cfu and corso_durata
-              if (!empty($corso_cfu)) {
-                echo '<p class="m-0 small fw-bold">' . esc_html($corso_cfu) . ' CFU</p><p class="m-0 small">|</p>';
-              }
-              
+            if (!empty($corso_cfu)) {
+              echo '<p class="m-0 small fw-bold">' . esc_html($corso_cfu) . ' CFU</p>';
               if (!empty($corso_durata)) {
-                echo '<p class="m-0 small fw-bold">' . esc_html($corso_durata) . '</p>';
+                echo '<p class="m-0 small">|</p>';
               }
+            }
+            
+            if (!empty($corso_durata)) {
+              echo '<p class="m-0 small fw-bold">' . esc_html($corso_durata) . '</p>';
             }
             
             echo '</div>'; // Chiudi il div contenitore
