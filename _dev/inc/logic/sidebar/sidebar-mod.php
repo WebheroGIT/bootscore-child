@@ -39,6 +39,12 @@ function custom_sidebar_rules() {
         }
     }
     
+    // Regola speciale per eventi con form WSForm
+    if ($current_post_type === 'eventi') {
+        $show_sidebar = true;
+        $sidebar_content = 'eventi_form'; // Indica che deve mostrare form WSForm per eventi
+    }
+    
     // Controlla se il post ID corrente è nella lista degli ID consentiti
     if (in_array($current_post_id, $allowed_post_ids)) {
         $show_sidebar = true;
@@ -53,7 +59,36 @@ function custom_sidebar_rules() {
     
     // Mostra la sidebar se le condizioni sono soddisfatte
     if ($show_sidebar) {
-        if ($sidebar_content === 'hubspot') {
+        if ($sidebar_content === 'eventi_form') {
+            // Sidebar speciale per eventi con WSForm
+            ?>
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+                <aside id="secondary" class="widget-area">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                        <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni Evento', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
+                    </button>
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                        <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
+                            <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Richiedi Informazioni', 'bootscore')); ?></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body flex-column <?= apply_filters('bootscore/class/offcanvas/body', '', 'sidebar'); ?>">
+                            
+                            <?php do_action('bootscore_before_sidebar_widgets'); ?>
+                            
+                        
+                                <!-- WSForm con ID 1 -->
+                                <?php echo do_shortcode('[ws_form id="1"]'); ?>
+                            
+                            
+                            <?php do_action('bootscore_after_sidebar_widgets'); ?>
+                            
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <?php
+        } elseif ($sidebar_content === 'hubspot') {
             // Sidebar speciale per formazione con HubSpot ID
             $corso_hubspot_id = rwmb_meta('corso_hubspot_id');
             ?>

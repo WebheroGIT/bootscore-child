@@ -4,10 +4,12 @@ Utility leggera per creare modali video responsive e accessibili nel tema BootSc
 
 ## Utilizzo Base
 
-Per attivare la modale video, aggiungi semplicemente la classe `modal-video` ai tuoi link video:
+Per attivare la modale video, aggiungi semplicemente la classe `modal-video` o `video` ai tuoi link video:
 
 ```html
 <a href="https://video.unimarconi.it/dsms/istitutional/416/l7_ma1_rinaldi_l00.mp4" class="modal-video">Video lezione introduttiva 1</a>
+
+<a href="https://video.unimarconi.it/dsms/istitutional/416/l7_ma1_rinaldi_l00.mp4" class="video">Video lezione introduttiva 1</a>
 
 <a class="btn btn-primary modal-video" href="https://video.unimarconi.it/dsms/istitutional/425/l9_mr_iazeolla_l00.mp4">Guarda il video</a>
 ```
@@ -24,7 +26,7 @@ Per attivare la modale video, aggiungi semplicemente la classe `modal-video` ai 
 ## Attivazione Automatica
 
 La modale si attiva automaticamente quando:
-1. Il contenuto della pagina contiene la classe `modal-video`
+1. Il contenuto della pagina contiene la classe `modal-video` o `video`
 2. È presente lo shortcode `[modal-video]`
 
 ## Attivazione Manuale
@@ -121,7 +123,7 @@ WHVideoModal.init();
 ## Troubleshooting
 
 ### La modale non si apre
-1. Verifica che il link abbia la classe `modal-video`
+1. Verifica che il link abbia la classe `modal-video` o `video`
 2. Controlla che l'URL del video sia valido
 3. Assicurati che gli asset siano caricati
 

@@ -4,8 +4,12 @@
 // Moduli di utilità
 import './utility/search.js';
 
+// Moduli di utilità
+import './utility/video-modal.js';
+
 // Moduli specifici per funzionalità
 import './plugins/platform-interceptor.js';
+
 
 // Moduli header (se necessari in futuro)
 // import './header/menu.js';

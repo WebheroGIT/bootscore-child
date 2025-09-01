@@ -57,11 +57,12 @@ add_filter('rwmb_meta_boxes', function($meta_boxes) {
                         'std'  => 'Scopri di più',
                     ],
                     [
-                        'name' => 'Immagine di sfondo',
-                        'id'   => 'image',
-                        'type' => 'image_advanced',
+                        'name' => 'Media di sfondo (Immagine o Video)',
+                        'id'   => 'media',
+                        'type' => 'file_advanced',
                         'max_file_uploads' => 1,
-                        'image_size' => 'full',
+                        'mime_type' => 'image,video',
+                        'desc' => 'Carica un\'immagine (JPG, PNG, WebP) o un video (MP4, WebM)',
                     ],
                     [
                         'name' => 'Slide attiva',
@@ -97,13 +98,23 @@ function show_custom_hero_slider() {
 				foreach ($slides as $slide) :
 					if (empty($slide['active'])) continue;
 
-					$image_id = $slide['image'][0] ?? null;
-					$image_url = $image_id ? wp_get_attachment_image_url($image_id, 'full') : '';
+					$media_id = $slide['media'][0] ?? null;
+					$media_url = $media_id ? wp_get_attachment_url($media_id) : '';
+					$media_type = $media_id ? get_post_mime_type($media_id) : '';
+					$is_video = strpos($media_type, 'video/') === 0;
 					?>
 					<div class="carousel-item <?php echo $active ? 'active' : ''; ?>">
 						<div class="position-relative vh-100 w-100">
-							<!-- Immagine di sfondo -->
-							<img src="<?php echo esc_url($image_url); ?>" class="d-block w-100 h-100 object-fit-cover position-absolute top-0 start-0" alt="Hero Slide" />
+							<?php if ($is_video) : ?>
+								<!-- Video di sfondo -->
+								<video class="d-block w-100 h-100 object-fit-cover position-absolute top-0 start-0" autoplay muted loop playsinline>
+									<source src="<?php echo esc_url($media_url); ?>" type="<?php echo esc_attr($media_type); ?>">
+									Il tuo browser non supporta il tag video.
+								</video>
+							<?php else : ?>
+								<!-- Immagine di sfondo -->
+								<img src="<?php echo esc_url($media_url); ?>" class="d-block w-100 h-100 object-fit-cover position-absolute top-0 start-0" alt="Hero Slide" />
+							<?php endif; ?>
 
 							<!-- Overlay -->
 							<div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"></div>

@@ -225,6 +225,24 @@ add_action('admin_init', 'register_sortable_columns');
 // END VISTA CATEGORIE SUI POS TYPE BACKEND
 
 
+// TODO 2025 08 19 - Registrazione sidebar per eventi
+/**
+ * Registra sidebar specifica per gli eventi
+ */
+function register_eventi_sidebar() {
+    register_sidebar(array(
+        'name'          => esc_html__('Eventi Sidebar', 'bootscore'),
+        'id'            => 'eventi-sidebar',
+        'description'   => esc_html__('Sidebar specifica per i post type eventi con form di contatto.', 'bootscore'),
+        'before_widget' => '<section id="%1$s" class="widget mb-4">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title h5">',
+        'after_title'   => '</h2>',
+    ));
+}
+add_action('widgets_init', 'register_eventi_sidebar');
+
+
 // TODO 2025 08 19 
 // Register new 3 level depth nav-walker
 // Register new 3 level depth nav-walker

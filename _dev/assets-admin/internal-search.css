@@ -1,0 +1,236 @@
+
+/**
+ * Admin Internal Search Styles
+ * Styles for the admin search functionality
+ */
+
+.admin-search-container {
+    max-width: 1200px;
+    margin: 20px 0;
+}
+
+.search-form {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.search-form input[type="text"] {
+    width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.search-form input[type="text"]:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+    outline: none;
+}
+
+.search-form .button {
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.search-results {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.loading {
+    padding: 40px;
+    text-align: center;
+    color: #646970;
+    font-size: 14px;
+}
+
+.loading .spinner {
+    float: none;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+}
+
+#results-table {
+    margin: 0;
+}
+
+#results-table table {
+    margin: 0;
+    border-radius: 4px;
+}
+
+#results-table th {
+    background: #f6f7f7;
+    border-bottom: 1px solid #c3c4c7;
+    padding: 12px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+#results-table td {
+    padding: 12px;
+    border-bottom: 1px solid #c3c4c7;
+    vertical-align: middle;
+}
+
+#results-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Row hover effects */
+#results-table tr.hover-highlight {
+    background-color: #f6f7f7;
+}
+
+/* Status indicators */
+.status-draft {
+    opacity: 0.7;
+}
+
+.status-draft td:first-child::before {
+    content: "— ";
+    color: #d63638;
+    font-weight: bold;
+}
+
+.status-private {
+    background-color: #fff2cd;
+}
+
+.status-private td:first-child::before {
+    content: "🔒 ";
+}
+
+.status-pending {
+    background-color: #e7f3ff;
+}
+
+.status-pending td:first-child::before {
+    content: "⏳ ";
+}
+
+/* Links styling */
+#results-table a {
+    color: #2271b1;
+    text-decoration: none;
+}
+
+#results-table a:hover {
+    color: #135e96;
+    text-decoration: underline;
+}
+
+/* Actions column */
+#results-table td:last-child {
+    font-size: 13px;
+}
+
+#results-table .edit-link,
+#results-table .view-link {
+    color: #2271b1;
+}
+
+#results-table .quick-edit-link {
+    color: #646970;
+    cursor: pointer;
+}
+
+#results-table .quick-edit-link:hover {
+    color: #2271b1;
+}
+
+/* Row actions visibility */
+#results-table .row-actions-visible {
+    /* Additional styling for visible actions */
+}
+
+/* No results message */
+#no-results {
+    padding: 40px;
+    text-align: center;
+    color: #646970;
+    font-size: 14px;
+}
+
+#no-results p {
+    margin: 0;
+    font-style: italic;
+}
+
+/* Responsive design */
+@media screen and (max-width: 782px) {
+    .search-form input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    
+    .search-form .button {
+        width: 100%;
+        margin-bottom: 5px;
+        margin-right: 0;
+    }
+    
+    #results-table {
+        overflow-x: auto;
+    }
+    
+    #results-table table {
+        min-width: 600px;
+    }
+    
+    #results-table th,
+    #results-table td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
+
+/* WordPress admin color scheme compatibility */
+body.admin-color-blue .search-form input[type="text"]:focus {
+    border-color: #096484;
+    box-shadow: 0 0 0 1px #096484;
+}
+
+body.admin-color-coffee .search-form input[type="text"]:focus {
+    border-color: #c7a589;
+    box-shadow: 0 0 0 1px #c7a589;
+}
+
+body.admin-color-ectoplasm .search-form input[type="text"]:focus {
+    border-color: #a3b745;
+    box-shadow: 0 0 0 1px #a3b745;
+}
+
+body.admin-color-midnight .search-form input[type="text"]:focus {
+    border-color: #e14d43;
+    box-shadow: 0 0 0 1px #e14d43;
+}
+
+body.admin-color-ocean .search-form input[type="text"]:focus {
+    border-color: #627c83;
+    box-shadow: 0 0 0 1px #627c83;
+}
+
+body.admin-color-sunrise .search-form input[type="text"]:focus {
+    border-color: #dd823b;
+    box-shadow: 0 0 0 1px #dd823b;
+}
+
+/* Loading animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading .spinner.is-active {
+    animation: spin 1s linear infinite;
+}

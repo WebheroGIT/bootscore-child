@@ -5,6 +5,36 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Funzione helper per tradurre i mesi in italiano
+function translate_month_to_italian($english_month) {
+    $months = array(
+        'Jan' => 'Gen',
+        'Feb' => 'Feb', 
+        'Mar' => 'Mar',
+        'Apr' => 'Apr',
+        'May' => 'Mag',
+        'Jun' => 'Giu',
+        'Jul' => 'Lug',
+        'Aug' => 'Ago',
+        'Sep' => 'Set',
+        'Oct' => 'Ott',
+        'Nov' => 'Nov',
+        'Dec' => 'Dic'
+    );
+    return isset($months[$english_month]) ? $months[$english_month] : $english_month;
+}
+
+// Funzione helper per formattare la data in italiano
+function format_date_italian($timestamp, $format) {
+    $date_parts = explode(' ', date($format, $timestamp));
+    foreach ($date_parts as &$part) {
+        if (strlen($part) == 3 && ctype_alpha($part)) {
+            $part = translate_month_to_italian($part);
+        }
+    }
+    return implode(' ', $date_parts);
+}
+
 function eventi_shortcode($atts) {
     // Parametri di default
     $atts = shortcode_atts(
@@ -97,10 +127,10 @@ function eventi_shortcode($atts) {
                 $output .= '<div class="card rounded overflow-hidden">';
                     $output .= '<div class="card-header bg-primary text-white d-flex justify-content-end align-items-center">';
                         $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
-                        $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . date('M j', $event['start_date']) . '</span>'; // Mese e giorno
+                        $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                     $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
-                        $output .= '<span>' . date('M j, Y', $event['start_date']) . ' - ' . date('M j, Y', $event['end_date']) . '</span>';
+                        $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                     $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4">';
                         $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
@@ -121,10 +151,10 @@ function eventi_shortcode($atts) {
                     $output .= '<div class="card rounded overflow-hidden">';
                         $output .= '<div class="card-header bg-primary text-white d-flex justify-content-end align-items-center">';
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
-                            $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . date('M j', $event['start_date']) . '</span>'; // Mese e giorno
+                            $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
-                            $output .= '<span>' . date('M j, Y', $event['start_date']) . ' - ' . date('M j, Y', $event['end_date']) . '</span>';
+                            $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
                             $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
@@ -147,10 +177,10 @@ function eventi_shortcode($atts) {
                     $output .= '<div class="card rounded overflow-hidden">';
                         $output .= '<div class="card-header bg-secondary text-white d-flex justify-content-end align-items-center">';
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
-                            $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . date('M j', $event['start_date']) . '</span>'; // Mese e giorno
+                            $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
-                            $output .= '<span>' . date('M j, Y', $event['start_date']) . ' - ' . date('M j, Y', $event['end_date']) . '</span>';
+                            $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
                             $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';

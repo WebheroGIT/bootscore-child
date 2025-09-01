@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio
+ * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi
  *
  * @package Bootscore Child
  */
