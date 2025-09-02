@@ -12,6 +12,7 @@ function articoli_shortcode( $atts ) {
             'orderby' => 'date', // Ordinamento di default per data
             'order' => 'DESC', // Ordinamento decrescente di default
             'slider' => false, // Aggiungiamo un attributo per controllare se vogliamo lo slider (default false)
+            'id' => '', // Lista di ID separati da virgola
         ),
         $atts,
         'articoli' // Nome dello shortcode
@@ -25,10 +26,29 @@ function articoli_shortcode( $atts ) {
         'order' => $atts['order'], // Più recente in cima
     );
 
+    // Se sono specificati degli ID, li aggiungiamo alla query
+    if ( !empty($atts['id']) ) {
+        $post_ids = explode(',', $atts['id']);
+        $post_ids = array_map('trim', $post_ids); // Rimuoviamo eventuali spazi
+        $post_ids = array_map('intval', $post_ids); // Convertiamo in interi
+        $args['post__in'] = $post_ids;
+        $args['orderby'] = 'post__in'; // Manteniamo l'ordine specificato negli ID
+    }
+
     $query = new WP_Query($args);
 
     // Iniziamo il contenitore
     $output = '<div class="mt-5 w-100">';
+    
+    // CSS responsive per l'altezza minima del card-body
+    $output .= '<style>
+        @media (max-width: 767px) {
+            .news-card-body { min-height: 190px !important; }
+        }
+        @media (min-width: 768px) {
+            .news-card-body { min-height: 240px !important; }
+        }
+    </style>';
 
     // Se lo slider è abilitato, iniziamo il contenitore Swiper
     if ( $atts['slider'] ) {
@@ -38,7 +58,7 @@ function articoli_shortcode( $atts ) {
         $output .= '<div class="swiper-pagination"></div>';
         $output .= '<div class="swiper-wrapper swiperArticle-wrapper">';
     } else {
-        $output .= '<div class="row row-cols-1 row-cols-md-3 g-4 d-flex">'; // Impostiamo una griglia con 3 colonne sui dispositivi desktop
+        $output .= '<div class="row row-cols-1 row-cols-md-3 g-4 d-flex h-100">'; // Impostiamo una griglia con 3 colonne sui dispositivi desktop
     }
 
     // Verifica se ci sono articoli
@@ -58,24 +78,26 @@ function articoli_shortcode( $atts ) {
 
             // Costruzione del box per ogni articolo
             if ( $atts['slider'] ) {
-                $output .= '<div class="swiper-slide swiperArticle-slide">'; // Elemento per Swiper
+                $output .= '<div class="swiper-slide swiperArticle-slide pb-3">'; // Elemento per Swiper
             } else {
-                $output .= '<div class="col">'; // Colonna della griglia
+                $output .= '<div class="col h-100">'; // Colonna della griglia
             }
 
             $output .= '<div class="card mb-4 d-flex flex-column" style="border-radius: 10px;overflow:hidden;height:100%">';
 
                 // 1. Featured image grande in alto
-                $output .= '<div class="card-img-top">' . $featured_image . '</div>';
+                $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">';
+                    $output .= '<div style="width: 100%; height: 100%; background-image: url(' . get_the_post_thumbnail_url($post_id, 'full') . '); background-size: cover; background-position: center;"></div>';
+                $output .= '</div>';
 
                 // 2. Box grigio con titolo e data
-                $output .= '<div class="card-body bg-light p-4">';
+                $output .= '<div class="card-body bg-light p-4 flex-grow-1 news-card-body">';
                     $output .= '<a href="' . get_permalink() . '" class="text-dark clickable-parent"><h3 class="fs-5">' . esc_html($title) . '</h3></a>';
                     $output .= '<p class="text-muted">' . esc_html($date) . '</p>';
                 $output .= '</div>';
 
                 // 3. Box primario con "Continua a leggere"
-                $output .= '<div class="card-footer bg-primary text-white text-center py-3">';
+                $output .= '<div class="card-footer bg-primary text-white text-center py-3 mt-auto">';
                     $output .= '<a href="' . get_permalink() . '" class="text-white">Continua a leggere</a>';
                 $output .= '</div>';
 
@@ -152,3 +174,4 @@ function articoli_shortcode( $atts ) {
 add_shortcode('articoli', 'articoli_shortcode');
 
 // [articoli posts_per_page="10" orderby="title" order="ASC"] [articoli] [articoli slider="true" posts_per_page="6"] [articoli posts_per_page="6"]
+// [articoli slider="true" id="1952,1950,1945,1957,1947,1943" posts_per_page="6"] - Mostra articoli specifici per ID

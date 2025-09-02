@@ -57,6 +57,18 @@ add_filter('rwmb_meta_boxes', function($meta_boxes) {
                         'std'  => 'Scopri di più',
                     ],
                     [
+                        'name' => 'Link secondo pulsante',
+                        'id'   => 'button_link_2',
+                        'type' => 'url',
+                        'desc' => 'Inserisci URL completo per il secondo pulsante (es. https://...)',
+                    ],
+                    [
+                        'name' => 'Testo secondo pulsante',
+                        'id'   => 'button_text_2',
+                        'type' => 'text',
+                        'desc' => 'Se vuoto, il secondo pulsante non verrà mostrato',
+                    ],
+                    [
                         'name' => 'Media di sfondo (Immagine o Video)',
                         'id'   => 'media',
                         'type' => 'file_advanced',
@@ -95,6 +107,7 @@ function show_custom_hero_slider() {
 			<div class="carousel-inner">
 				<?php
 				$active = true;
+				$slide_index = 0;
 				foreach ($slides as $slide) :
 					if (empty($slide['active'])) continue;
 
@@ -102,9 +115,10 @@ function show_custom_hero_slider() {
 					$media_url = $media_id ? wp_get_attachment_url($media_id) : '';
 					$media_type = $media_id ? get_post_mime_type($media_id) : '';
 					$is_video = strpos($media_type, 'video/') === 0;
+					$is_first_slide = ($slide_index === 0);
 					?>
 					<div class="carousel-item <?php echo $active ? 'active' : ''; ?>">
-						<div class="position-relative vh-100 w-100">
+						<div class="position-relative w-100" style="height: calc(100vh - 128px);">
 							<?php if ($is_video) : ?>
 								<!-- Video di sfondo -->
 								<video class="d-block w-100 h-100 object-fit-cover position-absolute top-0 start-0" autoplay muted loop playsinline>
@@ -119,34 +133,61 @@ function show_custom_hero_slider() {
 							<!-- Overlay -->
 							<div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"></div>
 
-							<!-- Contenuto centrato -->
-							<div class="position-absolute top-50 start-50 translate-middle text-center text-white px-3 w-100" style="max-width: 900px;">
-								<?php if (!empty($slide['title'])) : ?>
-									<h1 class="display-3 fw-bold mb-3"><?php echo esc_html($slide['title']); ?></h1>
-								<?php endif; ?>
+							<!-- Contenuto allineato a sinistra -->
+							<div class="position-absolute w-100 h-100 d-flex flex-column justify-content-between text-white" style="padding-left: 120px; padding-right: 120px;">
+								<style>
+									@media (max-width: 768px) {
+										.carousel-item > div > div {
+											padding-left: 60px !important;
+											padding-right: 60px !important;
+										}
+									}
+								</style>
+								<!-- Titolo e sottotitolo nella parte alta (30% dall'alto) -->
+								<div class="d-flex align-items-start" style="padding-top: 30vh;">
+									<div class="text-start" style="max-width: 980px;">
+										<?php if (!empty($slide['title'])) : ?>
+											<?php if ($is_first_slide) : ?>
+												<h1 class="display-6 fw-bold mb-3"><?php echo esc_html($slide['title']); ?></h1>
+											<?php else : ?>
+												<h2 class="display-6 fw-bold mb-3"><?php echo esc_html($slide['title']); ?></h2>
+											<?php endif; ?>
+										<?php endif; ?>
 
-								<?php if (!empty($slide['subtitle'])) : ?>
-									<p class="lead mb-3"><?php echo esc_html($slide['subtitle']); ?></p>
-								<?php endif; ?>
+										<?php if (!empty($slide['subtitle'])) : ?>
+											<p class="lead mb-3"><?php echo esc_html($slide['subtitle']); ?></p>
+										<?php endif; ?>
 
-								<?php if (!empty($slide['text'])) : ?>
-									<div class="border-top border-white pt-3 mt-3">
-										<p class="mb-0"><?php echo wp_kses_post($slide['text']); ?></p>
+										<?php if (!empty($slide['text'])) : ?>
+											<div class="border-top border-white pt-3 mt-3">
+												<p class="mb-0"><?php echo wp_kses_post($slide['text']); ?></p>
+											</div>
+										<?php endif; ?>
 									</div>
-								<?php endif; ?>
+								</div>
 
-								<?php if (!empty($slide['button_link'])) : ?>
-									<div class="mt-4">
-										<a href="<?php echo esc_url($slide['button_link']); ?>" class="btn btn-primary px-4 py-2">
-											<?php echo esc_html($slide['button_text'] ?: 'Scopri di più'); ?>
-										</a>
+								<!-- Pulsanti nella parte bassa -->
+								<div class="pb-5 mb-4">
+									<div class="d-flex gap-3 flex-wrap">
+										<?php if (!empty($slide['button_link']) && !empty($slide['button_text'])) : ?>
+											<a href="<?php echo esc_url($slide['button_link']); ?>" class="btn btn-primary px-4 py-2">
+												<?php echo esc_html($slide['button_text']); ?>
+											</a>
+										<?php endif; ?>
+
+										<?php if (!empty($slide['button_link_2']) && !empty($slide['button_text_2'])) : ?>
+											<a href="<?php echo esc_url($slide['button_link_2']); ?>" class="btn btn-secondary px-4 py-2">
+												<?php echo esc_html($slide['button_text_2']); ?>
+											</a>
+										<?php endif; ?>
 									</div>
-								<?php endif; ?>
+								</div>
 							</div>
 						</div>
 					</div>
 				<?php
 				$active = false;
+				$slide_index++;
 				endforeach;
 				?>
 			</div>
