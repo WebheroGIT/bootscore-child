@@ -2,23 +2,24 @@
 
 
 :root {
-    --swiper-pagination-bullet-inactive-color: #fff;
+    --swiper-pagination-bullet-inactive-color: #afafaf;
     --swiper-pagination-bullet-inactive-opacity: 0.8;
     --swiper-pagination-bullet-size: 20px;
 
     --swiper-pagination-bullet-width: 35px;
     --swiper-pagination-bullet-height: 8px;
     --swiper-pagination-bullet-border-radius: 0;
-    --swiper-pagination-color: #38E58C;
-    --swiper-navigation-color: #38E58C;
+    --swiper-pagination-color: #E57552;
+    --swiper-navigation-color: #E57552;
     --wp--preset--color--primary: #38E58C!important;
     --wp--preset--color--primary-hover: #1cc76f!important;
 
     --background: #F0F0F0;
+    --background-dark: #7a6f6f;
     --primary: #379975;
-    --primary-hover: #672b28;
-    --secondary: #000;
-    --secondary-hover: #333;
+    --primary-hover: #127c55;
+    --secondary: #E57552;
+    --secondary-hover: #ce5733;
 
     --rad-m: 20px;
     --rad-s: 10px;
@@ -32,6 +33,9 @@
   /* class bg */
   .bg-background {
     background-color: var(--background);
+ }
+  .bg-background-dark {
+    background-color: var(--background-dark);
  }
 
  .rad-img img {

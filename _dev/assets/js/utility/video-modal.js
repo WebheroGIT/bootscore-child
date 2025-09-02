@@ -133,7 +133,7 @@
         const css = `
         .video-modal-overlay{display:none!important;position:fixed!important;z-index:999999!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:rgba(0,0,0,0.75)!important;overflow:hidden!important;outline:0!important}
         .video-modal-overlay.show{display:flex!important;align-items:center!important;justify-content:center!important}
-        .video-modal-dialog{position:relative!important;width:auto!important;max-width:90%!important;margin:1.75rem auto!important;pointer-events:none!important}
+        .video-modal-dialog{position:relative!important;width:100%!important;max-width:90%!important;margin:1.75rem auto!important;pointer-events:none!important}
         .video-modal-content{position:relative!important;display:flex!important;flex-direction:column!important;width:100%!important;pointer-events:auto!important;background:#fff!important;border:1px solid rgba(0,0,0,0.2)!important;border-radius:0.375rem!important;box-shadow:0 0.5rem 1rem rgba(0,0,0,0.15)!important;outline:0!important}
         .video-modal-header{display:flex!important;flex-shrink:0!important;align-items:center!important;justify-content:flex-end!important;padding:1rem!important;border-bottom:1px solid #dee2e6!important;border-top-left-radius:calc(0.375rem - 1px)!important;border-top-right-radius:calc(0.375rem - 1px)!important}
         .video-modal-close{padding:0.5rem!important;margin:-0.5rem -0.5rem -0.5rem auto!important;background:0 0!important;border:0!important;font-size:1.125rem!important;font-weight:700!important;line-height:1!important;color:#000!important;text-decoration:none!important;opacity:0.5!important;cursor:pointer!important}

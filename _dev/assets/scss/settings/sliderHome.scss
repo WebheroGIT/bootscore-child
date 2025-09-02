@@ -57,3 +57,17 @@
     }
   }
   
+
+  #heroCarousel {
+    .carousel-control-prev, .carousel-control-next {
+      width: 9%!important;
+    }
+  }
+
+  .loop-container-eventi .swiper-slide .card-text .text-body.text-decoration-none {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;   /* numero massimo di righe */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* opzionale, per i tre puntini */
+}

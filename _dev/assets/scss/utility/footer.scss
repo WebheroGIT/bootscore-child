@@ -1,0 +1,27 @@
+.bootscore-footer-columns {
+  .col-6.col-lg-3:first-child {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  @media (min-width: 992px) {
+    .col-6.col-lg-3:not(:first-child) {
+      flex: 0 0 33.3333% !important;
+      max-width: 33.3333% !important;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .col-6.col-lg-3:not(:first-child) {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
+  }
+}
+.bootscore-footer-columns {
+    background: var(--background-dark)!important;
+    color: #fff!important;
+}
+.bootscore-footer-columns a {
+    color: var(--secondary)
+}
