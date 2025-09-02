@@ -28,6 +28,12 @@ function bootscore_child_enqueue_styles() {
   // Get modification time. Enqueue file with modification date to prevent browser from loading cached scripts when file content changes. 
   $modificated_CustomJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/custom.js'));
   wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery'), $modificated_CustomJS, false, true);
+  
+  // formazione-filters.js - nell'archivio formazione e nelle sue taxonomy
+  if (is_post_type_archive('formazione') || is_tax('cat-formazione') || is_tax('area-formazione') || is_tax('modalita-formazione')) {
+    $modificated_FormazioneFiltersJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/formazione-filters.js'));
+    wp_enqueue_script('formazione-filters-js', get_stylesheet_directory_uri() . '/assets/js/formazione-filters.js', array('jquery'), $modificated_FormazioneFiltersJS, true);
+  }
 }
 
 
@@ -225,7 +231,7 @@ add_action('admin_init', 'register_sortable_columns');
 // END VISTA CATEGORIE SUI POS TYPE BACKEND
 
 
-// TODO 2025 08 19 - Registrazione sidebar per eventi
+// TODO 2025 09 01 - Registrazione sidebar per eventi
 /**
  * Registra sidebar specifica per gli eventi
  */

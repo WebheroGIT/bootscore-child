@@ -127,7 +127,33 @@ get_header();
             <?php do_action('bootscore_after_loop', 'archive'); ?>
 
             <div class="entry-footer">
-              <?php bootscore_pagination(); ?>
+              <?php 
+              // Verifica se siamo nell'archivio formazione o nelle sue taxonomy
+              $is_formazione_context = is_post_type_archive('formazione') || is_tax('cat-formazione') || is_tax('area-formazione') || is_tax('modalita-formazione');
+              $has_filter_param = false;
+              
+              // Controlla se ci sono parametri che iniziano con _filter
+              foreach ($_GET as $key => $value) {
+                  if (strpos($key, '_filter') === 0) {
+                      $has_filter_param = true;
+                      break;
+                  }
+              }
+              
+              if ($is_formazione_context) :
+                // Mostra sempre la paginazione normale per formazione
+                bootscore_pagination();
+                
+                // Aggiungi sempre il facet ID 5 subito dopo la paginazione
+                if (function_exists('wpgb_render_facet')) : ?>
+                <div class="formazione-pagination-facet mt-3">
+                  <?php wpgb_render_facet(['id' => 5, 'grid' => 'wpgb-content']); ?>
+                </div>
+                <?php endif;
+              else :
+                // Mostra la paginazione normale per altri post types
+                bootscore_pagination();
+              endif; ?>
             </div>
 
           </main>
