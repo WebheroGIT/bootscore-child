@@ -16,6 +16,7 @@ defined('ABSPATH') || exit;
     <?php wpgb_render_facet(['id' => 1, 'grid' => 'wpgb-content']); ?>
     <?php wpgb_render_facet(['id' => 2, 'grid' => 'wpgb-content']); ?>
     <?php wpgb_render_facet(['id' => 3, 'grid' => 'wpgb-content']); ?>
+    <?php wpgb_render_facet(['id' => 4, 'grid' => 'wpgb-content']); ?>
 </div>
 <?php endif; ?>
 
@@ -66,7 +67,7 @@ $formazione_query = new WP_Query($args);
         $corso_modalita = rwmb_meta('corso_modalita', '', get_the_ID());
         if (!empty($corso_modalita)) : ?>
           <div class="position-absolute top-0 start-0 m-2">
-            <span class="badge bg-warning text-dark fw-bold"><?php echo esc_html($corso_modalita); ?></span>
+            <span class="badge bg-warning text-dark fw-bold"><?php rwmb_the_value('corso_modalita', '', get_the_ID()); ?></span>
           </div>
         <?php endif; ?>
         
