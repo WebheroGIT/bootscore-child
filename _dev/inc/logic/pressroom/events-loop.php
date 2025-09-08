@@ -61,8 +61,9 @@ function eventi_shortcode($atts) {
     // Iniziamo il contenitore
     $output = '<div class="container mt-5">';
 
-    // Inizializzare le variabili per gli eventi futuri e passati
+    // Inizializzare le variabili per gli eventi futuri, in corso e passati
     $future_events = [];
+    $current_events = [];
     $past_events = [];
 
     // Aggiungi var_dump per i metadati prima del loop
@@ -87,16 +88,24 @@ function eventi_shortcode($atts) {
             }
 
             // Separiamo gli eventi in base alla data
-            if ($start_timestamp >= $current_date) {
-                // Evento futuro
+            if ($start_timestamp > $current_date) {
+                // Evento futuro (inizia dopo oggi)
                 $future_events[] = [
                     'title' => get_the_title(),
                     'start_date' => $start_timestamp,
                     'end_date' => $end_timestamp,
                     'link' => get_permalink()
                 ];
+            } elseif ($start_timestamp <= $current_date && $end_timestamp >= $current_date) {
+                // Evento in corso (iniziato oggi o prima, ma finisce oggi o dopo)
+                $current_events[] = [
+                    'title' => get_the_title(),
+                    'start_date' => $start_timestamp,
+                    'end_date' => $end_timestamp,
+                    'link' => get_permalink()
+                ];
             } else {
-                // Evento passato
+                // Evento passato (finito prima di oggi)
                 $past_events[] = [
                     'title' => get_the_title(),
                     'start_date' => $start_timestamp,
@@ -109,6 +118,11 @@ function eventi_shortcode($atts) {
 
     // Ordina gli eventi futuri (più recente in alto)
     usort($future_events, function($a, $b) {
+        return $a['start_date'] <=> $b['start_date'];
+    });
+
+    // Ordina gli eventi in corso (più recente in alto)
+    usort($current_events, function($a, $b) {
         return $a['start_date'] <=> $b['start_date'];
     });
 
@@ -130,7 +144,12 @@ function eventi_shortcode($atts) {
                         $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                     $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
-                        $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                        // Mostra solo una data se inizio e fine sono uguali
+                        if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
+                            $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
+                        } else {
+                            $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                        }
                     $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4">';
                         $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
@@ -154,7 +173,43 @@ function eventi_shortcode($atts) {
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
-                            $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                            // Mostra solo una data se inizio e fine sono uguali
+                            if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
+                            } else {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                            }
+                        $output .= '</div>';
+                        $output .= '<div class="card-body bg-light p-4">';
+                            $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
+                            $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+                        $output .= '</div>';
+                    $output .= '</div>';
+                $output .= '</div>';
+            }
+
+            $output .= '</div>'; // Fine della riga
+        }
+
+        // Mostra gli eventi in corso
+        if (count($current_events) > 0) {
+            $output .= '<h3>Eventi in corso</h3>';
+            $output .= '<div class="row">'; // Inizio della griglia
+
+            foreach ($current_events as $event) {
+                $output .= '<div class="col-12 col-md-4 mb-4 eventi-loop">'; // Griglia a 3 colonne
+                    $output .= '<div class="card rounded overflow-hidden">';
+                        $output .= '<div class="card-header bg-success text-white d-flex justify-content-end align-items-center">';
+                            $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
+                            $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
+                        $output .= '</div>';
+                        $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
+                            // Mostra solo una data se inizio e fine sono uguali
+                            if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
+                            } else {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                            }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
                             $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
@@ -180,7 +235,12 @@ function eventi_shortcode($atts) {
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
-                            $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                            // Mostra solo una data se inizio e fine sono uguali
+                            if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
+                            } else {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                            }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
                             $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';

@@ -96,13 +96,6 @@ $end_timestamp = strtotime($evento_data_fine);
         </div>
         <?php endif; ?>
         
-        <?php if ($evento_location): ?>
-        <div class="d-flex align-items-center mb-3">
-            <i class="fas fa-map-marker-alt me-2 text-primary"></i>
-            <span><?php echo esc_html($evento_location); ?></span>
-        </div>
-        <?php endif; ?>
-        
         <?php if ($start_timestamp && $end_timestamp): ?>
         <div class="d-flex align-items-center mb-3">
             <i class="fas fa-clock me-2 text-primary"></i>
@@ -115,6 +108,14 @@ $end_timestamp = strtotime($evento_data_fine);
             </span>
         </div>
         <?php endif; ?>
+
+        <?php if ($evento_location): ?>
+        <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+            <span><?php echo esc_html($evento_location); ?></span>
+        </div>
+        <?php endif; ?>
+
     </div>
     
     <!-- Contenuto dell'evento -->
