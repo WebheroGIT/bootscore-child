@@ -8,23 +8,41 @@ function articoli_shortcode( $atts ) {
     // Definiamo gli attributi di default
     $atts = shortcode_atts(
         array(
-            'posts_per_page' => 6, // Numero di articoli per pagina di default
+            'posts_per_page' => 6, // Numero di articoli per pagina di default (mantenuto per compatibilità)
+            'posts' => '', // Numero di post da visualizzare (nuovo parametro)
+            'type' => 'post', // Tipo di post (ora configurabile)
             'orderby' => 'date', // Ordinamento di default per data
             'order' => 'DESC', // Ordinamento decrescente di default
             'slider' => false, // Aggiungiamo un attributo per controllare se vogliamo lo slider (default false)
             'id' => '', // Lista di ID separati da virgola
+            'tax' => '', // Tassonomia per filtrare
+            'cat' => '', // Categoria/termine della tassonomia
         ),
         $atts,
         'articoli' // Nome dello shortcode
     );
 
+    // Determina il numero di post da mostrare
+    $num_posts = !empty($atts['posts']) ? intval($atts['posts']) : intval($atts['posts_per_page']);
+    
     // Impostiamo la query per ottenere gli articoli con gli attributi passati
     $args = array(
-        'post_type' => 'post', // Tipo di post 'post'
-        'posts_per_page' => $atts['posts_per_page'], // Numero di articoli per pagina
+        'post_type' => $atts['type'], // Tipo di post configurabile
+        'posts_per_page' => $num_posts, // Numero di articoli
         'orderby' => $atts['orderby'], // Ordinamento
         'order' => $atts['order'], // Più recente in cima
     );
+    
+    // Aggiungi filtro per tassonomia se specificato
+    if (!empty($atts['tax']) && !empty($atts['cat'])) {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => $atts['tax'],
+                'field' => 'slug',
+                'terms' => $atts['cat']
+            )
+        );
+    }
 
     // Se sono specificati degli ID, li aggiungiamo alla query
     if ( !empty($atts['id']) ) {
@@ -74,7 +92,37 @@ function articoli_shortcode( $atts ) {
 
             // Otteniamo il titolo e la data
             $title = get_the_title();
-            $date = get_the_date('d M Y');
+            
+            // Gestione speciale delle date per gli eventi
+            if ($atts['type'] === 'eventi') {
+                // Ottieni le date custom field per gli eventi (MetaBox.io)
+                $start_date = rwmb_meta('evento_data_inizio', '', $post_id);
+                $end_date = rwmb_meta('evento_data_fine', '', $post_id);
+                
+                if ($start_date && $end_date) {
+                    $start_timestamp = strtotime($start_date);
+                    $end_timestamp = strtotime($end_date);
+                    
+                    // Verifica che i timestamp siano validi
+                    if ($start_timestamp === false || $start_timestamp < 0) {
+                        $start_timestamp = 0;
+                    }
+                    if ($end_timestamp === false || $end_timestamp < 0) {
+                        $end_timestamp = 0;
+                    }
+                    
+                    // Mostra solo una data se inizio e fine sono uguali
+                    if (date('Y-m-d', $start_timestamp) === date('Y-m-d', $end_timestamp)) {
+                        $date = format_date_italian($start_timestamp, 'M j, Y');
+                    } else {
+                        $date = format_date_italian($start_timestamp, 'M j, Y') . ' - ' . format_date_italian($end_timestamp, 'M j, Y');
+                    }
+                } else {
+                    $date = get_the_date('d M Y'); // Fallback alla data di pubblicazione
+                }
+            } else {
+                $date = get_the_date('d M Y');
+            }
 
             // Costruzione del box per ogni articolo
             if ( $atts['slider'] ) {
@@ -116,12 +164,14 @@ function articoli_shortcode( $atts ) {
 
         $output .= '</div>'; // Chiudi la riga
 
-        // Aggiungiamo la paginazione
-        $output .= '<div class="pagination mt-4">';
-            $output .= paginate_links(array(
-                'total' => $query->max_num_pages
-            ));
-        $output .= '</div>';
+        // Aggiungiamo la paginazione solo se non è attivo lo slider
+        if ( !$atts['slider'] ) {
+            $output .= '<div class="pagination mt-4">';
+                $output .= paginate_links(array(
+                    'total' => $query->max_num_pages
+                ));
+            $output .= '</div>';
+        }
 
     } else {
         $output .= '<p>No posts found.</p>';
@@ -177,5 +227,12 @@ function articoli_shortcode( $atts ) {
 }
 add_shortcode('articoli', 'articoli_shortcode');
 
-// [articoli posts_per_page="10" orderby="title" order="ASC"] [articoli] [articoli slider="true" posts_per_page="6"] [articoli posts_per_page="6"]
-// [articoli slider="true" id="1952,1950,1945,1957,1947,1943" posts_per_page="6"] - Mostra articoli specifici per ID
+// Esempi di utilizzo:
+// [articoli posts_per_page="10" orderby="title" order="ASC"] 
+// [articoli] 
+// [articoli slider="true" posts="6"] 
+// [articoli posts="8" type="eventi"]
+// [articoli type="avviso" tax="cat-dipartimenti" cat="comunicazioni"]
+// [articoli type="eventi" slider="true" posts="6"]
+// [articoli slider="true" id="1952,1950,1945,1957,1947,1943" posts="6"] - Mostra articoli specifici per ID
+// [articoli type="eventi" posts="5" tax="cat-eventi" cat="conferenze"]

@@ -5,7 +5,7 @@
 @use 'footer.scss' as footer;
 @use 'effects.scss' as effects;
 
-.clickable-parent::after {
+.clickable-parent::before {
     content: "";
     display: flex;
     position: absolute;
@@ -98,3 +98,138 @@ $breakpoints-max: (
 .table-responsive.text-normal td {
   white-space: normal!important;
 }
+
+.card-box-menu {
+  position: relative;
+  background: #fff;
+  border-radius: 12px; /* regola come preferisci */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* utile se l’img sfora i bordi */
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100%;
+}
+
+.card-box-menu:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-box-menu figure {
+  margin: 0!important;
+}
+
+.card-box-menu img {
+  display: block;
+}
+
+.card-box-menu a {
+  display: inline-block;
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.card-box-menu a:hover {
+  color: #000;
+}
+
+.card-box-menu a::after {
+  content: "›"; /* freccetta > */
+  margin-left: 8px;
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+}
+
+.card-box-menu a:hover::after {
+  transform: translateX(4px);
+}
+
+.m-w-1100 {
+    max-width: 1100px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+.m-w-1000 {
+    max-width: 1000px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-900 {
+    max-width: 900px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-800 {
+    max-width: 800px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-700 {
+    max-width: 700px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-600 {
+    max-width: 600px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-520 {
+    max-width: 520px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-500 {
+    max-width: 500px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-450 {
+    max-width: 450px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-400 {
+    max-width: 400px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-300 {
+    max-width: 300px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-200 {
+    max-width: 200px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-150 {
+    max-width: 150px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
+.m-w-100 {
+    max-width: 100px!important;
+    width: 100%;
+    margin-inline:auto;
+}
+
