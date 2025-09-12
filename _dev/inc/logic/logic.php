@@ -32,6 +32,9 @@ require_once get_stylesheet_directory(). '/_dev/inc/logic/pressroom/events-loop.
 // Dirigenza login include
 require_once get_stylesheet_directory(). '/_dev/inc/logic/dirigenza/dirigenza.php';
 
+// Dirigenza login include
+require_once get_stylesheet_directory(). '/_dev/inc/logic/dipartimenti/logic-dipartimenti.php';
+
 
 // Formazione login include
 require_once get_stylesheet_directory(). '/_dev/inc/logic/formazione/formazione-loop.php';

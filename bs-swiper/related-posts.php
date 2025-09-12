@@ -31,6 +31,11 @@ function bootscore_related_posts() {
   $post_id = get_the_ID();
   $current_post_type = get_post_type($post_id);
   
+  // Esci dalla funzione se il post type è 'dipartimento'
+  if ($current_post_type === 'dipartimento') {
+    return;
+  }
+  
   // Logica specifica per il post type 'formazione'
   if ($current_post_type === 'formazione') {
     // Ottieni i termini della tassonomia 'cat-formazione'
