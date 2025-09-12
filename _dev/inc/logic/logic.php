@@ -8,7 +8,8 @@ require_once get_stylesheet_directory() . '/_dev/inc/logic/settings/logic-settin
 
 // Inclusione logica settings pagine e slider
 require_once get_stylesheet_directory() . '/_dev/inc/logic/banner/banner-slider.php';
-
+// Inclusione logica settings pagine e slider
+require_once get_stylesheet_directory() . '/_dev/inc/logic/banner/banner-evidenza.php';
 
 
 // Inclusione logica per DUPLICARE POST

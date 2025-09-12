@@ -160,9 +160,50 @@ function eventi_shortcode($atts) {
         }
         $output .= '</div>';
     } else {
-        // Se non è passato il parametro 'type', mostriamo sia gli eventi futuri che passati
+        // Se non è passato il parametro 'type', mostriamo prima gli eventi in corso, poi i futuri e infine i passati
+        
+        // Mostra gli eventi in corso per primi
+        if (count($current_events) > 0) {
+            $output .= '<div class="mb-4">';
+                $output .= '<h3 class="d-inline-block mb-3">';
+                    $output .= '<span class="badge bg-success text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Eventi in corso</span>';
+                $output .= '</h3>';
+            $output .= '</div>';
+            $output .= '<div class="row">'; // Inizio della griglia
+
+            foreach ($current_events as $event) {
+                $output .= '<div class="col-12 col-md-4 mb-4 eventi-loop">'; // Griglia a 3 colonne
+                    $output .= '<div class="card rounded overflow-hidden">';
+                        $output .= '<div class="card-header bg-success text-white d-flex justify-content-end align-items-center">';
+                            $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
+                            $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
+                        $output .= '</div>';
+                        $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
+                            // Mostra solo una data se inizio e fine sono uguali
+                            if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
+                            } else {
+                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+                            }
+                        $output .= '</div>';
+                        $output .= '<div class="card-body bg-light p-4">';
+                            $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
+                            $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+                        $output .= '</div>';
+                    $output .= '</div>';
+                $output .= '</div>';
+            }
+
+            $output .= '</div>'; // Fine della riga
+        }
+        
+        // Poi mostra gli eventi futuri
         if (count($future_events) > 0) {
-            $output .= '<h3>Prossimi eventi</h3>';
+            $output .= '<div class="mb-4">';
+                $output .= '<h3 class="d-inline-block mb-3">';
+                    $output .= '<span class="badge bg-primary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Prossimi eventi</span>';
+                $output .= '</h3>';
+            $output .= '</div>';
             $output .= '<div class="row">'; // Inizio della griglia
 
             foreach ($future_events as $event) {
@@ -191,40 +232,13 @@ function eventi_shortcode($atts) {
             $output .= '</div>'; // Fine della riga
         }
 
-        // Mostra gli eventi in corso
-        if (count($current_events) > 0) {
-            $output .= '<h3>Eventi in corso</h3>';
-            $output .= '<div class="row">'; // Inizio della griglia
-
-            foreach ($current_events as $event) {
-                $output .= '<div class="col-12 col-md-4 mb-4 eventi-loop">'; // Griglia a 3 colonne
-                    $output .= '<div class="card rounded overflow-hidden">';
-                        $output .= '<div class="card-header bg-success text-white d-flex justify-content-end align-items-center">';
-                            $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
-                            $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
-                        $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
-                            // Mostra solo una data se inizio e fine sono uguali
-                            if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
-                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
-                            } else {
-                                $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
-                            }
-                        $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
-                            $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
-                        $output .= '</div>';
-                    $output .= '</div>';
-                $output .= '</div>';
-            }
-
-            $output .= '</div>'; // Fine della riga
-        }
-
         // Mostra gli eventi passati
         if (count($past_events) > 0) {
-            $output .= '<h3>Eventi passati</h3>';
+            $output .= '<div class="mb-4">';
+                $output .= '<h3 class="d-inline-block mb-3">';
+                    $output .= '<span class="badge bg-secondary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #E57552;">Eventi passati</span>';
+                $output .= '</h3>';
+            $output .= '</div>';
             $output .= '<div class="row">'; // Inizio della griglia
 
             foreach ($past_events as $event) {

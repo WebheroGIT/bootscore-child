@@ -156,11 +156,15 @@ function articoli_shortcode( $atts ) {
                     },
                     768: {
                         slidesPerView: 3,
-                        spaceBetween: 30
+                        spaceBetween: 20
                     },
                     1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 20
+                    },
+                    1140: {
                         slidesPerView: 4,
-                        spaceBetween: 40
+                        spaceBetween: 20
                     }
                 }
             });

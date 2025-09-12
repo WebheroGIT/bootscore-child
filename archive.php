@@ -168,7 +168,7 @@ get_header();
 
   <style>
     :root {
---bs-pagination-padding-x: 0.75rem;
+    --bs-pagination-padding-x: 0.75rem;
     --bs-pagination-padding-y: 0.375rem;
     --bs-pagination-font-size: 1rem;
     --bs-pagination-color: var(--bs-link-color);
