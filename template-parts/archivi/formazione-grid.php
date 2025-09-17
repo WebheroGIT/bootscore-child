@@ -15,7 +15,24 @@ defined('ABSPATH') || exit;
 <div class="formazione-filters mb-2 grid-3 gap-3 grid-md-1">
     <?php wpgb_render_facet(['id' => 1, 'grid' => 'wpgb-content']); ?>
     <?php wpgb_render_facet(['id' => 2, 'grid' => 'wpgb-content']); ?>
-    <?php wpgb_render_facet(['id' => 3, 'grid' => 'wpgb-content']); ?>
+    
+    <?php 
+    // Facet 3 solo in post-type-archive-formazione o in tax-cat-formazione term-master term-6
+    $show_facet_3 = false;
+    
+    if (is_post_type_archive('formazione')) {
+        $show_facet_3 = true;
+    } elseif (is_tax('cat-formazione')) {
+        $queried_object = get_queried_object();
+        if ($queried_object && $queried_object->term_id == 6) { // term-6 (master)
+            $show_facet_3 = true;
+        }
+    }
+    
+    if ($show_facet_3) : ?>
+        <?php wpgb_render_facet(['id' => 3, 'grid' => 'wpgb-content']); ?>
+    <?php endif; ?>
+    
     <?php wpgb_render_facet(['id' => 4, 'grid' => 'wpgb-content']); ?>
 </div>
 <?php endif; ?>
@@ -79,8 +96,14 @@ $formazione_query = new WP_Query($args);
             // Get cat-formazione taxonomy terms
             $terms = get_the_terms(get_the_ID(), 'cat-formazione');
             if ($terms && !is_wp_error($terms)) :
-              foreach ($terms as $term) : ?>
-                <span class=""><?php echo esc_html($term->name); ?> in</span>
+              foreach ($terms as $term) : 
+                // Trasforma il nome della categoria per visualizzazione singolare
+                $cat_name = $term->name;
+                if ($term->slug === 'lauree-triennali') {
+                  $cat_name = 'Laurea Triennale';
+                }
+                ?>
+                <span class=""><?php echo esc_html($cat_name); ?> in</span>
               <?php endforeach;
             endif;
             

@@ -8,7 +8,7 @@ Questa directory contiene la struttura modulare del JavaScript per il tema Boots
 js/
 ├── main.js                 # File principale che importa tutti i moduli
 ├── plugins/                # Moduli per funzionalità specifiche
-│   └── platform-interceptor.js  # Intercetta i link ai corsi esterni
+│   └── (platform-interceptor.js spostato nel plugin unimarconi-course-linker)
 └── utility/                # Moduli di utilità
     ├── search.js           # Gestione della ricerca
     └── theme-settings.js   # Gestione delle impostazioni del tema
@@ -20,7 +20,7 @@ js/
 - Gestisce il toggle della barra di ricerca
 - Esporta la classe `SearchToggle`
 
-### 2. Platform Interceptor (`plugins/platform-interceptor.js`)
+### 2. Platform Interceptor (spostato nel plugin unimarconi-course-linker)
 - Intercetta i click sui link che contengono `/externalplatformprogram/`
 - Mostra un popup con i dettagli del corso
 - Esporta la classe `PlatformInterceptor`

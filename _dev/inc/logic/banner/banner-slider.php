@@ -101,6 +101,17 @@ function show_custom_hero_slider() {
 
 	if (empty($slides)) return;
 
+	// Conta le slide attive
+	$active_slides_count = 0;
+	foreach ($slides as $slide) {
+		if (!empty($slide['active'])) {
+			$active_slides_count++;
+		}
+	}
+
+	// Se non ci sono slide attive, non mostrare nulla
+	if ($active_slides_count === 0) return;
+
 	?>
 	<div class="hero-banner position-relative">
 		<div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -192,29 +203,31 @@ function show_custom_hero_slider() {
 				?>
 			</div>
 
-			<!-- Frecce navigazione -->
-			<button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Precedente</span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Successivo</span>
-			</button>
+			<?php if ($active_slides_count > 1) : ?>
+				<!-- Frecce navigazione -->
+				<button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Precedente</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Successivo</span>
+				</button>
 
-			<!-- Indicatori -->
-			<div class="carousel-indicators">
-				<?php
-				$index = 0;
-				foreach ($slides as $slide) :
-					if (empty($slide['active'])) continue;
-					?>
-					<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?php echo $index; ?>" class="<?php echo $index === 0 ? 'active' : ''; ?>" aria-current="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-label="Slide <?php echo $index + 1; ?>"></button>
+				<!-- Indicatori -->
+				<div class="carousel-indicators">
 					<?php
-					$index++;
-				endforeach;
-				?>
-			</div>
+					$index = 0;
+					foreach ($slides as $slide) :
+						if (empty($slide['active'])) continue;
+						?>
+						<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?php echo $index; ?>" class="<?php echo $index === 0 ? 'active' : ''; ?>" aria-current="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-label="Slide <?php echo $index + 1; ?>"></button>
+						<?php
+						$index++;
+					endforeach;
+					?>
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 	<?php

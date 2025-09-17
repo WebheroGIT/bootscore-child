@@ -8,7 +8,7 @@ import './utility/search.js';
 import './utility/video-modal.js';
 
 // Moduli specifici per funzionalità
-import './plugins/platform-interceptor.js';
+// platform-interceptor.js è stato spostato nel plugin unimarconi-course-linker
 
 
 // Moduli header (se necessari in futuro)

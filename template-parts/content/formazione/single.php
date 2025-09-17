@@ -11,6 +11,12 @@ foreach ($terms as $term) {
   if (in_array($term->term_id, $valid_cats)) {
     $has_valid_cat = true;
     $cat_name = $term->name;
+    
+    // Trasforma il nome della categoria per visualizzazione singolare
+    if ($term->slug === 'lauree-triennali') {
+      $cat_name = 'Laurea Triennale';
+    }
+    
     break;
   }
 }
