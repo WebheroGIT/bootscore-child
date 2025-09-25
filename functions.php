@@ -259,3 +259,19 @@ function register_navwalker() {
   register_nav_menu('footer-menu', 'Footer menu');
 }
 add_action('init', 'register_navwalker');
+
+
+
+
+/**
+ * Carica gli stili CSS personalizzati solo nell'admin di WordPress
+ */
+function load_admin_styles() {
+    wp_enqueue_style(
+        'bootscore-child-admin-styles',
+        get_stylesheet_directory_uri() . '/admin-styles.css',
+        array(),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action('admin_enqueue_scripts', 'load_admin_styles');
