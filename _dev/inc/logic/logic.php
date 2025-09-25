@@ -50,7 +50,7 @@ require_once get_stylesheet_directory(). '/_dev/inc/logic/plugin/plugins.php';
 // Video Modal utility include
 require_once get_stylesheet_directory(). '/_dev/inc/logic/utility/video-modal.php';
 // struttura post template include
-require_once get_stylesheet_directory(). '/_dev/inc/logic/utility/struttura-post-templatephp';
+require_once get_stylesheet_directory(). '/_dev/inc/logic/utility/struttura-post-template.php';
 
 // Video Modal utility include
 require_once get_stylesheet_directory(). '/_dev/assets-admin/admin-search.php';
