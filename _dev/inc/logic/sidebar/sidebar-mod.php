@@ -30,8 +30,8 @@ function custom_sidebar_rules() {
         // 'servizi'
     );
     
-    // Regola speciale per formazione con corso_hubspot_id
-    if ($current_post_type === 'formazione') {
+    // Regola speciale per formazione e dottorato con corso_hubspot_id
+    if ($current_post_type === 'formazione' || $current_post_type === 'dottorato') {
         $corso_hubspot_id = rwmb_meta('corso_hubspot_id');
         if (!empty($corso_hubspot_id)) {
             $show_sidebar = true;
