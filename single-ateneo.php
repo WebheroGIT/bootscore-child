@@ -64,13 +64,16 @@ get_header(); ?>
             <div class="mb-4">
               <?php bootscore_tags(); ?>
             </div>
-            <?php if (function_exists('bootscore_related_posts')) bootscore_related_posts(); ?>
-            <nav aria-label="bs page navigation">
-              <ul class="pagination justify-content-center">
-                <li class="page-item"><?php previous_post_link('%link'); ?></li>
-                <li class="page-item"><?php next_post_link('%link'); ?></li>
-              </ul>
-            </nav>
+            <?php 
+            // Post correlati e navigazione disabilitati per il post type 'ateneo'
+            // <?php if (function_exists('bootscore_related_posts')) bootscore_related_posts(); ?>
+            <!-- <nav aria-label="bs page navigation">
+            //   <ul class="pagination justify-content-center">
+            //     <li class="page-item"><?php previous_post_link('%link'); ?></li>
+            //     <li class="page-item"><?php next_post_link('%link'); ?></li>
+            //   </ul>
+            // </nav>
+            // ?>  -->
             <?php comments_template(); ?>
           </div>
 
