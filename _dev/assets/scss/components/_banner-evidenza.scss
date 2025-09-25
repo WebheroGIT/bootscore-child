@@ -1,4 +1,40 @@
 /* Banner Evidenza Styles */
+/* Tutti gli slider tranne quelli dentro .related-posts */
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--bs-primary);
+  background: rgba(255, 255, 255, 0.9);
+  width: 40px !important;
+  height: 40px !important;
+  margin-top: -20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+
+  &:after {
+    font-size: 16px !important;
+    font-weight: bold;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 1);
+  }
+
+  &.swiper-button-disabled {
+    opacity: 0.3;
+  }
+}
+
+/* Rimuove gli stili SOLO dentro i related-posts */
+.related-posts .swiper-button-next,
+.related-posts .swiper-button-prev {
+ background: initial!important;
+ box-shadow: initial!important;
+}
+
+.swiper-pagination-bullet {
+  border-radius: initial!important;
+}
+
 .banner-evidenza-container {
   margin: 2rem 0;
   
@@ -76,30 +112,7 @@
       }
     }
     
-    // Navigation buttons
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: var(--bs-primary);
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      margin-top: -20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      
-      &:after {
-        font-size: 16px;
-        font-weight: bold;
-      }
-      
-      &:hover {
-        background: rgba(255, 255, 255, 1);
-      }
-      
-      &.swiper-button-disabled {
-        opacity: 0.3;
-      }
-    }
+   // ho tolto il colore dei button next e prev e messo sopra generico TODO 20250917
     
     // Pagination
     .swiper-pagination {
@@ -174,14 +187,14 @@
 
 // Responsive adjustments
 @media (max-width: 767.98px) {
-  .banner-evidenza-container {
-    .swiper-container {
-      .swiper-button-next,
-      .swiper-button-prev {
-        display: none;
-      }
-    }
-  }
+  //.banner-evidenza-container {
+   // .swiper-container {
+    //  .swiper-button-next,
+    //  .swiper-button-prev {
+    //    display: none;
+     // }
+   // }
+  //}
 }
 
 @media (max-width: 575.98px) {
