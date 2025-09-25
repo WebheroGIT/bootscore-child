@@ -19,7 +19,11 @@ if (!defined('ABSPATH')) {
  */
 function enable_post_type_templates() {
     // Lista dei post types per cui abilitare i template
-    $post_types = array('post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi');
+    $post_types = array(
+        'post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi', 'dirigenza',
+        'progetto-ricerca', 'avviso', 'dottorato', 'territorio-societa', 'internazionale', 'ricerca',
+        'iscriviti', 'servizio', 'press-room', 'rassegna-stampa', 'piani-studio', 'offerta-formativa'
+    );
     
     foreach ($post_types as $post_type) {
         // Forza l'aggiunta del supporto anche per post types già registrati
@@ -40,7 +44,11 @@ add_action('init', 'enable_post_type_templates', 99); // Priorità alta per eseg
  */
 function add_custom_post_templates($templates) {
     // Lista dei post types supportati
-    $supported_post_types = array('post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi');
+    $supported_post_types = array(
+        'post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi', 'dirigenza',
+        'progetto-ricerca', 'avviso', 'dottorato', 'territorio-societa', 'internazionale', 'ricerca',
+        'iscriviti', 'servizio', 'press-room', 'rassegna-stampa', 'piani-studio', 'offerta-formativa'
+    );
     
     // Aggiunge i nostri template personalizzati per tutti i post types supportati
     $custom_templates = array(
@@ -60,7 +68,11 @@ add_filter('theme_post_templates', 'add_custom_post_templates', 10, 1);
  * anche se non supportano nativamente page-attributes
  */
 function force_page_attributes_meta_box() {
-    $post_types = array('post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi');
+    $post_types = array(
+        'post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi', 'dirigenza',
+        'progetto-ricerca', 'avviso', 'dottorato', 'territorio-societa', 'internazionale', 'ricerca',
+        'iscriviti', 'servizio', 'press-room', 'rassegna-stampa', 'piani-studio', 'offerta-formativa'
+    );
     
     foreach ($post_types as $post_type) {
         add_meta_box(
