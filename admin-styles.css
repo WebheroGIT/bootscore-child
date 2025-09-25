@@ -1,0 +1,11 @@
+/**
+ * Admin Styles - Solo per il backend di WordPress
+ * Questo file contiene stili personalizzati per l'area amministrativa
+ */
+
+/* Stile per il menu admin interno */
+#toplevel_page_admin-internal-search {
+    background: #379976 !important;
+}
+
+/* Aggiungi qui altri stili per l'admin */
