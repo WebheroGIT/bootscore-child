@@ -18,8 +18,8 @@
     --background-dark: #373737;
     --primary: #379975;
     --primary-hover: #127c55;
-    --secondary: #ff914d;
-    --secondary-hover: #ce5733;
+    --secondary: #e57552;
+    --secondary-hover: #ea9175;
 
     --rad-m: 20px;
     --rad-s: 10px;
@@ -65,5 +65,9 @@
     background-color: #E57552!important;
     color: #fff!important;
   }
+  font-size: 13px;
 }
 
+.btn-primary {
+  color: #fff!important;
+}

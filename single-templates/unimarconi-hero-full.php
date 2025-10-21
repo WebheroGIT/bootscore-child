@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Unimarconi Hero Full
- * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press-room, rassegna-stampa, piani-studio, offerta-formativa
+ * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press, rassegna-stampa, piani-studio, offerta-formativa, dirigenza
  *
  * @package Bootscore Child
  * @version 1.0.0
@@ -59,15 +59,7 @@ get_header();
 
               <div class="entry-content">
                 <?php bootscore_category_badge(); ?>
-                <p class="entry-meta">
-                  <small class="text-body-secondary">
-                    <?php
-                    bootscore_date();
-                    bootscore_author();
-                    bootscore_comment_count();
-                    ?>
-                  </small>
-                </p>
+                
                 <?php the_content(); ?>
               </div>
               
@@ -102,6 +94,12 @@ get_header();
 
     </div>
   </div>
+
+  <style>
+    main#main > .container:first-of-type .col-lg-9:first-of-type {
+      width: 100%;
+    }
+  </style>
 
 <?php
 get_footer();

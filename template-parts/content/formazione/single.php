@@ -1,6 +1,6 @@
 <?php
 $taxonomy = 'cat-formazione';
-$valid_cats = [4, 5, 9, 27, 40];
+$valid_cats = [4, 5, 7, 9, 27, 40, 60, 61, 62, 63];
 $has_valid_cat = false;
 
 // Recupera le categorie assegnate
@@ -46,7 +46,7 @@ if ($has_valid_cat) :
       if ($dipartimento) : ?>
           <!-- stampa relazione dipartimento -->
           <div class="py-2">
-              <strong>Dipartimento</strong>
+              <!-- TODO <strong>Dipartimento</strong> -->
               <span>
                   <?php echo get_the_title($dipartimento[0]->ID); ?>
               </span>

@@ -5,14 +5,39 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-function stampa_dirigenza_shortcode() {
-    // Query per ottenere i post del custom post type 'dirigenza' in ordine crescente (dal più vecchio al più nuovo)
+function stampa_dirigenza_shortcode($atts = array()) {
+    // Supporta attributo id (singolo o lista separata da virgole) per filtrare i risultati
+    $atts = shortcode_atts(
+        array(
+            'id' => null,
+        ),
+        $atts,
+        'stampa_dirigenza'
+    );
+
+    // Query base per ottenere i post del custom post type 'dirigenza' in ordine crescente (dal più vecchio al più nuovo)
     $args = array(
         'post_type' => 'dirigenza',
-        'posts_per_page' => -1, // Per ottenere tutti i post
+        'posts_per_page' => -1,
         'orderby' => 'date',
         'order' => 'ASC',
     );
+
+    // Se è stato passato un id (o lista), filtra di conseguenza
+    if (!empty($atts['id'])) {
+        $ids = preg_split('/[\s,]+/', (string) $atts['id']);
+        $ids = array_filter(array_map('intval', (array) $ids));
+        if (!empty($ids)) {
+            if (count($ids) === 1) {
+                $args['p'] = reset($ids);
+                $args['posts_per_page'] = 1;
+            } else {
+                $args['post__in'] = $ids;
+                $args['orderby'] = 'post__in';
+                $args['posts_per_page'] = count($ids);
+            }
+        }
+    }
 
     $query = new WP_Query($args);
 
@@ -34,7 +59,7 @@ function stampa_dirigenza_shortcode() {
                             <div class="card h-100">
                                 <div class="row g-0 h-100">
                                     <div class="col-5">
-                                        <img src="' . esc_url($foto) . '" class="img-fluid rounded-start h-100" alt="' . get_the_title() . '">
+                                        <img src="' . esc_url($foto) . '" class="img-fluid rounded-start object-fit-cover h-100" alt="' . get_the_title() . '">
                                     </div>
                                     <div class="col-7 bg-light">
                                         <div class="card-body">
@@ -61,4 +86,4 @@ add_shortcode('stampa_dirigenza', 'stampa_dirigenza_shortcode');
 
 
 
-/// [stampa_dirigenza]
+/// [stampa_dirigenza] [stampa_dirigenza id="123,456,789"]

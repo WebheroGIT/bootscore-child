@@ -23,10 +23,3 @@
 
   <!-- puoi aggiungere qui layout, card, tabelle ecc. -->
 </div>
-
-
-<style>
-  .single-dipartimento .row .col-lg-9 {
-    width: 100%!important;
-  }
-</style>

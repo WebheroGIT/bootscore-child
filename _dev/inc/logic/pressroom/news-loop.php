@@ -17,6 +17,11 @@ function articoli_shortcode( $atts ) {
             'id' => '', // Lista di ID separati da virgola
             'tax' => '', // Tassonomia per filtrare
             'cat' => '', // Categoria/termine della tassonomia
+            'read_more_text' => 'Continua a leggere', // Testo personalizzabile per il link "continua a leggere"
+            'columns' => '3', // Numero di colonne per la griglia (1, 2, 3, 4, 6)
+            'hide_date' => false, // Nascondere la data (true/false)
+            'text_center' => false, // Centrare il testo (true/false)
+            'title_size' => 'fs-5', // Dimensione del titolo (fs-1, fs-2, fs-3, fs-4, fs-5, fs-6)
         ),
         $atts,
         'articoli' // Nome dello shortcode
@@ -24,6 +29,30 @@ function articoli_shortcode( $atts ) {
 
     // Determina il numero di post da mostrare
     $num_posts = !empty($atts['posts']) ? intval($atts['posts']) : intval($atts['posts_per_page']);
+    
+    // Determina le classi CSS per le colonne
+    $columns = intval($atts['columns']);
+    $valid_columns = array(1, 2, 3, 4, 5, 6);
+    if (!in_array($columns, $valid_columns)) {
+        $columns = 3; // Default se non valido
+    }
+    
+    // Valida la dimensione del titolo
+    $valid_title_sizes = array('fs-1', 'fs-2', 'fs-3', 'fs-4', 'fs-5', 'fs-6');
+    $title_size = $atts['title_size'];
+    if (!in_array($title_size, $valid_title_sizes)) {
+        $title_size = 'fs-5'; // Default se non valido
+    }
+    
+    // Genera le classi CSS per le colonne
+    $column_classes = array(
+        1 => 'row-cols-1',
+        2 => 'row-cols-1 row-cols-md-2',
+        3 => 'row-cols-1 row-cols-md-3',
+        4 => 'row-cols-1 row-cols-md-2 row-cols-lg-4',
+        5 => 'row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 custom-5-cols',
+        6 => 'row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6'
+    );
     
     // Impostiamo la query per ottenere gli articoli con gli attributi passati
     $args = array(
@@ -76,7 +105,7 @@ function articoli_shortcode( $atts ) {
         $output .= '<div class="swiper-pagination"></div>';
         $output .= '<div class="swiper-wrapper swiperArticle-wrapper">';
     } else {
-        $output .= '<div class="row row-cols-1 row-cols-md-3 g-4 d-flex h-100">'; // Impostiamo una griglia con 3 colonne sui dispositivi desktop
+        $output .= '<div class="row ' . $column_classes[$columns] . ' g-4 d-flex h-100">'; // Griglia con colonne dinamiche
     }
 
     // Verifica se ci sono articoli
@@ -139,14 +168,23 @@ function articoli_shortcode( $atts ) {
                 $output .= '</div>';
 
                 // 2. Box grigio con titolo e data
-                $output .= '<div class="card-body bg-light p-4 flex-grow-1 news-card-body">';
-                    $output .= '<a href="' . get_permalink() . '" class="text-dark clickable-parent"><h3 class="fs-5">' . esc_html($title) . '</h3></a>';
-                    $output .= '<p class="text-muted">' . esc_html($date) . '</p>';
+                $card_body_classes = 'card-body bg-light p-4 flex-grow-1 news-card-body';
+                if ($atts['text_center']) {
+                    $card_body_classes .= ' text-center';
+                }
+                
+                $output .= '<div class="' . $card_body_classes . '">';
+                    $output .= '<a href="' . get_permalink() . '" class="text-dark clickable-parent"><h3 class="' . $title_size . '">' . esc_html($title) . '</h3></a>';
+                    
+                    // Mostra la data solo se hide_date è false
+                    if (!$atts['hide_date']) {
+                        $output .= '<p class="text-muted">' . esc_html($date) . '</p>';
+                    }
                 $output .= '</div>';
 
-                // 3. Box primario con "Continua a leggere"
+                // 3. Box primario con testo personalizzabile
                 $output .= '<div class="card-footer bg-primary text-white text-center py-3 mt-auto">';
-                    $output .= '<a href="' . get_permalink() . '" class="text-white">Continua a leggere</a>';
+                    $output .= '<a href="' . get_permalink() . '" class="text-white">' . esc_html($atts['read_more_text']) . '</a>';
                 $output .= '</div>';
 
             $output .= '</div>';
@@ -236,3 +274,16 @@ add_shortcode('articoli', 'articoli_shortcode');
 // [articoli type="eventi" slider="true" posts="6"]
 // [articoli slider="true" id="1952,1950,1945,1957,1947,1943" posts="6"] - Mostra articoli specifici per ID
 // [articoli type="eventi" posts="5" tax="cat-eventi" cat="conferenze"]
+// [articoli read_more_text="Scopri di più"] - Personalizza il testo del link
+// [articoli type="eventi" read_more_text="Partecipa all'evento"] - Testo personalizzato per eventi
+// [articoli columns="6"] - Griglia a 6 colonne su desktop
+// [articoli columns="5"] - Griglia a 5 colonne su desktop (custom CSS)
+// [articoli columns="4" posts="8"] - Griglia a 4 colonne con 8 articoli
+// [articoli columns="2" type="eventi"] - Griglia a 2 colonne per eventi
+// [articoli columns="1" posts="3"] - Griglia a 1 colonna (lista verticale)
+// [articoli hide_date="true"] - Nasconde la data
+// [articoli text_center="true"] - Centra il testo
+// [articoli hide_date="true" text_center="true"] - Nasconde data e centra testo
+// [articoli title_size="fs-3"] - Titolo più grande (fs-1, fs-2, fs-3, fs-4, fs-5, fs-6)
+// [articoli title_size="fs-6"] - Titolo più piccolo
+// [articoli type="eventi" hide_date="true" text_center="true" columns="4" title_size="fs-4"] - Combinazione completa

@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: No Sidebar
- * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi
+ * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press, rassegna-stampa, piani-studio, offerta-formativa, dirigenza
  *
  * @package Bootscore Child
  * @version 1.0.0
@@ -39,15 +39,7 @@ get_header();
           <?php do_action( 'bootscore_before_title', 'single-sidebar-none' ); ?>
           <?php the_title('<h1 class="entry-title ' . apply_filters('bootscore/class/entry/title', '', 'single-sidebar-none') . '">', '</h1>'); ?>
           <?php do_action( 'bootscore_after_title', 'single-sidebar-none' ); ?>
-          <p class="entry-meta">
-            <small class="text-body-secondary">
-              <?php
-              bootscore_date();
-              bootscore_author();
-              bootscore_comment_count();
-              ?>
-            </small>
-          </p>
+          
           <?php bootscore_post_thumbnail(); ?>
         </div>
         

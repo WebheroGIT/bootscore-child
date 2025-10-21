@@ -275,3 +275,157 @@ function load_admin_styles() {
     );
 }
 add_action('admin_enqueue_scripts', 'load_admin_styles');
+
+/**
+ * Keep featured formazione on top using menu_order (stable ordering)
+ * - If is_featured=1 => set menu_order = -1
+ * - Else => set menu_order = 0
+ */
+add_action('save_post_formazione', function ($post_id, $post, $update) {
+  // Avoid autosave/revisions
+  if (wp_is_post_autosave($post_id) || wp_is_post_revision($post_id)) {
+    return;
+  }
+  // Read Meta Box value
+  $featured = get_post_meta($post_id, 'is_featured', true);
+  $desired_order = ($featured === '1' || $featured === 1) ? -1 : 0;
+  // Update only if changed
+  if ((int) $post->menu_order !== (int) $desired_order) {
+    wp_update_post(array(
+      'ID' => $post_id,
+      'menu_order' => $desired_order,
+    ));
+  }
+}, 10, 3);
+
+/**
+ * Admin Tools page: Sync featured (formazione) -> menu_order
+ */
+add_action('admin_menu', function () {
+  add_management_page(
+    __('Sincronizza "In evidenza" Formazione', 'bootscore'),
+    __('Sincronizza "In evidenza" Formazione', 'bootscore'),
+    'manage_options',
+    'sync-formazione-featured',
+    function () {
+      if (!current_user_can('manage_options')) {
+        wp_die(__('Non hai i permessi necessari per accedere a questa pagina.', 'bootscore'));
+      }
+
+      $synced = isset($_GET['synced']) ? intval($_GET['synced']) : null;
+      $updated = isset($_GET['updated']) ? intval($_GET['updated']) : null;
+
+      echo '<div class="wrap">';
+      echo '<h1>' . esc_html__('Sincronizza "In evidenza" Formazione', 'bootscore') . '</h1>';
+
+      if ($synced !== null) {
+        printf('<div class="notice notice-success"><p>' . esc_html__('%d elaborati, %d aggiornati.', 'bootscore') . '</p></div>', $synced, $updated);
+      }
+
+      $url = wp_nonce_url(admin_url('tools.php?page=sync-formazione-featured&do_sync=1'), 'sync_formazione_featured');
+      echo '<p>' . esc_html__('Allinea il campo menu_order dei post "formazione" in base al flag "is_featured" (In evidenza).', 'bootscore') . '</p>';
+      echo '<a href="' . esc_url($url) . '" class="button button-primary">' . esc_html__('Esegui sincronizzazione', 'bootscore') . '</a>';
+      echo '</div>';
+    }
+  );
+});
+
+add_action('load-tools_page_sync-formazione-featured', function () {
+  if (!current_user_can('manage_options')) {
+    return;
+  }
+  if (!isset($_GET['do_sync'])) {
+    return;
+  }
+  check_admin_referer('sync_formazione_featured');
+
+  $paged = 1;
+  $per_page = 500;
+  $processed = 0;
+  $updated = 0;
+
+  do {
+    $q = new WP_Query(array(
+      'post_type'      => 'formazione',
+      'post_status'    => 'any',
+      'posts_per_page' => $per_page,
+      'paged'          => $paged,
+      'fields'         => 'ids',
+      'no_found_rows'  => true,
+    ));
+
+    if (empty($q->posts)) {
+      break;
+    }
+
+    foreach ($q->posts as $post_id) {
+      $processed++;
+      $featured = get_post_meta($post_id, 'is_featured', true);
+      $desired = ($featured === '1' || $featured === 1) ? -1 : 0;
+      $current = (int) get_post_field('menu_order', $post_id);
+      if ($current !== (int) $desired) {
+        wp_update_post(array('ID' => $post_id, 'menu_order' => $desired));
+        $updated++;
+      }
+    }
+
+    $paged++;
+  } while (true);
+
+  wp_safe_redirect(admin_url('tools.php?page=sync-formazione-featured&synced=' . $processed . '&updated=' . $updated));
+  exit;
+});
+
+
+// Meta Box fields for Intro Full Width template button
+add_filter('rwmb_meta_boxes', function ($meta_boxes) {
+  // Ensure Meta Box plugin is active
+  if (!function_exists('rwmb_meta')) {
+    return $meta_boxes;
+  }
+
+  $meta_boxes[] = array(
+    'title'      => __('Intro Button', 'bootscore'),
+    'id'         => 'intro_button_fields',
+    'post_types' => array('page', 'post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi', 'progetto-ricerca', 'avviso', 'dottorato', 'territorio-societa', 'internazionale', 'ricerca', 'iscriviti', 'servizio', 'press', 'rassegna-stampa', 'piani-studio', 'offerta-formativa', 'dirigenza'),
+    'context'    => 'normal',
+    'priority'   => 'high',
+    'autosave'   => false,
+    'fields'     => array(
+      array(
+        'name' => __('Button Text', 'bootscore'),
+        'id'   => 'intro_button_text',
+        'type' => 'text',
+      ),
+      array(
+        'name' => __('Button URL', 'bootscore'),
+        'id'   => 'intro_button_url',
+        'type' => 'url',
+      ),
+    ),
+    // Show these fields only when this specific template is selected
+    'show'       => array(
+      'template' => array('single-templates/single-intro-full-width.php'),
+    ),
+  );
+
+  // Featured (Metti in evidenza) for formazione CPT
+  $meta_boxes[] = array(
+    'title'      => __('Metti in evidenza', 'bootscore'),
+    'id'         => 'formazione_featured_flag',
+    'post_types' => array('formazione'),
+    'context'    => 'side',
+    'priority'   => 'high',
+    'autosave'   => false,
+    'fields'     => array(
+      array(
+        'name' => __('Mostra questo contenuto in evidenza', 'bootscore'),
+        'id'   => 'is_featured',
+        'type' => 'checkbox',
+        'std'  => 0,
+      ),
+    ),
+  );
+
+  return $meta_boxes;
+});

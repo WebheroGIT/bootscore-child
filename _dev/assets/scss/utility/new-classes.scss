@@ -17,5 +17,164 @@
     }
   }  
 
-
+// Project info inline layout
+.project-info-item {
+  flex: 1;
+  min-width: 200px;
+  max-width: 100%;
   
+  @media (min-width: 576px) {
+    min-width: 230px;
+  }
+  
+  @media (min-width: 768px) {
+    min-width: 240px;
+    flex: 0 0 auto;
+  }
+  
+  @media (min-width: 992px) {
+    min-width: 250px;
+  }
+}
+
+// Responsive gap for project info
+@media (max-width: 575px) {
+  .d-flex.gap-3 {
+    gap: 1rem !important;
+  }
+}
+
+
+
+
+/* Stile per la linea di connessione */
+.panoramica-wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.linea-connessione {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Box devono stare sopra la linea */
+.box-panoramica {
+  position: relative;
+  z-index: 2;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Corsi di Laurea ancora più alto perché la linea gli passa vicino */
+.box-corsi-laurea-wrapper .box-panoramica {
+  z-index: 3;
+}
+
+/* Mobile - Linea verticale dritta */
+@media (max-width: 767px) {
+  .linea-connessione {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: rgba(34, 197, 94, 0.3);
+    transform: translateX(-50%);
+  }
+}
+
+/* Desktop - Linea con curve */
+@media (min-width: 768px) {
+  .linea-connessione {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .linea-connessione::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(90deg, rgba(34, 197, 94, 0.3) 0%, rgba(34, 197, 94, 0.3) 100%);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M 12.5 25 L 37.5 25 L 62.5 25 L 87.5 25 L 87.5 50 L 87.5 75 L 62.5 75 L 37.5 75 L 12.5 75' stroke='rgba(34, 197, 94, 1)' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M 12.5 25 L 37.5 25 L 62.5 25 L 87.5 25 L 87.5 50 L 87.5 75 L 62.5 75 L 37.5 75 L 12.5 75' stroke='rgba(34, 197, 94, 1)' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+}
+
+/* SVG Path - Versione migliore per controllare il percorso */
+.linea-connessione-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 767px) {
+  .linea-connessione-svg {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .linea-connessione-svg path {
+    fill: none;
+    stroke: rgba(34, 197, 94, 0.35);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/* Layout per i box */
+.row-panoramica {
+  position: relative;
+  min-height: 400px;
+}
+
+@media (min-width: 768px) {
+  .row-panoramica {
+    /* Altezza totale: 180px (prima riga) + 48px (gap) + 180px (seconda riga) = 408px */
+    min-height: 408px;
+  }
+}
+
+/* Posizionamento specifico del box "Corsi di Laurea" */
+@media (min-width: 768px) {
+  .box-corsi-laurea-wrapper {
+    position: absolute;
+    right: 0;
+    /* Calcolo preciso con margin-top di Bootstrap:
+       - Prima riga: 180px altezza + 48px margin-top = centro a 48px + 90px = 138px
+       - Gap: già incluso nel margin-top della seconda riga
+       - Seconda riga: inizia a 180px + 48px (primo margin) + 48px (secondo margin) = 276px
+                       centro a 276px + 90px = 366px
+       - Centro tra i due centri: (138px + 366px) / 2 = 252px */
+    top: 252px;
+    transform: translateY(-50%);
+    width: calc(25% - 1.25rem);
+  }
+}
+
+/* CSS custom per 5 colonne */
+.custom-5-cols {
+  @media (min-width: 1200px) {
+    .col {
+      flex: 0 0 20%; /* 100% / 5 = 20% */
+      max-width: 20%;
+    }
+  }
+}

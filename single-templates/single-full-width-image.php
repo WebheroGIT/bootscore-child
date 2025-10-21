@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Full width image
- * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi
+ * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press, rassegna-stampa, piani-studio, offerta-formativa, dirigenza
  *
  * @package Bootscore Child
  * @version 1.0.0
@@ -54,15 +54,7 @@ get_header();
 
               <div class="entry-content">
                 <?php bootscore_category_badge(); ?>
-                <p class="entry-meta">
-                  <small class="text-body-secondary">
-                    <?php
-                    bootscore_date();
-                    bootscore_author();
-                    bootscore_comment_count();
-                    ?>
-                  </small>
-                </p>
+                
                 <?php the_content(); ?>
               </div>
               

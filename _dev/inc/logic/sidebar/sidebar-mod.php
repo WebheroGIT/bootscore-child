@@ -57,6 +57,12 @@ function custom_sidebar_rules() {
         $sidebar_content = 'default'; // Sidebar normale
     }
     
+    // Se non è stato ancora impostato show_sidebar, mostra la sidebar predefinita per tutti gli altri casi
+    if (!$show_sidebar) {
+        $show_sidebar = true;
+        $sidebar_content = 'default'; // Sidebar normale per tutti gli altri post type
+    }
+    
     // Mostra la sidebar se le condizioni sono soddisfatte
     if ($show_sidebar) {
         if ($sidebar_content === 'eventi_form') {

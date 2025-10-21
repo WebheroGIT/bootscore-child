@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
 <?php if (function_exists('wpgb_render_facet')) : ?>
 <div class="formazione-filters mb-2 grid-3 gap-3 grid-md-1">
     <?php wpgb_render_facet(['id' => 1, 'grid' => 'wpgb-content']); ?>
-    <?php wpgb_render_facet(['id' => 2, 'grid' => 'wpgb-content']); ?>
+    <?php // wpgb_render_facet(['id' => 2, 'grid' => 'wpgb-content']); ?>
     
     <?php 
     // Facet 3 solo in post-type-archive-formazione o in tax-cat-formazione term-master term-6
@@ -32,6 +32,10 @@ defined('ABSPATH') || exit;
     if ($show_facet_3) : ?>
         <?php wpgb_render_facet(['id' => 3, 'grid' => 'wpgb-content']); ?>
     <?php endif; ?>
+
+    
+        <?php wpgb_render_facet(['id' => 6, 'grid' => 'wpgb-content']); ?>
+    
     
     <?php wpgb_render_facet(['id' => 4, 'grid' => 'wpgb-content']); ?>
 </div>
@@ -43,7 +47,12 @@ $args = array(
     'post_type'      => 'formazione',
     'wp_grid_builder' => 'wpgb-content', // Stesso nome del tuo esempio funzionante
     'posts_per_page' => get_option('posts_per_page'),
-    'paged'          => get_query_var('paged') ? get_query_var('paged') : 1
+    'paged'          => get_query_var('paged') ? get_query_var('paged') : 1,
+    // Usa menu_order ASC per portare i featured (menu_order=-1) in alto, poi data DESC
+    'orderby'        => array(
+        'menu_order' => 'ASC',
+        'date'       => 'DESC',
+    ),
 );
 
 // Se siamo su una taxonomy, mantieni il filtro
@@ -93,19 +102,34 @@ $formazione_query = new WP_Query($args);
           <!-- Category and attributes badges -->
           <div class="mb-2">
             <?php 
-            // Get cat-formazione taxonomy terms
+            // Get cat-formazione taxonomy terms (prefer Rank Math primary term)
             $terms = get_the_terms(get_the_ID(), 'cat-formazione');
             if ($terms && !is_wp_error($terms)) :
-              foreach ($terms as $term) : 
-                // Trasforma il nome della categoria per visualizzazione singolare
-                $cat_name = $term->name;
-                if ($term->slug === 'lauree-triennali') {
-                  $cat_name = 'Laurea Triennale';
+              $term_to_show = $terms[0];
+              if (count($terms) > 1) {
+                if (function_exists('rank_math_get_primary_term')) {
+                  $primary_term = rank_math_get_primary_term('cat-formazione', get_the_ID());
+                  if ($primary_term instanceof WP_Term) {
+                    $term_to_show = $primary_term;
+                  }
+                } else {
+                  $primary_id = get_post_meta(get_the_ID(), 'rank_math_primary_cat-formazione', true);
+                  if (!empty($primary_id)) {
+                    $candidate = get_term((int) $primary_id, 'cat-formazione');
+                    if ($candidate && !is_wp_error($candidate)) {
+                      $term_to_show = $candidate;
+                    }
+                  }
                 }
-                ?>
-                <span class=""><?php echo esc_html($cat_name); ?> in</span>
-              <?php endforeach;
-            endif;
+              }
+              // Trasforma il nome della categoria per visualizzazione singolare
+              $cat_name = $term_to_show->name;
+              if ($term_to_show->slug === 'lauree-triennali') {
+                $cat_name = 'Laurea Triennale';
+              }
+              ?>
+              <span class=""><?php echo esc_html($cat_name); ?> in</span>
+            <?php endif;
             
             // Get custom attributes if they exist
             $attributes = get_post_meta(get_the_ID(), 'attributo', true);

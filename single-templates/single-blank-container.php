@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Blank with container
- * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi
+ * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press, rassegna-stampa, piani-studio, offerta-formativa, dirigenza
  *
  * @package Bootscore Child
  * @version 1.0.0

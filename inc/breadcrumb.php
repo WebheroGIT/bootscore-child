@@ -58,8 +58,27 @@ if (!function_exists('the_breadcrumb')) :
               $terms = wp_get_post_terms(get_the_ID(), $taxonomy);
               
               if (!empty($terms) && !is_wp_error($terms)) {
-                // Se ci sono più termini, prendiamo il primo (o potresti implementare una logica diversa)
+                // Se più termini sono assegnati, prova a usare il termine primario di Rank Math
                 $term = $terms[0];
+                if (count($terms) > 1) {
+                  // 1) Prova helper Rank Math
+                  if (function_exists('rank_math_get_primary_term')) {
+                    $primary_term = rank_math_get_primary_term($taxonomy, get_the_ID());
+                    if ($primary_term instanceof WP_Term) {
+                      $term = $primary_term;
+                    }
+                  } else {
+                    // 2) Fallback su meta Rank Math
+                    $meta_key = $taxonomy === 'category' ? 'rank_math_primary_category' : 'rank_math_primary_' . $taxonomy;
+                    $primary_term_id = get_post_meta(get_the_ID(), $meta_key, true);
+                    if (!empty($primary_term_id)) {
+                      $candidate = get_term((int) $primary_term_id, $taxonomy);
+                      if ($candidate && !is_wp_error($candidate)) {
+                        $term = $candidate;
+                      }
+                    }
+                  }
+                }
                 
                 // Costruisci la gerarchia dei termini (parent -> child)
                 $term_hierarchy = [];
@@ -84,7 +103,11 @@ if (!function_exists('the_breadcrumb')) :
                 foreach ($term_hierarchy as $hier_term) {
                   $term_link = get_term_link($hier_term);
                   if (!is_wp_error($term_link)) {
-                    echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($term_link) . '">' . esc_html($hier_term->name) . '</a></li>';
+                    $display_name = $hier_term->name;
+                    if (function_exists('bs_cat_formazione_display_name') && isset($hier_term->taxonomy) && $hier_term->taxonomy === 'cat-formazione') {
+                      $display_name = bs_cat_formazione_display_name($hier_term);
+                    }
+                    echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($term_link) . '">' . esc_html($display_name) . '</a></li>';
                   }
                 }
                 
@@ -95,11 +118,51 @@ if (!function_exists('the_breadcrumb')) :
           }
 
         } else {
-          // Se è un post normale, mostra le categorie
-          $cat_IDs = wp_get_post_categories(get_the_ID());
-          foreach ($cat_IDs as $cat_ID) {
-            $cat = get_category($cat_ID);
-            echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . get_term_link($cat->term_id) . '">' . esc_html($cat->name) . '</a></li>';
+          // Se è un post normale, mostra la gerarchia della categoria primaria (Rank Math se presente)
+          $categories = get_the_category(get_the_ID());
+          if (!empty($categories)) {
+            // Default alla prima categoria; se multiple prova usare Rank Math primary
+            $category = $categories[0];
+            if (count($categories) > 1) {
+              if (function_exists('rank_math_get_primary_term')) {
+                $primary_term = rank_math_get_primary_term('category', get_the_ID());
+                if ($primary_term instanceof WP_Term) {
+                  $category = $primary_term;
+                }
+              } else {
+                $primary_id = get_post_meta(get_the_ID(), 'rank_math_primary_category', true);
+                if (!empty($primary_id)) {
+                  $candidate = get_term((int) $primary_id, 'category');
+                  if ($candidate && !is_wp_error($candidate)) {
+                    $category = $candidate;
+                  }
+                }
+              }
+            }
+            
+            // Costruisci gerarchia categoria (parent -> child)
+            $term_hierarchy = [];
+            $current_term = $category;
+            while ($current_term && $current_term->parent != 0) {
+              array_unshift($term_hierarchy, $current_term);
+              $current_term = get_term($current_term->parent, 'category');
+            }
+            if ($current_term) {
+              array_unshift($term_hierarchy, $current_term);
+            }
+            if (empty($term_hierarchy)) {
+              $term_hierarchy = [$category];
+            }
+            foreach ($term_hierarchy as $hier_term) {
+              $term_link = get_term_link($hier_term);
+              if (!is_wp_error($term_link)) {
+                $display_name = $hier_term->name;
+                if (function_exists('bs_cat_formazione_display_name') && isset($hier_term->taxonomy) && $hier_term->taxonomy === 'cat-formazione') {
+                  $display_name = bs_cat_formazione_display_name($hier_term);
+                }
+                echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($term_link) . '">' . esc_html($display_name) . '</a></li>';
+              }
+            }
           }
         }
         
@@ -150,12 +213,20 @@ if (!function_exists('the_breadcrumb')) :
         for ($i = 0; $i < count($term_hierarchy) - 1; $i++) {
           $term_link = get_term_link($term_hierarchy[$i]);
           if (!is_wp_error($term_link)) {
-            echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($term_link) . '">' . esc_html($term_hierarchy[$i]->name) . '</a></li>';
+            $display_name = $term_hierarchy[$i]->name;
+            if (function_exists('bs_cat_formazione_display_name') && isset($term_hierarchy[$i]->taxonomy) && $term_hierarchy[$i]->taxonomy === 'cat-formazione') {
+              $display_name = bs_cat_formazione_display_name($term_hierarchy[$i]);
+            }
+            echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($term_link) . '">' . esc_html($display_name) . '</a></li>';
           }
         }
         
         // Termine corrente come attivo
-        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($current_term->name) . '</li>';
+        $current_display = $current_term->name;
+        if (function_exists('bs_cat_formazione_display_name') && isset($current_term->taxonomy) && $current_term->taxonomy === 'cat-formazione') {
+          $current_display = bs_cat_formazione_display_name($current_term);
+        }
+        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($current_display) . '</li>';
       }
       
       // Titolo della pagina

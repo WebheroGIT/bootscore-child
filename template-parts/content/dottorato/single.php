@@ -51,7 +51,7 @@ if ($has_valid_cat) :
       if ($dipartimento) : ?>
           <!-- stampa relazione dipartimento -->
           <div class="py-2">
-              <strong>Dipartimento</strong>
+              <!-- TODO <strong>Dipartimento</strong> -->
               <span>
                   <?php echo get_the_title($dipartimento[0]->ID); ?>
               </span>

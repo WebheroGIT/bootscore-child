@@ -40,6 +40,8 @@ function eventi_shortcode($atts) {
     $atts = shortcode_atts(
         array(
             'type' => '', // tipo di eventi: 'futuri' per visualizzare solo gli eventi futuri
+            'per_page' => 9, // numero di eventi per pagina per la sezione "passati"
+            'cat' => '', // filtro per meta evento_category
         ), 
         $atts, 
         'eventi'
@@ -55,11 +57,22 @@ function eventi_shortcode($atts) {
         'meta_type' => 'NUMERIC', // La data è un timestamp numerico
     );
 
+    // Applica filtro categoria se presente
+    $cat_value = trim((string) $atts['cat']);
+    if ($cat_value !== '') {
+        $args['meta_query'] = isset($args['meta_query']) ? $args['meta_query'] : array();
+        $args['meta_query'][] = array(
+            'key' => 'evento_category',
+            'value' => $cat_value,
+            'compare' => '=',
+        );
+    }
+
     // Esegui la query
     $query = new WP_Query($args);
 
     // Iniziamo il contenitore
-    $output = '<div class="container mt-5">';
+    $output = '<div class="container mt-3">';
 
     // Inizializzare le variabili per gli eventi futuri, in corso e passati
     $future_events = [];
@@ -126,19 +139,19 @@ function eventi_shortcode($atts) {
         return $a['start_date'] <=> $b['start_date'];
     });
 
-    // Ordina gli eventi passati (più recente in alto)
+    // Ordina gli eventi passati (più recente in alto - ordine inverso)
     usort($past_events, function($a, $b) {
-        return $a['start_date'] <=> $b['start_date'];
+        return $b['start_date'] <=> $a['start_date'];
     });
 
-    // Se l'utente ha passato il parametro 'type' con valore 'futuri', mostriamo solo i futuri (3 eventi)
-    if ($atts['type'] === 'futuri') {
-        $future_events = array_slice($future_events, 0, 3); // Prendiamo solo i primi 3 eventi futuri
-        $output .= '<div class="row">';
-        // Mostriamo solo gli eventi futuri
-        foreach ($future_events as $event) {
+	// Se l'utente ha passato il parametro 'type' con valore 'futuri', mostriamo eventi in corso e futuri (max 3)
+	if ($atts['type'] === 'futuri') {
+		$events_to_show = array_slice(array_merge($current_events, $future_events), 0, 3);
+		$output .= '<div class="row">';
+		// Mostriamo eventi in corso e futuri
+		foreach ($events_to_show as $event) {
             $output .= '<div class="col-12 col-md-4 mb-4 eventi-loop">'; // Griglia a 3 colonne
-                $output .= '<div class="card rounded overflow-hidden">';
+                $output .= '<div class="card rounded overflow-hidden h-100">';
                     $output .= '<div class="card-header bg-primary text-white d-flex justify-content-end align-items-center">';
                         $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                         $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
@@ -151,8 +164,8 @@ function eventi_shortcode($atts) {
                             $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                         }
                     $output .= '</div>';
-                    $output .= '<div class="card-body bg-light p-4">';
-                        $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
+                    $output .= '<div class="card-body bg-light p-4 h-100">';
+                        $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                         $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                     $output .= '</div>';
                 $output .= '</div>';
@@ -164,16 +177,17 @@ function eventi_shortcode($atts) {
         
         // Mostra gli eventi in corso per primi
         if (count($current_events) > 0) {
-            $output .= '<div class="mb-4">';
-                $output .= '<h3 class="d-inline-block mb-3">';
-                    $output .= '<span class="badge bg-success text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Eventi in corso</span>';
-                $output .= '</h3>';
-            $output .= '</div>';
-            $output .= '<div class="row">'; // Inizio della griglia
+            $output .= '<div class="mb-5 p-4 rounded" style="background-color: #d4edda; border: 1px solid #c3e6cb;">';
+                $output .= '<div class="mb-4">';
+                    $output .= '<h3 class="d-inline-block mb-3">';
+                        $output .= '<span class="badge bg-success text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Eventi in corso</span>';
+                    $output .= '</h3>';
+                $output .= '</div>';
+                $output .= '<div class="row">'; // Inizio della griglia
 
             foreach ($current_events as $event) {
                 $output .= '<div class="col-12 col-md-4 mb-4 eventi-loop">'; // Griglia a 3 colonne
-                    $output .= '<div class="card rounded overflow-hidden">';
+                    $output .= '<div class="card rounded overflow-hidden h-100">';
                         $output .= '<div class="card-header bg-success text-white d-flex justify-content-end align-items-center">';
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
@@ -186,8 +200,8 @@ function eventi_shortcode($atts) {
                                 $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                             }
                         $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
+                        $output .= '<div class="card-body bg-light p-4 h-100">';
+                            $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                             $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                         $output .= '</div>';
                     $output .= '</div>';
@@ -195,20 +209,22 @@ function eventi_shortcode($atts) {
             }
 
             $output .= '</div>'; // Fine della riga
+            $output .= '</div>'; // Fine del contenitore eventi in corso
         }
         
         // Poi mostra gli eventi futuri
         if (count($future_events) > 0) {
-            $output .= '<div class="mb-4">';
-                $output .= '<h3 class="d-inline-block mb-3">';
-                    $output .= '<span class="badge bg-primary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Prossimi eventi</span>';
-                $output .= '</h3>';
-            $output .= '</div>';
-            $output .= '<div class="row">'; // Inizio della griglia
+            $output .= '<div class="mb-5 p-4 rounded" style="background-color: #ebebeb; border: 1px solid #bcbcbc;">';
+                $output .= '<div class="mb-4">';
+                    $output .= '<h3 class="d-inline-block mb-3">';
+                        $output .= '<span class="badge bg-primary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Prossimi eventi</span>';
+                    $output .= '</h3>';
+                $output .= '</div>';
+                $output .= '<div class="row">'; // Inizio della griglia
 
             foreach ($future_events as $event) {
                 $output .= '<div class="col-12 col-md-4 mb-4 eventi-loop">'; // Griglia a 3 colonne
-                    $output .= '<div class="card rounded overflow-hidden">';
+                    $output .= '<div class="card rounded overflow-hidden h-100">';
                         $output .= '<div class="card-header bg-primary text-white d-flex justify-content-end align-items-center">';
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
@@ -221,8 +237,8 @@ function eventi_shortcode($atts) {
                                 $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                             }
                         $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
+                        $output .= '<div class="card-body bg-light p-4 h-100">';
+                            $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                             $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                         $output .= '</div>';
                     $output .= '</div>';
@@ -230,20 +246,28 @@ function eventi_shortcode($atts) {
             }
 
             $output .= '</div>'; // Fine della riga
+            $output .= '</div>'; // Fine del contenitore eventi futuri
         }
 
-        // Mostra gli eventi passati
-        if (count($past_events) > 0) {
-            $output .= '<div class="mb-4">';
-                $output .= '<h3 class="d-inline-block mb-3">';
-                    $output .= '<span class="badge bg-secondary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #E57552;">Eventi passati</span>';
-                $output .= '</h3>';
-            $output .= '</div>';
-            $output .= '<div class="row">'; // Inizio della griglia
+		// Mostra gli eventi passati (con paginazione)
+		if (count($past_events) > 0) {
+			$per_page = max(1, intval($atts['per_page']));
+			$current_page = isset($_GET['eventi_page']) ? max(1, intval($_GET['eventi_page'])) : 1;
+			$total_past = count($past_events);
+			$total_pages = (int) ceil($total_past / $per_page);
+			$offset = ($current_page - 1) * $per_page;
+			$paged_past_events = array_slice($past_events, $offset, $per_page);
+            $output .= '<div class="mb-5 p-4 rounded" style="background-color: #ffe6cc; border: 1px solid #ffcc99;">';
+                $output .= '<div class="mb-4">';
+                    $output .= '<h3 class="d-inline-block mb-3">';
+                        $output .= '<span class="badge bg-secondary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #E57552;">Eventi passati</span>';
+                    $output .= '</h3>';
+                $output .= '</div>';
+				$output .= '<div class="row" id="past-events-grid">'; // Inizio della griglia
 
-            foreach ($past_events as $event) {
+			foreach ($paged_past_events as $event) {
                 $output .= '<div class="col-12 col-md-4 mb-4 eventi-loop">'; // Griglia a 3 colonne
-                    $output .= '<div class="card rounded overflow-hidden">';
+                    $output .= '<div class="card rounded overflow-hidden h-100">';
                         $output .= '<div class="card-header bg-secondary text-white d-flex justify-content-end align-items-center">';
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
@@ -256,15 +280,27 @@ function eventi_shortcode($atts) {
                                 $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                             }
                         $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h5><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h5>';
+                        $output .= '<div class="card-body bg-light p-4 h-100">';
+                            $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                             $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                         $output .= '</div>';
                     $output .= '</div>';
                 $output .= '</div>';
             }
 
-            $output .= '</div>'; // Fine della riga
+			$output .= '</div>'; // Fine della riga
+			
+			// Bottone Load More (AJAX)
+            if ($total_pages > 1 && $current_page < $total_pages) {
+				$nonce = wp_create_nonce('load_past_events');
+				$ajax_url = admin_url('admin-ajax.php');
+				$output .= '<div class="text-center mt-3">';
+                    $output .= '<button id="load-more-past-events" class="btn btn-outline-secondary" data-current-page="' . esc_attr($current_page) . '" data-total-pages="' . esc_attr($total_pages) . '" data-per-page="' . esc_attr($per_page) . '" data-nonce="' . esc_attr($nonce) . '" data-ajax-url="' . esc_url($ajax_url) . '" data-cat="' . esc_attr($cat_value) . '">Carica altri</button>';
+				$output .= '</div>';
+				// Inline script minimale
+                $output .= '<script>(function(){var btn=document.getElementById("load-more-past-events");if(!btn)return;var loading=false;btn.addEventListener("click",function(){if(loading)return;loading=true;btn.disabled=true;var current=parseInt(btn.getAttribute("data-current-page"),10)||1;var total=parseInt(btn.getAttribute("data-total-pages"),10)||1;var perPage=parseInt(btn.getAttribute("data-per-page"),10)||9;var nonce=btn.getAttribute("data-nonce");var ajaxUrl=btn.getAttribute("data-ajax-url");var cat=btn.getAttribute("data-cat")||"";var next=current+1;var fd=new FormData();fd.append("action","load_past_events");fd.append("page",next);fd.append("per_page",perPage);fd.append("cat",cat);fd.append("nonce",nonce);fetch(ajaxUrl,{method:"POST",body:fd}).then(function(r){return r.text()}).then(function(html){var grid=document.getElementById("past-events-grid");if(grid&&html){grid.insertAdjacentHTML("beforeend",html);}current=next;btn.setAttribute("data-current-page",String(current));if(current>=total){btn.style.display="none";}btn.disabled=false;loading=false;}).catch(function(){btn.disabled=false;loading=false;});});})();</script>';
+			}
+            $output .= '</div>'; // Fine del contenitore eventi passati
         }
     }
 
@@ -281,3 +317,92 @@ add_shortcode('eventi', 'eventi_shortcode');
 // [eventi type="futuri"] per visualizzare solo gli eventi futuri
 
 // [eventi]
+
+// AJAX: restituisce il markup delle card degli eventi passati per la pagina richiesta
+function load_past_events_ajax() {
+	check_ajax_referer('load_past_events', 'nonce');
+
+	$page = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
+	$per_page = isset($_POST['per_page']) ? max(1, intval($_POST['per_page'])) : 9;
+    $cat_value = isset($_POST['cat']) ? sanitize_text_field(wp_unslash($_POST['cat'])) : '';
+
+	$args = array(
+		'post_type' => 'eventi',
+		'posts_per_page' => -1,
+		'orderby' => 'meta_value',
+		'order' => 'ASC',
+		'meta_key' => 'evento_data_inizio',
+		'meta_type' => 'NUMERIC',
+	);
+
+    // Applica filtro categoria se presente
+    if ($cat_value !== '') {
+        $args['meta_query'] = isset($args['meta_query']) ? $args['meta_query'] : array();
+        $args['meta_query'][] = array(
+            'key' => 'evento_category',
+            'value' => $cat_value,
+            'compare' => '=',
+        );
+    }
+
+    $query = new WP_Query($args);
+
+	$past_events = [];
+	if ($query->have_posts()) {
+		$current_date = current_time('timestamp');
+		while ($query->have_posts()) {
+			$query->the_post();
+			$evento_data_inizio = rwmb_meta('evento_data_inizio');
+			$evento_data_fine = rwmb_meta('evento_data_fine');
+			$start_timestamp = strtotime($evento_data_inizio);
+			if ($start_timestamp === false || $start_timestamp < 0) { $start_timestamp = 0; }
+			$end_timestamp = strtotime($evento_data_fine);
+			if ($end_timestamp === false || $end_timestamp < 0) { $end_timestamp = 0; }
+			if (!($start_timestamp > $current_date) && !($start_timestamp <= $current_date && $end_timestamp >= $current_date)) {
+				$past_events[] = [
+					'title' => get_the_title(),
+					'start_date' => $start_timestamp,
+					'end_date' => $end_timestamp,
+					'link' => get_permalink()
+				];
+			}
+		}
+	}
+
+	// Ordina passati (più recente in alto - ordine inverso)
+	usort($past_events, function($a, $b) { return $b['start_date'] <=> $a['start_date']; });
+
+	$offset = ($page - 1) * $per_page;
+	$paged = array_slice($past_events, $offset, $per_page);
+
+	// Output solo le colonne delle card (stesso markup della griglia principale)
+	$html = '';
+	foreach ($paged as $event) {
+		$html .= '<div class="col-12 col-md-4 mb-4 eventi-loop">';
+			$html .= '<div class="card rounded overflow-hidden h-100">';
+				$html .= '<div class="card-header bg-secondary text-white d-flex justify-content-end align-items-center">';
+					$html .= '<span>' . date('Y', $event['start_date']) . '</span>';
+					$html .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>';
+				$html .= '</div>';
+				$html .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
+					if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
+						$html .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
+					} else {
+						$html .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
+					}
+				$html .= '</div>';
+				$html .= '<div class="card-body bg-light p-4 h-100">';
+					$html .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
+					$html .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+				$html .= '</div>';
+			$html .= '</div>';
+		$html .= '</div>';
+	}
+
+	wp_reset_postdata();
+	echo $html;
+	die();
+}
+
+add_action('wp_ajax_load_past_events', 'load_past_events_ajax');
+add_action('wp_ajax_nopriv_load_past_events', 'load_past_events_ajax');

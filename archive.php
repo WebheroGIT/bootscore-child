@@ -80,7 +80,7 @@ get_header();
                             <p class="meta small mb-2 text-body-secondary">
                               <?php
                               bootscore_date();
-                              bootscore_author();
+                              //bootscore_author();
                               bootscore_comments();
                               bootscore_edit();
                               ?>
