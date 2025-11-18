@@ -73,6 +73,8 @@ function add_custom_post_templates($templates, $theme, $post) {
         'single-templates/single-blank.php' => 'Blank',
         'single-templates/single-blank-container.php' => 'Blank with container',
         'single-templates/single-full-width-image.php' => 'Full width image',
+        'single-templates/single-full-width-image-noside.php' => 'Full width image NO SIDEBAR',
+        'single-templates/single-intro-full-width.php' => 'Intro Full Width',
         'single-templates/single-sidebar-none.php' => 'No Sidebar',
         'single-templates/single-sidebar-left.php' => 'Left Sidebar',
         'single-templates/single-full-width-no-img.php' => 'Full width no image',
@@ -92,7 +94,7 @@ function force_page_attributes_meta_box() {
     $post_types = array(
         'post', 'ateneo', 'dipartimento', 'formazione', 'piano', 'tirocinio', 'eventi', 'dirigenza',
         'progetto-ricerca', 'avviso', 'dottorato', 'territorio-societa', 'internazionale', 'ricerca',
-        'iscriviti', 'servizio', 'press', 'rassegna-stampa', 'piani-studio', 'offerta-formativa'
+        'iscriviti', 'servizio', 'press', 'rassegna-stampa', 'piani-studio', 'offerta-formativa', 'territorio'
     );
     
     foreach ($post_types as $post_type) {

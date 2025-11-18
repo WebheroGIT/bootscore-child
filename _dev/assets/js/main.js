@@ -1,11 +1,18 @@
 // Main JavaScript entry point
 // Importa tutti i moduli JavaScript
 
+// Includi script header generali
+import './header.js';
+
 // Moduli di utilità
 import './utility/search.js';
 
 // Moduli di utilità
 import './utility/video-modal.js';
+
+
+// Moduli di utilità
+import './menu-btn-shift.js';
 
 // Moduli specifici per funzionalità
 // platform-interceptor.js è stato spostato nel plugin unimarconi-course-linker

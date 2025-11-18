@@ -1,0 +1,91 @@
+<?php
+/**
+ * Template Name: Full width image NO SIDEBAR
+ * Template Post Type: page, post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press, rassegna-stampa, piani-studio, offerta-formativa, dirigenza, territorio
+ *
+ * @package Bootscore Child
+ * @version 1.0.0
+ */
+
+// Exit if accessed directly
+defined('ABSPATH') || exit;
+
+get_header();
+?>
+
+  <div id="content" class="site-content">
+    <div id="primary" class="content-area">
+      
+      <?php do_action( 'bootscore_after_primary_open', 'single-full-width-image-noside' ); ?>
+
+      <main id="main" class="site-main">
+
+        <?php the_post(); ?>
+
+        <?php
+        // Determina il post type corrente
+        $post_type = get_post_type();
+
+        // Prova a caricare un contenuto personalizzato per il post type
+        if ( locate_template("template-parts/content/{$post_type}/single-full-width-image-noside.php") ) {
+          get_template_part("template-parts/content/{$post_type}/single-full-width-image-noside");
+        } else {
+        ?>
+
+        <?php $thumb = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full'); ?>
+        <div class="entry-header <?= apply_filters('bootscore/class/featured-full-width-img', 'featured-full-width-img height-75 bg-dark text-light mb-4', 'single-full-width-image-noside'); ?>" style="background-image: url('<?= $thumb['0']; ?>')">
+          <div class="<?= apply_filters('bootscore/class/container', 'container', 'single-full-width-image-noside'); ?> <?= apply_filters('bootscore/class/featured-full-width-img/container', 'h-100 d-flex align-items-end pb-3', 'single-full-width-image-noside'); ?>">
+            <div class="<?= apply_filters('bootscore/class/full-width-img-title-wrapper', 'full-width-img-title-wrapper', 'single-full-width-image-noside'); ?>">
+              <?php do_action( 'bootscore_before_title', 'single-full-width-image-noside' ); ?>
+              <?php the_title('<h1 class="entry-title ' . apply_filters('bootscore/class/entry/title', '', 'single-full-width-image-noside') . '">', '</h1>'); ?>
+              <?php do_action( 'bootscore_after_title', 'single-full-width-image-noside' ); ?>
+            </div>
+          </div>
+        </div>
+
+        <div class="<?= apply_filters('bootscore/class/container', 'container', 'single-full-width-image-noside'); ?> <?= apply_filters('bootscore/class/content/spacer', 'pt-3 pb-5', 'single-full-width-image-noside'); ?>">
+          
+          <?php do_action( 'bootscore_after_featured_image', 'single-full-width-image-noside' ); ?>
+          
+          <?php the_breadcrumb(); ?>
+
+          <!-- Contenuto a tutta larghezza senza sidebar -->
+          <div class="entry-content">
+            <?php bootscore_category_badge(); ?>
+            
+            <?php the_content(); ?>
+          </div>
+          
+          <?php do_action( 'bootscore_before_entry_footer', 'single-full-width-image-noside' ); ?>
+
+          <div class="entry-footer clear-both">
+            <div class="mb-4">
+              <?php bootscore_tags(); ?>
+            </div>
+            <?php // if (function_exists('bootscore_related_posts') && get_post_type() !== 'page') bootscore_related_posts(); ?>
+            <?php if (get_post_type() !== 'page') : ?>
+            <!-- <nav aria-label="bs page navigation">
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <?php //previous_post_link('%link'); ?>
+                </li>
+                <li class="page-item">
+                  <?php // next_post_link('%link'); ?>
+                </li>
+              </ul>
+            </nav> -->
+            <?php endif; ?>
+            <?php comments_template(); ?>
+          </div>
+
+        </div>
+
+        <?php } ?>
+
+      </main>
+
+    </div>
+  </div>
+
+<?php
+get_footer();

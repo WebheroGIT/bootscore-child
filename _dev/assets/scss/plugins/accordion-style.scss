@@ -4,16 +4,20 @@
     .accordion-item {
           border-radius: var(--bs-accordion-inner-border-radius)!important;
           overflow: hidden;
-          border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+          border: initial!important;
+          border-radius: initial!important;
+          border-bottom: 1px solid var(--bs-primary)!important;
+          background-color: initial!important;
         &:not(:first-child) {
             margin-top: 8px;
+            background-color: initial!important;
         }
 
       .accordion-header {
         button.accordion-button {
           color: var(--bs-primary); 
-          font-weight: 500;
-          background-color: var(--bs-gray-100);
+          font-weight: 600;
+          background-color: initial!important;
           border-radius: var(--bs-accordion-inner-border-radius)!important;
         }
       }

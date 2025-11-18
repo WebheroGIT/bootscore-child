@@ -23,6 +23,7 @@ if (!function_exists('the_breadcrumb')) :
       // CONFIGURAZIONE: Post Types e Tassonomie Associate
       $post_type_taxonomies = [
         'formazione' => ['cat-formazione'], // Post type 'formazione' usa la tassonomia 'cat-formazione'
+        'scuole' => ['cat-scuole'], // Post type 'scuole' usa la tassonomia 'cat-scuole'
         //'corsi' => ['categoria-corsi'],      // Esempio per altri post types
         //'eventi' => ['categoria-eventi'],    // Esempio per altri post types
         // Aggiungi qui altri post types e le loro tassonomie

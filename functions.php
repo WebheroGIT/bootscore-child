@@ -29,8 +29,9 @@ function bootscore_child_enqueue_styles() {
   $modificated_CustomJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/custom.js'));
   wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery'), $modificated_CustomJS, false, true);
   
-  // formazione-filters.js - nell'archivio formazione e nelle sue taxonomy
-  if (is_post_type_archive('formazione') || is_tax('cat-formazione') || is_tax('area-formazione') || is_tax('modalita-formazione')) {
+  // formazione-filters.js - nell'archivio formazione/progetto e nelle loro taxonomy
+  if (is_post_type_archive('formazione') || is_tax('cat-formazione') || is_tax('area-formazione') || is_tax('modalita-formazione') ||
+      is_post_type_archive('progetto') || is_tax('cat-progetto')) {
     $modificated_FormazioneFiltersJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/formazione-filters.js'));
     wp_enqueue_script('formazione-filters-js', get_stylesheet_directory_uri() . '/assets/js/formazione-filters.js', array('jquery'), $modificated_FormazioneFiltersJS, true);
   }
@@ -116,11 +117,17 @@ add_filter('gettext', 'modify_related_posts_title', 10, 3);
 
 
 
-// TODO mod categoira togli prefisso
+// TODO mod categoria togli prefisso
 
 function remove_custom_taxonomy_prefix($title) {
+    // Rimuove il prefisso "Archivi: " da tutti i titoli degli archivi
+    $title = preg_replace('/^Archivi:\s*/', '', $title);
+    
+    // Rimuove il prefisso "Categoria: " dai titoli delle categorie
+    $title = preg_replace('/^Categoria:\s*/', '', $title);
+    
     if (is_tax('cat-formazione')) {
-        // Rimuove il prefisso dalla tassonomia 'cat-formazione' (categoria formazione)
+        // Rimuove anche il prefisso dalla tassonomia 'cat-formazione' (categoria formazione)
         $title = preg_replace('/^Categoria\s+.*?:\s*/', '', $title);
     }
     return $title;
@@ -428,4 +435,12 @@ add_filter('rwmb_meta_boxes', function ($meta_boxes) {
   );
 
   return $meta_boxes;
+});
+
+// Aggiungi supporto wp_grid_builder alle query delle categorie, cat-scuole e archivio scuole per permettere l'uso di filtri GridBuilder
+add_action('pre_get_posts', function($query) {
+    // Solo per query principale delle categorie standard, cat-scuole e archivio scuole
+    if (!is_admin() && $query->is_main_query() && (is_category() || is_tax('cat-scuole') || is_post_type_archive('scuole'))) {
+        $query->set('wp_grid_builder', 'wpgb-content');
+    }
 });

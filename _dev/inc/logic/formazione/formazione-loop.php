@@ -255,10 +255,11 @@ jQuery(document).ready(function($) {
 
 #menu-menuformativa .info-box {
    transition: all 0.15s ease-in-out;
+   
 }
 /* Hover effect per i box */
 #menu-menuformativa .info-box:hover {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25)!important;
+    box-shadow: 0 0.3rem 0.7rem rgba(0, 0, 0, 0.08)!important;
     
 }
 
@@ -316,7 +317,7 @@ jQuery(document).ready(function($) {
 #menu-menuformativa .sub-menu li {
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #e2e2e2;
 }
 
 #menu-menuformativa .sub-menu li:last-child {
@@ -331,12 +332,14 @@ jQuery(document).ready(function($) {
     transition: background-color 0.15s ease-in-out;
     font-size: 1rem;
     line-height: 1.5;
+    font-weight: 500;
 }
 
 #menu-menuformativa .sub-menu li a:hover {
-    background-color: #f8f9fa;
+    background-color:rgb(173, 173, 173);
     text-decoration: none;
-    color: #007bff;
+    background-color: #379975;
+    color: #fff;
 }
 
 /* Pulsante di chiusura per il sottomenu */
@@ -445,7 +448,7 @@ class Walker_Nav_Menu_Custom extends Walker_Nav_Menu {
             // Usa un link con un evento onclick invece di # per prevenire il comportamento di navigazione
             $output .= '<a href="javascript:void(0);" data-toggle="collapse" data-target="#submenu-' . $item->ID . '" class="d-block clickable-parent">';
             
-            $output .= '<h4 class="text-decoration-none text-dark mt-4">' . $item->title . '</h4>';
+            $output .= '<h6 class="text-decoration-none text-dark mt-4">' . $item->title . '</h6>';
             $output .= '</a>';
             $output .= '<div id="submenu-' . $item->ID . '" class="collapse">';
         } else {

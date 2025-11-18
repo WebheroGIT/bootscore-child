@@ -260,7 +260,7 @@ function eventi_shortcode($atts) {
             $output .= '<div class="mb-5 p-4 rounded" style="background-color: #ffe6cc; border: 1px solid #ffcc99;">';
                 $output .= '<div class="mb-4">';
                     $output .= '<h3 class="d-inline-block mb-3">';
-                        $output .= '<span class="badge bg-secondary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #E57552;">Eventi passati</span>';
+                        $output .= '<span class="badge bg-secondary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #FF914D;">Eventi passati</span>';
                     $output .= '</h3>';
                 $output .= '</div>';
 				$output .= '<div class="row" id="past-events-grid">'; // Inizio della griglia

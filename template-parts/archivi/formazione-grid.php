@@ -13,25 +13,32 @@ defined('ABSPATH') || exit;
 <!-- Filtri prima della griglia -->
 <?php if (function_exists('wpgb_render_facet')) : ?>
 <div class="formazione-filters mb-2 grid-3 gap-3 grid-md-1">
-    <?php wpgb_render_facet(['id' => 1, 'grid' => 'wpgb-content']); ?>
-    <?php // wpgb_render_facet(['id' => 2, 'grid' => 'wpgb-content']); ?>
-    
     <?php 
-    // Facet 3 solo in post-type-archive-formazione o in tax-cat-formazione term-master term-6
+    // Facet 3 in post-type-archive-formazione o in tax-cat-formazione term-6 (master) o term-8 (formazione-insegnanti)
     $show_facet_3 = false;
+    $show_facet_1 = true; // Default: mostra facet 1
     
     if (is_post_type_archive('formazione')) {
         $show_facet_3 = true;
     } elseif (is_tax('cat-formazione')) {
         $queried_object = get_queried_object();
-        if ($queried_object && $queried_object->term_id == 6) { // term-6 (master)
-            $show_facet_3 = true;
+        if ($queried_object) {
+            // Facet 3 per term-6 (master) o term-8 (formazione-insegnanti)
+            if ($queried_object->term_id == 6 || $queried_object->term_id == 8) {
+                $show_facet_3 = true;
+                $show_facet_1 = false; // Non mostrare facet 1 quando mostriamo facet 3
+            }
         }
     }
     
     if ($show_facet_3) : ?>
         <?php wpgb_render_facet(['id' => 3, 'grid' => 'wpgb-content']); ?>
     <?php endif; ?>
+    
+    <?php if ($show_facet_1) : ?>
+        <?php wpgb_render_facet(['id' => 1, 'grid' => 'wpgb-content']); ?>
+    <?php endif; ?>
+    <?php // wpgb_render_facet(['id' => 2, 'grid' => 'wpgb-content']); ?>
 
     
         <?php wpgb_render_facet(['id' => 6, 'grid' => 'wpgb-content']); ?>
@@ -102,34 +109,48 @@ $formazione_query = new WP_Query($args);
           <!-- Category and attributes badges -->
           <div class="mb-2">
             <?php 
-            // Get cat-formazione taxonomy terms (prefer Rank Math primary term)
-            $terms = get_the_terms(get_the_ID(), 'cat-formazione');
-            if ($terms && !is_wp_error($terms)) :
-              $term_to_show = $terms[0];
-              if (count($terms) > 1) {
-                if (function_exists('rank_math_get_primary_term')) {
-                  $primary_term = rank_math_get_primary_term('cat-formazione', get_the_ID());
-                  if ($primary_term instanceof WP_Term) {
-                    $term_to_show = $primary_term;
-                  }
-                } else {
-                  $primary_id = get_post_meta(get_the_ID(), 'rank_math_primary_cat-formazione', true);
-                  if (!empty($primary_id)) {
-                    $candidate = get_term((int) $primary_id, 'cat-formazione');
-                    if ($candidate && !is_wp_error($candidate)) {
-                      $term_to_show = $candidate;
+            // Regola prioritaria: utilizzare il meta 'corso_categoria_fittizia' se presente
+            $categoria_fittizia = function_exists('rwmb_meta') ? rwmb_meta('corso_categoria_fittizia', '', get_the_ID()) : get_post_meta(get_the_ID(), 'corso_categoria_fittizia', true);
+            if ($categoria_fittizia !== null) {
+              $categoria_fittizia = trim((string) $categoria_fittizia);
+            }
+
+            if ($categoria_fittizia === '-') {
+              // Non stampare nulla (neanche il suffisso "in")
+            } elseif ($categoria_fittizia !== '' && $categoria_fittizia !== null) {
+              // Stampa il valore del meta senza "in"
+              echo '<span class="">' . esc_html($categoria_fittizia) . '</span>';
+            } else {
+              // Fallback: logiche attuali (taxonomy) con suffisso "in"
+              // Get cat-formazione taxonomy terms (prefer Rank Math primary term)
+              $terms = get_the_terms(get_the_ID(), 'cat-formazione');
+              if ($terms && !is_wp_error($terms)) :
+                $term_to_show = $terms[0];
+                if (count($terms) > 1) {
+                  if (function_exists('rank_math_get_primary_term')) {
+                    $primary_term = rank_math_get_primary_term('cat-formazione', get_the_ID());
+                    if ($primary_term instanceof WP_Term) {
+                      $term_to_show = $primary_term;
+                    }
+                  } else {
+                    $primary_id = get_post_meta(get_the_ID(), 'rank_math_primary_cat-formazione', true);
+                    if (!empty($primary_id)) {
+                      $candidate = get_term((int) $primary_id, 'cat-formazione');
+                      if ($candidate && !is_wp_error($candidate)) {
+                        $term_to_show = $candidate;
+                      }
                     }
                   }
                 }
-              }
-              // Trasforma il nome della categoria per visualizzazione singolare
-              $cat_name = $term_to_show->name;
-              if ($term_to_show->slug === 'lauree-triennali') {
-                $cat_name = 'Laurea Triennale';
-              }
-              ?>
-              <span class=""><?php echo esc_html($cat_name); ?> in</span>
-            <?php endif;
+                // Trasforma il nome della categoria per visualizzazione singolare
+                $cat_name = $term_to_show->name;
+                if ($term_to_show->slug === 'lauree-triennali') {
+                  $cat_name = 'Laurea Triennale';
+                }
+                ?>
+                <span class=""><?php echo esc_html($cat_name); ?> in</span>
+              <?php endif; 
+            }
             
             // Get custom attributes if they exist
             $attributes = get_post_meta(get_the_ID(), 'attributo', true);

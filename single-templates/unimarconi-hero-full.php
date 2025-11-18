@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Unimarconi Hero Full
- * Template Post Type: post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press, rassegna-stampa, piani-studio, offerta-formativa, dirigenza
+ * Template Post Type: page, post, ateneo, dipartimento, formazione, piano, tirocinio, eventi, progetto-ricerca, avviso, dottorato, territorio-societa, internazionale, ricerca, iscriviti, servizio, press, rassegna-stampa, piani-studio, offerta-formativa, dirigenza, territorio
  *
  * @package Bootscore Child
  * @version 1.0.0
@@ -39,8 +39,8 @@ get_header();
           <!-- Header dell'evento -->
           <div class="rounded-3 overflow-hidden bg-primary text-white mb-5">
               <div class="grid-7-5 grid-lg-1 row-iscrizioni-formazione align-items-stretch position-relative">
-                  <div class="p-4 flex-grow-1">
-                      <h1 class="mb-3"><?php the_title(); ?></h1>
+                  <div class="p-4 flex-grow-1 align-items-center d-flex">
+                      <h1 class="mb-2 mt-2"><?php the_title(); ?></h1>
                       
                      
                   </div>
@@ -69,7 +69,7 @@ get_header();
                 <div class="mb-4">
                   <?php bootscore_tags(); ?>
                 </div>
-                <?php if (function_exists('bootscore_related_posts')) bootscore_related_posts(); ?>
+                <?php // if (function_exists('bootscore_related_posts')) bootscore_related_posts(); ?>
                 <nav aria-label="bs page navigation">
                   <ul class="pagination justify-content-center">
                     <li class="page-item">

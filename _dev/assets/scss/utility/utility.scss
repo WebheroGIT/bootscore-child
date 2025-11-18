@@ -30,11 +30,11 @@
 
 // 2) Breakpoints “max-width” (in ordine decrescente)
 $breakpoints-max: (
-  xxl: 1400px,
-  xl: 1200px,
-  lg: 992px,
-  md: 768px,
-  sm: 576px
+  xxl: 1399px,
+  xl: 1199px,
+  lg: 991px,
+  md: 767px,
+  sm: 575px
 );
 
 // 3) Mixin base per grid con N colonne
@@ -233,8 +233,6 @@ $breakpoints-max: (
     margin-inline:auto;
 }
 
-
-
 /* Negative margin utilities */
 .mt-n1 { margin-top: -0.25rem !important; }
 .mt-n2 { margin-top: -0.5rem !important; }
@@ -271,3 +269,128 @@ $breakpoints-max: (
 .my-n3 { margin-top: -1rem !important; margin-bottom: -1rem !important; }
 .my-n4 { margin-top: -6rem !important; margin-bottom: -6rem !important; }
 .my-n5 { margin-top: -8rem !important; margin-bottom: -8rem !important; }
+
+
+.featured-full-width-img {
+  max-height: 500px!important;
+}
+
+@media(max-width:1199px) {
+  .featured-full-width-img {
+    max-height: 350px!important;
+  }
+}
+
+.fw-500 {
+  font-weight: 500 !important;
+}
+
+.row-panoramica.grid-4-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Mobile a Tablet */
+@media (min-width: 768px) {
+  .row-panoramica.grid-4-auto {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Desktop - qui è il trucco */
+@media (min-width: 1280px) {
+  .row-panoramica.grid-4-auto {
+    /* Calcola: 25% - gap per avere max 4 colonne */
+    grid-template-columns: repeat(auto-fit, minmax(calc(25% - 20px), 1fr));
+  }
+}
+
+/* Mega schermi */
+@media (min-width: 1500px) {
+  .row-panoramica.grid-4-auto {
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
+
+/* Applica a tutti tranne quelli dentro le classi specificate */
+/* Applica il colore primary a tutti gli heading e strong */
+h1, h2, h3, h4, h5, h6, strong {
+  color: #373737;
+}
+
+/* Mantieni il colore originale per gli elementi dentro le classi escluse */
+.hero-banner h1,
+.hero-banner h2,
+.hero-banner h3,
+.hero-banner h4,
+.hero-banner h5,
+.hero-banner h6,
+.hero-banner strong,
+.featured-full-width-img h1,
+.featured-full-width-img h2,
+.featured-full-width-img h3,
+.featured-full-width-img h4,
+.featured-full-width-img h5,
+.featured-full-width-img h6,
+.featured-full-width-img strong,
+.row-iscrizioni-formazione h1,
+.row-iscrizioni-formazione h2,
+.row-iscrizioni-formazione h3,
+.row-iscrizioni-formazione h4,
+.row-iscrizioni-formazione h5,
+.row-iscrizioni-formazione h6,
+.row-iscrizioni-formazione strong {
+  color: inherit;
+}
+
+.text-white a {
+  color: #fff !important;
+}
+
+
+/* ----------------------INFORMAZIONI MOD ---------------------------------------- */
+
+/* Stile per gli elenchi puntati dentro .iscriviti-template */
+.iscriviti-template .entry-content ul {
+  list-style: none; /* Rimuove i punti predefiniti */
+  padding-left: 0; /* Spazio per la freccia */
+}
+
+.iscriviti-template .entry-content ul li {
+  position: relative;
+  padding-left: 1.2em; /* Spazio tra freccia e testo */
+  margin-bottom: 0.5em; /* Spazio tra gli elementi */
+}
+.iscriviti-template .entry-content ul .accordion-item {
+  padding-left: 0;
+ 
+}
+.iscriviti-template .entry-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 0;
+  height: 0;
+  border-left: 8px solid rgb(55 153 117);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.iscriviti-template .entry-content .accordion > li:before {
+  content: none !important;
+}
+
+
+// single dirigenza
+@media(min-width: 767px) {
+  .single-dirigenza .post-thumbnail img {
+    max-width: 300px;
+  }
+}
+

@@ -1,3 +1,7 @@
 @use 'accordion-style.scss' as accordion;
 
-
+@media (max-width: 991px) {
+    .wpgb-facet>fieldset:last-child {
+        margin-bottom: 5px!important;
+    } 
+}

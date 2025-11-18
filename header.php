@@ -60,6 +60,12 @@ defined('ABSPATH') || exit;
         
         <?php do_action( 'bootscore_after_navbar_brand' ); ?>
 
+          <!-- Container per elementi mobile (visibili solo < 992px) -->
+          <div class="mobile-actions-container d-lg-none d-flex align-items-center">
+            <!-- Qui verranno spostati dinamicamente gli elementi -->
+          </div>
+
+
         <!-- Offcanvas Navbar -->
         <div class="offcanvas offcanvas-<?= apply_filters('bootscore/class/header/offcanvas/direction', 'end', 'menu'); ?>" tabindex="-1" id="offcanvas-navbar">
           <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'menu'); ?>">

@@ -43,19 +43,19 @@ if ($formazioni) {
 
           <div class="row text-white text-center mt-4 g-0 border-top border-bottom border-white">
             <div class="col border-end border-white py-2">
-              <strong>Classe</strong><br>
+              <strong style="color:#fff;">Classe</strong><br>
               <span><?php echo rwmb_meta('corso_claase', '', $formazione_id); ?></span>
             </div>
             <div class="col border-end border-white py-2">
-              <strong>Titolo</strong><br>
+              <strong style="color:#fff;">Titolo</strong><br>
               <span><?php // echo get_the_title($formazione_id); ?><?php echo rwmb_meta('corso_titolo', '', $formazione_id); ?></span>
             </div>
             <div class="col border-end border-white py-2">
-              <strong>Durata</strong><br>
+              <strong style="color:#fff;">Durata</strong><br>
               <span><?php echo rwmb_meta('corso_durata', '', $formazione_id); ?></span>
             </div>
             <div class="col py-2">
-              <strong>CFU</strong><br>
+              <strong style="color:#fff;">CFU</strong><br>
               <span><?php echo rwmb_meta('corso_cfu', '', $formazione_id); ?></span>
             </div>
           </div>

@@ -9,8 +9,8 @@
     --swiper-pagination-bullet-width: 35px;
     --swiper-pagination-bullet-height: 8px;
     --swiper-pagination-bullet-border-radius: 0;
-    --swiper-pagination-color: #E57552;
-    --swiper-navigation-color: #E57552;
+    --swiper-pagination-color: #FF914D;
+    --swiper-navigation-color: #FF914D;
     --wp--preset--color--primary: #38E58C!important;
     --wp--preset--color--primary-hover: #1cc76f!important;
 
@@ -18,16 +18,24 @@
     --background-dark: #373737;
     --primary: #379975;
     --primary-hover: #127c55;
-    --secondary: #e57552;
+    --secondary: #FF914D;
     --secondary-hover: #ea9175;
 
     --rad-m: 20px;
     --rad-s: 10px;
 
+    --gap: 24px;
+    --card-min: 300px;
+
     /* bootcore */
     --bs-btn-border-radius: 20px!important;
 
-    
+    --bs-accordion-btn-ico-green: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23379976'%3e%3cpath d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+
+  }
+
+  .accordion {
+    --bs-accordion-btn-icon: var(--bs-accordion-btn-ico-green);
   }
 
   /* class bg */
@@ -44,11 +52,13 @@
 
 
 .full-width-section {
+  width: 100vw;
   position: relative;
   left: 50%;
-  width: calc(100% + 20px);
-  margin-left: -10px;
-  background-color: #f8f9fa;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 60px 0;
 }
 
 
@@ -62,7 +72,7 @@
   padding: 8px;
   border-radius: 10px;
     .btn.btn-block.btn-primary {
-    background-color: #E57552!important;
+    background-color: #FF914D!important;
     color: #fff!important;
   }
   font-size: 13px;
@@ -70,4 +80,9 @@
 
 .btn-primary {
   color: #fff!important;
+}
+
+
+.text-bg-success {
+  background-color: var(--bs-primary)!important;
 }

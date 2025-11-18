@@ -50,3 +50,238 @@
     cursor: pointer;
   }
   
+
+
+/* Stili per il menu di navigazione - Effetti Hover */
+
+/* Effetto hover per le voci di primo livello del menu */
+#bootscore-navbar > .nav-item > .nav-link:hover {
+  background-color: var(--bs-primary, #0d6efd);
+  color: #fff !important;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+#bootscore-navbar > li > a {
+  white-space: nowrap;
+}
+
+/* Mantieni lo stile quando il dropdown è aperto (show) */
+#bootscore-navbar > .nav-item > .nav-link.show {
+  background-color: var(--bs-primary, #0d6efd);
+  color: #fff !important;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Rimuovi eventuali sottolineature o decorazioni del testo */
+#bootscore-navbar > .nav-item > .nav-link:hover,
+#bootscore-navbar > .nav-item > .nav-link.show {
+  text-decoration: none;
+}
+
+/* Assicurati che l'icona dropdown (se presente) sia bianca durante l'hover */
+#bootscore-navbar > .nav-item > .nav-link:hover::after,
+#bootscore-navbar > .nav-item > .nav-link.show::after {
+  color: #fff;
+}
+
+/* Opzionale: Aggiungi padding per rendere l'area cliccabile più grande */
+#bootscore-navbar > .nav-item > .nav-link {
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Fix per il menu attivo (current) */
+#bootscore-navbar > .nav-item > .nav-link.active:hover {
+  background-color: var(--bs-primary, #0d6efd);
+  color: #fff !important;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Assicurati che il dropdown mantenga la sua posizione corretta */
+#bootscore-navbar > .nav-item.dropdown > .dropdown-menu {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+
+#bootscore-navbar .depth_0 .depth_1 {
+  position: relative!important;
+  border: none!important;
+  background-color: #f6f6f6;
+  border-radius: initial!important;
+}
+
+#bootscore-navbar .depth_0 .depth_1 li {
+  padding-left: 12px!important;
+}
+
+
+/* ===== STILI PER I SOTTOMENU DI SECONDO LIVELLO ===== */
+/* Preparazione per l'effetto underline animato */
+#bootscore-navbar .depth_0 .depth_1 li a {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+
+
+/* Effetto hover - espansione dal centro */
+#bootscore-navbar .depth_0 .depth_1 li a:hover::after {
+  width: 100%;
+}
+
+
+/* Variante alternativa con padding per dare più spazio alla linea */
+#bootscore-navbar .depth_0 .depth_1 li a {
+  padding-bottom: 3px;
+}
+
+/* Per menu items già attivi, potresti voler mostrare sempre la linea */
+#bootscore-navbar .depth_0 .depth_1 li a.active::after {
+  width: 100%;
+  opacity: 0.7;
+}
+
+
+
+// aggiunte css
+
+/* ========= SUBMENU ANNIDATI: POSIZIONAMENTO BASE + FLIP ========= */
+/* Base: il submenu annidato (oltre il primo livello) si apre a destra */
+#bootscore-navbar .depth_0 .depth_1 > li > .dropdown-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: .25rem;
+  margin-top: 0;
+  z-index: 1050; /* sopra alle card/ombre */
+  /* non tocchiamo colori/bordi per non interferire con i tuoi */
+}
+
+/* Flip: quando serve aprire a sinistra (aggiunto via JS) */
+#bootscore-navbar .depth_0 .depth_1 > li > .dropdown-menu.submenu-left {
+  left: auto;
+  right: 100%;
+  margin-left: 0;
+  margin-right: .25rem;
+}
+
+/* Evita che testi lunghissimi causino overflow orizzontale */
+#bootscore-navbar .depth_0 .depth_1 li > a {
+  white-space: normal;     /* consente a capo senza rompere il tuo underline */
+  word-break: break-word;  /* gestisce parole lunghe */
+  max-width: 38ch;         /* ampiezza “leggibile” per singola voce */
+}
+
+/* Limita larghezza pannelli per viewport piccole senza toccare i tuoi stili */
+#bootscore-navbar .dropdown-menu {
+  max-width: min(90vw, 480px);
+}
+
+/* Scroll verticale solo quando strettamente necessario (classe via JS) */
+#bootscore-navbar .dropdown-menu.auto-scroll {
+  overflow-y: auto;
+}
+
+
+@media (max-width: 991px) {
+/* Evita che testi lunghissimi causino overflow orizzontale */
+  #bootscore-navbar .depth_0 li > a {
+    white-space: normal;     /* consente a capo senza rompere il tuo underline */
+    word-break: break-word;  /* gestisce parole lunghe */
+    max-width: 40ch;         /* ampiezza “leggibile” per singola voce */
+  }
+
+}
+
+
+@media (min-width: 992px) {
+  #bootscore-navbar {
+    gap: 8px      /* ampiezza “leggibile” per singola voce */
+  }
+
+  #bootscore-navbar .depth_0 {
+    margin: 8px!important;
+    min-width: 300px;
+  }
+}
+
+#bootscore-navbar .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#bootscore-navbar .dropdown-toggle::after {
+  font-size: 18px;
+}
+
+.dropdown-item.active.dropdown-toggle:hover {
+  background-color: var(--bs-primary, #0d6efd);
+  color: #fff !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff !important;
+}
+
+
+// button
+/*Button header*/
+.btn-my-container {
+	flex-basis: 100%;
+	width: 100%;
+	padding: 0px 20px;
+}
+
+.btn-my-container a.btn-unimarconi {
+	width: 136px;
+	height: 40px;
+	line-height: 40px;
+	background-color: var(--secondary);
+  background-image: url("https://dev1965.whtest.it/wp-content/uploads/btn_my.svg");
+	text-align: center;
+	border-radius: 6px;
+	border: none;
+
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+@media(min-width: 1200px) {
+	.btn-my-container {
+		line-height: 65px;
+		flex-basis: 136px;
+		width: 136px;
+		padding: 0px;
+		display: flex;
+		align-items: center;
+	}
+
+	.btn-my-container button {
+		margin-top: 0px;
+	}
+}
+
+@media(min-width:991px) {
+  .top-bar-widget .search-toggle-wrapper i {
+    color: #fff;
+  }
+}
+
+.menu-formativa .shadow {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .1)!important;
+}
+
+.menu-formativa li a h6::after {
+  content: "›"; /* freccetta > */
+  margin-left: 8px;
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+}

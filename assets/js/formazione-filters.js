@@ -1,5 +1,6 @@
 /**
- * Gestisce la visibilità della paginazione nell'archivio formazione, attivo solo in questo archivo e taxonomy collegata
+ * Gestisce la visibilità della paginazione negli archivi formazione e progetto,
+ * attivo solo in questi archivi e nelle loro taxonomy collegate
  * basandosi sui filtri WPGB attivi
  */
 (function($) {
@@ -19,25 +20,38 @@
     
     // Funzione per aggiornare la visibilità della paginazione
     function updatePaginationVisibility() {
-        const $pagination = $('.pagination');
-        const $paginationParent = $pagination.closest('.entry-footer');
+        // Selettore più specifico: solo la paginazione dentro .entry-footer, non quella dei facet
+        // Nascondiamo sia il nav che contiene la paginazione, sia la ul.pagination stessa
+        const $paginationNav = $('.entry-footer nav[aria-label="Page navigation"]');
+        const $pagination = $('.entry-footer .pagination');
         
-        if (hasActiveFilters()) {
+        const hasFilters = hasActiveFilters();
+        
+        if (hasFilters) {
             // Nascondi la paginazione normale quando ci sono filtri attivi
+            $paginationNav.hide();
             $pagination.hide();
         } else {
             // Mostra la paginazione normale quando non ci sono filtri attivi
+            $paginationNav.show();
             $pagination.show();
         }
     }
     
+    // Funzione per verificare se siamo in un contesto supportato (formazione o progetto)
+    function isSupportedContext() {
+        return $('body').hasClass('post-type-archive-formazione') || 
+               $('body').hasClass('tax-cat-formazione') || 
+               $('body').hasClass('tax-area-formazione') || 
+               $('body').hasClass('tax-modalita-formazione') ||
+               $('body').hasClass('post-type-archive-progetto') || 
+               $('body').hasClass('tax-cat-progetto');
+    }
+    
     // Esegui al caricamento della pagina
     $(document).ready(function() {
-        // Nell'archivio formazione e nelle sue taxonomy
-        if ($('body').hasClass('post-type-archive-formazione') || 
-            $('body').hasClass('tax-cat-formazione') || 
-            $('body').hasClass('tax-area-formazione') || 
-            $('body').hasClass('tax-modalita-formazione')) {
+        // Negli archivi formazione/progetto e nelle loro taxonomy
+        if (isSupportedContext()) {
             updatePaginationVisibility();
             
             // Monitora i cambiamenti nei filtri WPGB

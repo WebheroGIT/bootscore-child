@@ -34,3 +34,81 @@
   display: block;           /* assicura che object-fit funzioni correttamente */
 }
 
+/* ====================================
+   STILE PER GLI ELENCHI CON FRECCE
+   ==================================== */
+
+/* Rimuove i punti predefiniti e aggiunge le frecce */
+.formazione-info-wrapper ul.list-unstyled {
+  
+  padding-left: 0;
+}
+
+.formazione-info-wrapper ul.list-unstyled li {
+  position: relative;
+  padding-left: 1.5em;
+  transition: transform 0.3s ease;
+}
+
+/* Freccia prima di ogni elemento della lista */
+.formazione-info-wrapper ul.list-unstyled li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 0;
+  height: 0;
+  border-left: 8px solid rgb(55 153 117);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+
+/* Effetto hover sulla lista intera */
+.formazione-info-wrapper ul.list-unstyled li:hover::before {
+  transform: translateX(3px);
+  color: rgb(55 153 117) 
+}
+
+/* ====================================
+ STILE PER I LINK CON ANIMAZIONE
+ ==================================== */
+
+/* Reset dello stile dei link */
+.formazione-info-wrapper ul.list-unstyled li a {
+  text-decoration: none !important;
+  position: relative;
+  display: inline-block;
+  color: rgb(55 153 117);
+  transition: color 0.3s ease;
+}
+
+/* Rimuove la sottolineatura anche per i link con classe text-decoration-underline */
+.formazione-info-wrapper ul.list-unstyled li a.text-decoration-underline {
+  text-decoration: none !important;
+}
+
+/* Pseudo-elemento per la sottolineatura animata */
+.formazione-info-wrapper ul.list-unstyled li a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  background: rgba(55, 153, 117, 1);
+  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Effetto hover - la linea si espande dal centro */
+.formazione-info-wrapper ul.list-unstyled li a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Colore del testo in hover */
+.formazione-info-wrapper ul.list-unstyled li a:hover {
+  color: rgb(55 153 117);
+}

@@ -37,6 +37,12 @@ $ricerca_stato = rwmb_meta('pricerca_stato');
 
         <h1 class="mt-1"><?php the_title(); ?></h1>
 
+        <?php if (has_excerpt()) : ?>
+        <div class="entry-summary fw-bold mb-3">
+          <?php echo wp_kses_post(get_the_excerpt()); ?>
+        </div>
+        <?php endif; ?>
+
         <div class="grid-3 text-white text-center mt-4 g-0 border-top border-bottom border-white">
           
           <!-- Periodo -->
@@ -87,14 +93,30 @@ $ricerca_stato = rwmb_meta('pricerca_stato');
     <?php if (!empty($ricerca_tipologia)) : ?>
     <div class="project-info-item">
       <h3 class="h6 text-primary mb-1">Tipologia</h3>
-      <p class="mb-0"><?php echo esc_html($ricerca_tipologia); ?></p>
+      <p class="mb-0">
+        <?php 
+        if (function_exists('rwmb_the_value')) { 
+          rwmb_the_value('pricerca_tipologia', '', get_the_ID()); 
+        } else { 
+          echo esc_html($ricerca_tipologia); 
+        } 
+        ?>
+      </p>
     </div>
     <?php endif; ?>
     
     <?php if (!empty($ricerca_gestione)) : ?>
     <div class="project-info-item">
       <h3 class="h6 text-primary mb-1">Struttura Gestione</h3>
-      <p class="mb-0"><?php echo esc_html($ricerca_gestione); ?></p>
+      <p class="mb-0">
+        <?php 
+        if (function_exists('rwmb_the_value')) { 
+          rwmb_the_value('pricerca_gestione', '', get_the_ID()); 
+        } else { 
+          echo esc_html($ricerca_gestione); 
+        } 
+        ?>
+      </p>
     </div>
     <?php endif; ?>
     
@@ -115,14 +137,17 @@ $ricerca_stato = rwmb_meta('pricerca_stato');
 
 <!-- Sezione referenti e contatti -->
 <div class="row">
+  <?php if (!empty($ricerca_referenti)) : ?>
   <div class="col-md-6">
-    <?php if (!empty($ricerca_referenti)) : ?>
+    
     <div class="mb-4">
       <h2 class="h4 text-primary">Referenti</h2>
       <p><?php echo wp_kses_post($ricerca_referenti); ?></p>
     </div>
-    <?php endif; ?>
+    
   </div>
+  <?php endif; ?>
+  
   <div class="col-md-6">
     <div class="mb-4">
       <h2 class="h4 text-primary">Contatti</h2>

@@ -41,6 +41,9 @@ require_once get_stylesheet_directory(). '/_dev/inc/logic/formazione/formazione-
 require_once get_stylesheet_directory(). '/_dev/inc/logic/formazione/utility-shortcode-formazione.php';
 
 
+// Sidebar text alternative include (deve essere prima di sidebar-mod.php)
+require_once get_stylesheet_directory(). '/_dev/inc/logic/sidebar/sidebar-text-alternatve.php';
+
 // Sidebar include
 require_once get_stylesheet_directory(). '/_dev/inc/logic/sidebar/sidebar-mod.php';
 
