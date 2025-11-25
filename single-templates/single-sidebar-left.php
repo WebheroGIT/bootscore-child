@@ -21,7 +21,7 @@ get_header();
       <?php the_breadcrumb(); ?>
 
       <div class="row">
-        <?php get_sidebar(); ?>
+        <?php custom_sidebar_rules(); ?>
         <div class="<?= apply_filters('bootscore/class/main/col', 'col'); ?>">
 
           <main id="main" class="site-main">

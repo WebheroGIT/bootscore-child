@@ -84,7 +84,7 @@ get_header();
               </div>
 
             </div>
-            <?php get_sidebar(); ?>
+            <?php custom_sidebar_rules(); ?>
           </div>
 
         </div>
