@@ -5,3 +5,13 @@
         margin-bottom: 5px!important;
     } 
 }
+
+/* Responsive design da togliere dopo che aggiorniamo il plugin dei teacher */
+@media (max-width: 768px) {
+    .teacher {
+        display: initial!important;
+        margin: initial!important;
+        text-align: initial!important;
+        padding: initial!important;
+    }
+}
