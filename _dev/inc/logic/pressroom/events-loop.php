@@ -35,6 +35,28 @@ function format_date_italian($timestamp, $format) {
     return implode(' ', $date_parts);
 }
 
+// Funzione helper per ottenere l'immagine dell'evento (featured o fallback)
+function get_evento_image($post_id) {
+    // Prova a ottenere la featured image
+    $thumbnail_url = get_the_post_thumbnail_url($post_id, 'full');
+    
+    // Se non c'è featured image, usa l'immagine di fallback con ID 4280
+    if (!$thumbnail_url) {
+        $fallback_image_id = 4280;
+        $fallback_url = wp_get_attachment_image_url($fallback_image_id, 'full');
+        if ($fallback_url) {
+            $thumbnail_url = $fallback_url;
+        }
+    }
+    
+    if ($thumbnail_url) {
+        return '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(' . esc_url($thumbnail_url) . '); background-size: cover; background-position: center;"></div>';
+    } else {
+        // Fallback finale se nemmeno l'immagine 4280 è disponibile
+        return '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #e9ecef;"></div>';
+    }
+}
+
 function eventi_shortcode($atts) {
     // Parametri di default
     $atts = shortcode_atts(
@@ -104,6 +126,7 @@ function eventi_shortcode($atts) {
             if ($start_timestamp > $current_date) {
                 // Evento futuro (inizia dopo oggi)
                 $future_events[] = [
+                    'id' => get_the_ID(),
                     'title' => get_the_title(),
                     'start_date' => $start_timestamp,
                     'end_date' => $end_timestamp,
@@ -112,6 +135,7 @@ function eventi_shortcode($atts) {
             } elseif ($start_timestamp <= $current_date && $end_timestamp >= $current_date) {
                 // Evento in corso (iniziato oggi o prima, ma finisce oggi o dopo)
                 $current_events[] = [
+                    'id' => get_the_ID(),
                     'title' => get_the_title(),
                     'start_date' => $start_timestamp,
                     'end_date' => $end_timestamp,
@@ -120,6 +144,7 @@ function eventi_shortcode($atts) {
             } else {
                 // Evento passato (finito prima di oggi)
                 $past_events[] = [
+                    'id' => get_the_ID(),
                     'title' => get_the_title(),
                     'start_date' => $start_timestamp,
                     'end_date' => $end_timestamp,
@@ -156,6 +181,12 @@ function eventi_shortcode($atts) {
                         $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                         $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                     $output .= '</div>';
+                    // Featured image subito dopo l'header
+                    $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
+                        $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                            $output .= get_evento_image($event['id']);
+                        $output .= '</a>';
+                    $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
                         // Mostra solo una data se inizio e fine sono uguali
                         if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
@@ -164,7 +195,7 @@ function eventi_shortcode($atts) {
                             $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                         }
                     $output .= '</div>';
-                    $output .= '<div class="card-body bg-light p-4 h-100">';
+                    $output .= '<div class="card-body bg-light p-4">';
                         $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                         $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                     $output .= '</div>';
@@ -177,7 +208,7 @@ function eventi_shortcode($atts) {
         
         // Mostra gli eventi in corso per primi
         if (count($current_events) > 0) {
-            $output .= '<div class="mb-5 p-4 rounded" style="background-color: #d4edda; border: 1px solid #c3e6cb;">';
+            $output .= '<div class="mb-5 rounded">';
                 $output .= '<div class="mb-4">';
                     $output .= '<h3 class="d-inline-block mb-3">';
                         $output .= '<span class="badge bg-success text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Eventi in corso</span>';
@@ -192,6 +223,12 @@ function eventi_shortcode($atts) {
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
+                        // Featured image subito dopo l'header
+                        $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
+                            $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                                $output .= get_evento_image($event['id']);
+                            $output .= '</a>';
+                        $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
                             // Mostra solo una data se inizio e fine sono uguali
                             if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
@@ -200,7 +237,7 @@ function eventi_shortcode($atts) {
                                 $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                             }
                         $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4 h-100">';
+                        $output .= '<div class="card-body bg-light p-4">';
                             $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                             $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                         $output .= '</div>';
@@ -214,10 +251,10 @@ function eventi_shortcode($atts) {
         
         // Poi mostra gli eventi futuri
         if (count($future_events) > 0) {
-            $output .= '<div class="mb-5 p-4 rounded" style="background-color: #ebebeb; border: 1px solid #bcbcbc;">';
+            $output .= '<div class="mb-5 rounded">';
                 $output .= '<div class="mb-4">';
                     $output .= '<h3 class="d-inline-block mb-3">';
-                        $output .= '<span class="badge bg-primary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #379975;">Prossimi eventi</span>';
+                        $output .= '<span class="badge bg-primary text-white px-4 py-2 fs-5 fw-normal rounded-pill">Prossimi eventi</span>';
                     $output .= '</h3>';
                 $output .= '</div>';
                 $output .= '<div class="row">'; // Inizio della griglia
@@ -229,6 +266,12 @@ function eventi_shortcode($atts) {
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
+                        // Featured image subito dopo l'header
+                        $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
+                            $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                                $output .= get_evento_image($event['id']);
+                            $output .= '</a>';
+                        $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
                             // Mostra solo una data se inizio e fine sono uguali
                             if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
@@ -237,7 +280,7 @@ function eventi_shortcode($atts) {
                                 $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                             }
                         $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4 h-100">';
+                        $output .= '<div class="card-body bg-light p-4">';
                             $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                             $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                         $output .= '</div>';
@@ -257,7 +300,7 @@ function eventi_shortcode($atts) {
 			$total_pages = (int) ceil($total_past / $per_page);
 			$offset = ($current_page - 1) * $per_page;
 			$paged_past_events = array_slice($past_events, $offset, $per_page);
-            $output .= '<div class="mb-5 p-4 rounded" style="background-color: #ffe6cc; border: 1px solid #ffcc99;">';
+            $output .= '<div class="mb-5 rounded">';
                 $output .= '<div class="mb-4">';
                     $output .= '<h3 class="d-inline-block mb-3">';
                         $output .= '<span class="badge bg-secondary text-white px-4 py-2 fs-5 fw-normal rounded-pill" style="border: 2px solid #FF914D;">Eventi passati</span>';
@@ -272,6 +315,12 @@ function eventi_shortcode($atts) {
                             $output .= '<span>' . date('Y', $event['start_date']) . '</span>'; // Anno
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
+                        // Featured image subito dopo l'header
+                        $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
+                            $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                                $output .= get_evento_image($event['id']);
+                            $output .= '</a>';
+                        $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
                             // Mostra solo una data se inizio e fine sono uguali
                             if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
@@ -280,7 +329,7 @@ function eventi_shortcode($atts) {
                                 $output .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
                             }
                         $output .= '</div>';
-                        $output .= '<div class="card-body bg-light p-4 h-100">';
+                        $output .= '<div class="card-body bg-light p-4">';
                             $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
                             $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
                         $output .= '</div>';
@@ -360,6 +409,7 @@ function load_past_events_ajax() {
 			if ($end_timestamp === false || $end_timestamp < 0) { $end_timestamp = 0; }
 			if (!($start_timestamp > $current_date) && !($start_timestamp <= $current_date && $end_timestamp >= $current_date)) {
 				$past_events[] = [
+					'id' => get_the_ID(),
 					'title' => get_the_title(),
 					'start_date' => $start_timestamp,
 					'end_date' => $end_timestamp,
@@ -384,6 +434,12 @@ function load_past_events_ajax() {
 					$html .= '<span>' . date('Y', $event['start_date']) . '</span>';
 					$html .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>';
 				$html .= '</div>';
+				// Featured image subito dopo l'header
+				$html .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
+					$html .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+						$html .= get_evento_image($event['id']);
+					$html .= '</a>';
+				$html .= '</div>';
 				$html .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
 					if (date('Y-m-d', $event['start_date']) === date('Y-m-d', $event['end_date'])) {
 						$html .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . '</span>';
@@ -391,7 +447,7 @@ function load_past_events_ajax() {
 						$html .= '<span>' . format_date_italian($event['start_date'], 'M j, Y') . ' - ' . format_date_italian($event['end_date'], 'M j, Y') . '</span>';
 					}
 				$html .= '</div>';
-				$html .= '<div class="card-body bg-light p-4 h-100">';
+				$html .= '<div class="card-body bg-light p-4">';
 					$html .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
 					$html .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
 				$html .= '</div>';
