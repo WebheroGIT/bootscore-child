@@ -1,4 +1,5 @@
 @use 'header/main' as header;
+@use 'footer/main-footer' as footer;
 
 @use 'utility/utility.scss' as utility;
 @use 'settings/settings.scss' as settings;
@@ -14,4 +15,3 @@
 @use 'plugins/style.scss' as plugins;
 
 @use 'components/banner-evidenza' as banner-evidenza;
-

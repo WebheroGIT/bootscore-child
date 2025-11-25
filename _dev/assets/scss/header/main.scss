@@ -275,6 +275,178 @@
   }
 }
 
+// Nascondi completamente il top-bar-widget sotto i 991px
+@media(max-width: 991px) {
+  .top-bar-widget {
+    display: none !important;
+  }
+  
+  // Cambia il background dell'header a bg-primary a 991px
+  .site-header {
+    background-color: var(--bs-primary, #0d6efd) !important;
+  }
+  
+  // Stili per btn-my-container nell'offcanvas-body
+  .offcanvas-body .btn-my-container {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; // Allineato a sinistra come il menu
+  }
+  
+  .offcanvas-body .btn-my-container a.btn-unimarconi {
+    width: 136px;
+    height: 40px;
+    line-height: 40px;
+  }
+  
+  // Forza il colore bianco per l'icona di ricerca in mobile
+  .search-toggle-wrapper .search-toggle i,
+  .search-toggle i {
+    color: #fff !important;
+  }
+  
+  // Forza il colore bianco per l'icona del menu hamburger in mobile
+  .nav-toggler i {
+    color: #fff !important;
+  }
+  
+  // Stili per il pulsante nav-toggler in mobile (bordo bianco per visibilità)
+  .nav-toggler {
+    border-color: #fff !important;
+    color: #fff !important;
+  }
+  
+  .nav-toggler:hover {
+    border-color: rgba(255, 255, 255, 0.8) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  // Pulsante MyUniMarconi fixed sotto header (solo home, solo mobile)
+  .btn-my-fixed-container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1019; // Sotto l'header (che è 1020) ma sopra il contenuto
+    background-color: transparent; // Nessun background, solo il pulsante
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // La posizione top viene calcolata dinamicamente via JS basandosi sull'altezza dell'header
+  }
+  
+  .btn-my-fixed-container .btn-my-container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btn-my-fixed-container .btn-my-container a.btn-unimarconi {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+    border-radius: 0;
+    background-position: center; // Centra l'immagine di background
+    background-size: cover;
+  }
+  
+  // Container sticky per pulsanti formazione (solo mobile, solo formazione)
+  .formazione-sticky-buttons-container {
+    position: fixed;
+    background-color: #fff;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1019; // Sotto l'header (1020) ma sopra il contenuto
+    padding: 0;
+    pointer-events: none; // Permetti click attraverso quando non ci sono elementi
+    
+    // Quando ci sono elementi, abilita i click
+    &.has-sidebar-btn,
+    &.has-iscrizione-btn {
+      pointer-events: auto;
+    }
+    
+    // Se ci sono entrambi i pulsanti, usa Grid 1fr 1fr (stessa linea orizzontale)
+    &.has-sidebar-btn.has-iscrizione-btn {
+      display: grid;
+      grid-template-columns: 1fr 1fr; // Due colonne uguali sulla stessa linea
+      gap: 0;
+      align-items: stretch;
+    }
+    
+    // Se c'è solo uno dei due, usa flexbox per centrare o posizionare
+    &.has-sidebar-btn:not(.has-iscrizione-btn),
+    &.has-iscrizione-btn:not(.has-sidebar-btn) {
+      display: flex;
+      align-items: stretch;
+    }
+    
+    // Button sidebar (sinistra)
+    .formazione-sticky-sidebar-btn {
+      pointer-events: auto;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      margin-bottom: 0px!important;
+      padding-top: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
+      
+      // Stili interni per mantenere le proprietà originali del button
+      button {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+    }
+    
+    // Link iscrizione (destra)
+    .formazione-sticky-iscrizione-btn {
+      pointer-events: auto;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      
+      // Stili interni per mantenere le proprietà originali del link
+      a {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+
+    /* Solo i link di primo livello del menu */
+    .navbar-nav > li > a {
+        font-size: 1.3rem !important;
+    }
+
+    .mobile-actions-container {
+      justify-content: space-between!important;
+      width: 85%;
+    }
+
+}
+
 .menu-formativa .shadow {
   box-shadow: 0 2px 6px rgba(0, 0, 0, .1)!important;
 }
@@ -285,3 +457,9 @@
   font-size: 1.2em;
   transition: transform 0.3s ease;
 }
+
+.formazione-sticky-buttons-container .btn-iscrizioni-formazione {
+  position: initial!important;
+}
+
+

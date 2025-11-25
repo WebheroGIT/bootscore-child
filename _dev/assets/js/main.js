@@ -14,6 +14,9 @@ import './utility/video-modal.js';
 // Moduli di utilità
 import './menu-btn-shift.js';
 
+// Moduli formazione
+import './formazione-sticky-buttons.js';
+
 // Moduli specifici per funzionalità
 // platform-interceptor.js è stato spostato nel plugin unimarconi-course-linker
 
