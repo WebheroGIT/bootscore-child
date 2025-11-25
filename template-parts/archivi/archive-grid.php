@@ -1,8 +1,8 @@
 <?php
 /**
- * Template part for displaying category posts in grid layout
- * Uses the same visualization as the [articoli] shortcode
- * Used by archive.php for category archives
+ * Template part for displaying archive posts in grid layout
+ * Uses the same visualization as category-grid.php and formazione/progetto archives
+ * Used by archive.php for standard archives and by search.php
  *
  * @package Bootscore Child
  */
@@ -21,18 +21,18 @@ defined('ABSPATH') || exit;
     }
 </style>
 
-<div class="row row-cols-1 row-cols-md-3 g-4 wpgb-content mb-5">
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
 
   <?php if (have_posts()) : ?>
     <?php while (have_posts()) : the_post(); ?>
 
-      <?php do_action('bootscore_before_loop_item', 'category-grid'); ?>
+      <?php do_action('bootscore_before_loop_item', 'archive-grid'); ?>
 
       <div class="col h-100">
         
         <article id="post-<?php the_ID(); ?>" <?php post_class('card mb-4 d-flex flex-column'); ?> style="border-radius: 10px;overflow:hidden;height:100%">
 
-          <!-- Featured image in alto (stampa sempre come nello shortcode articoli) -->
+          <!-- Featured image in alto (stampa sempre) -->
           <div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">
             <a href="<?php the_permalink(); ?>" style="display: block; width: 100%; height: 100%;">
               <?php 
@@ -81,7 +81,7 @@ defined('ABSPATH') || exit;
 
       </div>
 
-      <?php do_action('bootscore_after_loop_item', 'category-grid'); ?>
+      <?php do_action('bootscore_after_loop_item', 'archive-grid'); ?>
 
     <?php endwhile; ?>
   <?php endif; ?>
@@ -89,8 +89,7 @@ defined('ABSPATH') || exit;
 </div>
 
 <?php
-// La paginazione viene gestita da archive.php dopo questo template part
+// La paginazione viene gestita da archive.php o search.php dopo questo template part
 // Non serve wp_reset_postdata() perché usiamo la query globale
 ?>
-
 

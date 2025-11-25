@@ -49,7 +49,7 @@ get_header();
                     <div class="<?= apply_filters('bootscore/class/loop/card/row', 'row g-0', 'index'); ?>">
 
                       <?php if (has_post_thumbnail()) : ?>
-                        <div class="<?= apply_filters('bootscore/class/loop/card/image/col', 'col-lg-6 col-xl-5 col-xxl-4 overflow-hiddenoverflow-hidden', 'index'); ?>">
+                        <div class="<?= apply_filters('bootscore/class/loop/card/image/col', 'col-lg-6 col-xl-5 col-xxl-4 overflow-hidden', 'index'); ?>">
                           <a href="<?php the_permalink(); ?>">
                             <?php the_post_thumbnail('medium', array('class' => apply_filters('bootscore/class/loop/card/image', 'card-img-lg-start', 'index'))); ?>
                           </a>
