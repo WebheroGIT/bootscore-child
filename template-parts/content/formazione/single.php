@@ -14,15 +14,69 @@ foreach ($terms as $term) {
   }
 }
 
-// Se dobbiamo mostrare l'header, prendi il nome della prima categoria
+// Logica a cascata per determinare la categoria da mostrare
 $cat_name = '';
-if ($show_header && !empty($terms)) {
-  $term = $terms[0];
-  $cat_name = $term->name;
+if ($show_header) {
+  // 1. PRIORITÀ MASSIMA: Controlla il campo personalizzato 'corso_categoria_fittizia'
+  $categoria_fittizia = '';
   
-  // Trasforma il nome della categoria per visualizzazione singolare
-  if ($term->slug === 'lauree-triennali') {
-    $cat_name = 'Laurea Triennale';
+  // Prova diversi modi per recuperare il campo personalizzato
+  if (function_exists('get_field')) {
+    $categoria_fittizia = get_field('corso_categoria_fittizia');
+  }
+  // Se ACF non funziona, prova con get_post_meta
+  if (empty($categoria_fittizia)) {
+    $categoria_fittizia = get_post_meta(get_the_ID(), 'corso_categoria_fittizia', true);
+  }
+  
+  if (!empty($categoria_fittizia)) {
+    // Se il campo contiene solo il simbolo "-", non stampare nulla
+    if (trim($categoria_fittizia) === '-') {
+      $cat_name = '';
+    } else {
+      $cat_name = $categoria_fittizia;
+    }
+  }
+  // 2. SECONDA PRIORITÀ: Controlla se c'è una primary term impostata con RankMath
+  elseif (!empty($terms)) {
+    $primary_term = null;
+    
+    // Prova diversi modi per recuperare la primary term di RankMath
+    $primary_term_id = null;
+    
+    // Metodo 1: Funzione RankMath standard
+    if (function_exists('rank_math_get_primary_term')) {
+      $primary_term_id = rank_math_get_primary_term($taxonomy);
+    }
+    
+    // Metodo 2: Se il primo non funziona, prova con get_post_meta
+    if (!$primary_term_id) {
+      $primary_term_id = get_post_meta(get_the_ID(), 'rank_math_primary_' . $taxonomy, true);
+    }
+    
+    // Metodo 3: Prova con il meta key alternativo
+    if (!$primary_term_id) {
+      $primary_term_id = get_post_meta(get_the_ID(), '_rank_math_primary_term_' . $taxonomy, true);
+    }
+    
+    // Se abbiamo trovato una primary term, cerchiamola tra i terms
+    if ($primary_term_id) {
+      foreach ($terms as $term) {
+        if ($term->term_id == $primary_term_id) {
+          $primary_term = $term;
+          break;
+        }
+      }
+    }
+    
+    // Se abbiamo una primary term, usala, altrimenti usa la prima categoria
+    $selected_term = $primary_term ? $primary_term : $terms[0];
+    $cat_name = $selected_term->name;
+    
+    // Trasforma il nome della categoria per visualizzazione singolare
+    if ($selected_term->slug === 'lauree-triennali') {
+      $cat_name = 'Laurea Triennale';
+    }
   }
 }
 
@@ -59,7 +113,9 @@ if ($show_header) :
       <?php endif; ?>
       <!-- END relazione dipartimento -->
 
-        <small class="text-uppercase fw-semibold"><?php echo esc_html($cat_name); ?></small>
+        <?php if (!empty($cat_name)) : ?>
+          <small class="text-uppercase fw-semibold"><?php echo esc_html($cat_name); ?></small>
+        <?php endif; ?>
         <h1 class="mt-1"><?php the_title(); ?></h1>
 
         <?php
@@ -72,7 +128,7 @@ if ($show_header) :
     </div>
 
     <div class="col-featured position-relative h-100">
-      <div class="img-wrapper position-absolute top-0 start-0 end-0 bottom-0">
+      <div class="img-wrapper position-absolute top-0 start-0 end-0 bottom-0" style="aspect-ratio: 14 / 9;height: 100%;width: 100%;">
         <?php if (has_post_thumbnail()) : ?>
           <?php the_post_thumbnail('large', ['class' => 'img-fluid h-100 w-100 img-formazione']); ?>
         <?php else : ?>

@@ -36,7 +36,7 @@ if ($formazioni) {
         <div class="col-md-7 p-4">
           <small class="text-uppercase fw-semibold"><?php echo esc_html($cat_name); ?></small>
           <h1 class="mt-1">
-            <a href="<?php echo get_permalink( $formazione_id ); ?>" class="text-white text-decoration-underline">
+            <a href="<?php echo get_permalink( $formazione_id ); ?>" class="text-white">
               <?php echo get_the_title( $formazione_id ); ?>
             </a>
           </h1>

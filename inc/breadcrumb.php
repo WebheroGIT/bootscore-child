@@ -9,6 +9,9 @@
 
 defined('ABSPATH') || exit;
 
+// Include il file per i breadcrumb dei piani
+require_once get_stylesheet_directory() . '/inc/breadcrumb-var-piano.php';
+
 if (!function_exists('the_breadcrumb')) :
   function the_breadcrumb() {
 
@@ -42,9 +45,15 @@ if (!function_exists('the_breadcrumb')) :
       // Se è un single post o custom post
       elseif (is_single()) {
         $post_type = get_post_type();
+        $current_post_id = get_the_ID();
 
-        // Se è un custom post type (diverso da "post")
-        if ($post_type !== 'post') {
+        // GESTIONE SPECIALE per post type "piano"
+        // Mostra: Home > Offerta Formativa > Categorie formazione > Formazione > Piano
+        if ($post_type === 'piano') {
+          breadcrumb_piano($current_post_id);
+        }
+        // Se è un custom post type (diverso da "post" e da "piano")
+        elseif ($post_type !== 'post') {
           $post_type_obj = get_post_type_object($post_type);
           if ($post_type_obj && $post_type_obj->has_archive) {
             $archive_link = get_post_type_archive_link($post_type);
@@ -118,7 +127,9 @@ if (!function_exists('the_breadcrumb')) :
             }
           }
 
-        } else {
+        }
+        // Se è un post normale (non custom post type e non piano)
+        else {
           // Se è un post normale, mostra la gerarchia della categoria primaria (Rank Math se presente)
           $categories = get_the_category(get_the_ID());
           if (!empty($categories)) {
@@ -167,8 +178,10 @@ if (!function_exists('the_breadcrumb')) :
           }
         }
         
-        // Titolo del post corrente
-        echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html(get_the_title()) . '</li>';
+        // Titolo del post corrente (non mostrare per piano, già gestito in breadcrumb_piano)
+        if ($post_type !== 'piano') {
+          echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html(get_the_title($current_post_id)) . '</li>';
+        }
       }
 
       // GESTIONE ARCHIVE PAGES per le tassonomie
