@@ -16,7 +16,22 @@ function custom_sidebar_rules() {
         return; // Esci senza mostrare nulla
     }
     
+    // IMPORTANTE: Questa funzione deve essere chiamata solo in contesti single/page
+    // Non funziona in archivi, quindi usciamo prima se siamo in un archivio
+    if (is_archive() || is_home() || is_search()) {
+        // In archivi, mostra la sidebar standard
+        get_sidebar();
+        return;
+    }
+    
+    // Verifica che siamo in un contesto valido (single o page)
     $current_post_id = get_the_ID();
+    if (!$current_post_id) {
+        // Se non c'è un post ID, mostra la sidebar standard e esci
+        get_sidebar();
+        return;
+    }
+    
     $current_post_type = get_post_type();
     $show_sidebar = false;
     $suppress_default_sidebar = false; // Se true, evita la sidebar di default
@@ -36,8 +51,8 @@ function custom_sidebar_rules() {
         // 'servizi'
     );
     
-    // Regola speciale per formazione e dottorato
-    if ($current_post_type === 'formazione' || $current_post_type === 'dottorato') {
+    // Regola speciale per formazione, scuole e dottorato (usano corso_wysiwyg_sidebar)
+    if ($current_post_type === 'formazione' || $current_post_type === 'scuole' || $current_post_type === 'dottorato') {
         // Prima controlla se c'è contenuto WYSIWYG personalizzato
         $corso_wysiwyg_sidebar = rwmb_meta('corso_wysiwyg_sidebar');
         if (!empty($corso_wysiwyg_sidebar)) {
@@ -53,12 +68,6 @@ function custom_sidebar_rules() {
         }
     }
     
-    // Regola speciale per eventi con form WSForm
-    if ($current_post_type === 'eventi') {
-        $show_sidebar = true;
-        $sidebar_content = 'eventi_form'; // Indica che deve mostrare form WSForm per eventi
-    }
-
     // Regola speciale per tirocinio: mostra le relazioni in sidebar, mai form
     if ($current_post_type === 'tirocinio') {
         if (class_exists('MB_Relationships_API')) {
@@ -90,6 +99,25 @@ function custom_sidebar_rules() {
         }
     }
     
+    // Regola per all_wysiwyg_sidebar: applicata a tutti gli altri post types/pagine
+    // (escludendo formazione, scuole, dottorato che usano corso_wysiwyg_sidebar)
+    // Questa regola ha priorità sulla sidebar di default ma non sovrascrive le regole speciali sopra
+    if ($current_post_type !== 'formazione' && $current_post_type !== 'scuole' && $current_post_type !== 'dottorato') {
+        // Controlla all_wysiwyg_sidebar solo se non è già stata impostata una sidebar_content speciale
+        if (!in_array($sidebar_content, ['eventi_form', 'tirocinio_relations', 'wysiwyg_progetto'])) {
+            $all_wysiwyg_sidebar = rwmb_meta('all_wysiwyg_sidebar');
+            if (!empty($all_wysiwyg_sidebar)) {
+                $show_sidebar = true;
+                $sidebar_content = 'wysiwyg_all'; // Indica che deve mostrare contenuto WYSIWYG da all_wysiwyg_sidebar
+            }
+        }
+    }
+    
+    // Regola per eventi: di default nessuna sidebar a meno che non ci sia contenuto custom
+    if ($current_post_type === 'eventi' && empty($sidebar_content)) {
+        $suppress_default_sidebar = true;
+    }
+
     // Controlla se il post ID corrente è nella lista degli ID consentiti
     if (in_array($current_post_id, $allowed_post_ids)) {
         $show_sidebar = true;
@@ -143,7 +171,7 @@ function custom_sidebar_rules() {
             </div>
             <?php
         } elseif ($sidebar_content === 'wysiwyg') {
-            // Sidebar speciale per formazione con contenuto WYSIWYG personalizzato
+            // Sidebar speciale per formazione/scuole/dottorato con contenuto WYSIWYG personalizzato (corso_wysiwyg_sidebar)
             $corso_wysiwyg_sidebar = rwmb_meta('corso_wysiwyg_sidebar');
             ?>
             <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
@@ -163,6 +191,36 @@ function custom_sidebar_rules() {
                             <div class="widget">
                                 <!-- Contenuto WYSIWYG personalizzato -->
                                 <?php echo wp_kses_post($corso_wysiwyg_sidebar); ?>
+                            </div>
+                            
+                            <?php do_action('bootscore_after_sidebar_widgets'); ?>
+                            
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <?php
+        } elseif ($sidebar_content === 'wysiwyg_all') {
+            // Sidebar per tutti gli altri post types/pagine con contenuto WYSIWYG personalizzato (all_wysiwyg_sidebar)
+            $all_wysiwyg_sidebar = rwmb_meta('all_wysiwyg_sidebar');
+            ?>
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+                <aside id="secondary" class="widget-area">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                        <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
+                    </button>
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                        <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
+                            <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Informazioni', 'bootscore')); ?></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body flex-column <?= apply_filters('bootscore/class/offcanvas/body', '', 'sidebar'); ?>">
+                            
+                            <?php do_action('bootscore_before_sidebar_widgets'); ?>
+                            
+                            <div class="widget">
+                                <!-- Contenuto WYSIWYG personalizzato da all_wysiwyg_sidebar -->
+                                <?php echo wp_kses_post($all_wysiwyg_sidebar); ?>
                             </div>
                             
                             <?php do_action('bootscore_after_sidebar_widgets'); ?>
@@ -308,10 +366,11 @@ add_action('wp', function() {
     if (is_post_type_archive('progetto')) {
         // Rimuovi eventuali hook che potrebbero mostrare la sidebar
         remove_action('get_sidebar', 'custom_sidebar_rules', 10);
-        // Disabilita completamente la sidebar per l'archivio progetti
+        // Disabilita solo la sidebar principale (sidebar-1) per l'archivio progetti
+        // NON disabilitare i widget di header/footer (top-bar, top-nav, top-nav-2, etc.)
         add_filter('is_active_sidebar', function($is_active_sidebar, $index) {
-            if (is_post_type_archive('progetto')) {
-                return false; // Disabilita tutti i widget nella sidebar
+            if (is_post_type_archive('progetto') && $index === 'sidebar-1') {
+                return false; // Disabilita solo la sidebar principale
             }
             return $is_active_sidebar;
         }, 10, 2);

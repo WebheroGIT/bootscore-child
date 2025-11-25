@@ -23,7 +23,8 @@ get_header();
       <div class="row">
         <div class="<?php 
         // Per l'archivio di progetto, usa colonna a larghezza piena (senza sidebar)
-        if (is_post_type_archive('progetto')) {
+        // Per la tassonomia cat-eventi con termine terza-missione, usa colonna a larghezza piena (senza sidebar)
+        if (is_post_type_archive('progetto') || is_tax('cat-eventi', 'terza-missione')) {
           echo 'col-12';
         } else {
           echo apply_filters('bootscore/class/main/col', 'col');
@@ -149,81 +150,8 @@ get_header();
               <?php elseif ($is_category_archive) : ?>
                 <?php get_template_part('template-parts/archivi/category-grid'); ?>
               <?php else : ?>
-                <?php while (have_posts()) : the_post(); ?>
-            
-              <?php do_action('bootscore_before_loop_item', 'archive'); ?>
-
-                <article id="post-<?php the_ID(); ?>" <?php post_class( apply_filters('bootscore/class/loop/card', 'card horizontal mb-4', 'archive') ); ?>>
-                  
-                  <div class="<?= apply_filters('bootscore/class/loop/card/row', 'row g-0', 'archive'); ?>">
-
-                    <?php if (has_post_thumbnail()) : ?>
-                      <div class="<?= apply_filters('bootscore/class/loop/card/image/col', 'col-lg-6 col-xl-5 col-xxl-4 overflow-hidden', 'archive'); ?>">
-                        <a href="<?php the_permalink(); ?>">
-                          <?php the_post_thumbnail('medium', array('class' => apply_filters('bootscore/class/loop/card/image', 'card-img-lg-start', 'archive'))); ?>
-                        </a>
-                      </div>
-                    <?php endif; ?>
-
-                    <div class="<?= apply_filters('bootscore/class/loop/card/content/col', 'col', 'archive'); ?>">
-                      <div class="<?= apply_filters('bootscore/class/loop/card/body', 'card-body', 'archive'); ?>">
-
-                        <?php if (apply_filters('bootscore/loop/category', true, 'archive')) : ?>
-                          <?php bootscore_category_badge(); ?>
-                        <?php endif; ?>
-
-                        <?php do_action('bootscore_before_loop_title', 'archive'); ?>
-                        
-                        <a class="text-body text-decoration-none" href="<?php the_permalink(); ?>">
-                          <?php the_title('<h2 class="' . apply_filters('bootscore/class/loop/card/title', 'blog-post-title h5', 'archive') . '">', '</h2>'); ?>
-                        </a>
-
-                        <?php if (apply_filters('bootscore/loop/meta', true, 'archive')) : ?>
-                          <?php if ('post' === get_post_type()) : ?>
-                            <p class="meta small mb-2 text-body-secondary">
-                              <?php
-                              bootscore_date();
-                              //bootscore_author();
-                              bootscore_comments();
-                              bootscore_edit();
-                              ?>
-                            </p>
-                          <?php endif; ?>
-                        <?php endif; ?>
-
-                        <?php if (apply_filters('bootscore/loop/excerpt', true, 'archive')) : ?>
-                          <p class="<?= apply_filters('bootscore/class/loop/card-text/excerpt', 'card-text', 'archive'); ?>">
-                            <a class="text-body text-decoration-none" href="<?php the_permalink(); ?>">
-                              <?= strip_tags(get_the_excerpt()); ?>
-                            </a>
-                          </p>
-                        <?php endif; ?>
-
-                        <?php if (apply_filters('bootscore/loop/read-more', true, 'archive')) : ?>
-                          <p class="<?= apply_filters('bootscore/class/loop/card-text/read-more', 'card-text', 'archive'); ?>">
-                            <a class="<?= apply_filters('bootscore/class/loop/read-more', 'read-more', 'archive'); ?>" href="<?php the_permalink(); ?>">
-                              <?= apply_filters('bootscore/loop/read-more/text', __('Read more »', 'bootscore', 'archive')); ?>
-                            </a>
-                          </p>
-                        <?php endif; ?>
-
-                        <?php if (apply_filters('bootscore/loop/tags', true, 'archive')) : ?>
-                          <?php bootscore_tags(); ?>
-                        <?php endif; ?>
-
-                      </div>
-                      
-                      <?php do_action('bootscore_loop_item_after_card_body', 'archive'); ?>
-                      
-                    </div>
-                    
-                  </div>
-                  
-                </article>
-            
-                <?php do_action('bootscore_after_loop_item', 'archive'); ?>
-
-                <?php endwhile; ?>
+                <?php // Usa il template grid per gli archivi standard ?>
+                <?php get_template_part('template-parts/archivi/archive-grid'); ?>
               <?php endif; // end else ?>
             <?php endif; // end have_posts ?>
             
@@ -290,7 +218,8 @@ get_header();
         </div>
         <?php 
         // Non mostrare la sidebar nell'archivio di progetto
-        if (!is_post_type_archive('progetto')) {
+        // Non mostrare la sidebar nella tassonomia cat-eventi con termine terza-missione
+        if (!is_post_type_archive('progetto') && !is_tax('cat-eventi', 'terza-missione')) {
           get_sidebar(); 
         }
         ?>
