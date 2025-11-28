@@ -451,11 +451,12 @@
     position: fixed;
     left: 0;
     right: 0;
-    width: 93%;
+    width: 100%;
     z-index: 1019; // Sotto l'header (1020) ma sopra il contenuto
     padding: 0;
     pointer-events: none; // Permetti click attraverso quando non ci sono elementi
-    margin: 5px auto;
+    margin: 0;
+    padding: 5px 10px;
     // Quando ci sono elementi, abilita i click
     &.has-sidebar-btn,
     &.has-iscrizione-btn {
