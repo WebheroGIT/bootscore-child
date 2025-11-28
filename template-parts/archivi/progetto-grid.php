@@ -11,7 +11,7 @@ defined('ABSPATH') || exit;
 ?>
 
 <?php if (function_exists('wpgb_render_facet')) : ?>
-<div class="progetto-filters grid-3 gap-5 mb-2">
+<div class="progetto-filters grid-3 grid-md-1 gap-5 gap-md-2 mb-2">
   <?php wpgb_render_facet(['id' => 7, 'grid' => 'wpgb-content']); ?>
   <?php wpgb_render_facet(['id' => 8, 'grid' => 'wpgb-content']); ?>
   <?php wpgb_render_facet(['id' => 4, 'grid' => 'wpgb-content']); ?>

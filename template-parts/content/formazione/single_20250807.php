@@ -73,7 +73,7 @@ if ($has_valid_cat) :
       </div>
     </div>
 
-    <div class="col-featured position-relative h-100">
+    <div class="col-featured position-relative h-100 overflow-hidden">
       <div class="img-wrapper position-absolute top-0 start-0 end-0 bottom-0">
         <?php if (has_post_thumbnail()) : ?>
           <?php the_post_thumbnail('large', ['class' => 'img-fluid h-100 w-100 img-formazione']); ?>
