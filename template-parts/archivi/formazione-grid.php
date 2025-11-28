@@ -26,7 +26,12 @@ defined('ABSPATH') || exit;
             // Facet 3 per term-6 (master) o term-8 (formazione-insegnanti)
             if ($queried_object->term_id == 6 || $queried_object->term_id == 8) {
                 $show_facet_3 = true;
-                $show_facet_1 = false; // Non mostrare facet 1 quando mostriamo facet 3
+                // Per term-6 (master): mostra sia facet 3 che facet 1
+                // Per term-8 (formazione-insegnanti): nascondi facet 1
+                if ($queried_object->term_id == 8) {
+                    $show_facet_1 = false; // Non mostrare facet 1 solo per term-8
+                }
+                // Per term-6, $show_facet_1 rimane true (mostra entrambi)
             }
         }
     }
