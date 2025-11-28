@@ -394,3 +394,46 @@ h1, h2, h3, h4, h5, h6, strong {
   }
 }
 
+// Gap responsive utilities
+// Breakpoints basati su $breakpoints-max (max-width)
+// md = 767px, lg = 991px
+
+// Gap per breakpoint md (max-width: 767px)
+@media (max-width: 767px) {
+  .gap-md-1 {
+    gap: 0.25rem !important;
+  }
+  .gap-md-2 {
+    gap: 0.5rem !important;
+  }
+  .gap-md-3 {
+    gap: 1rem !important;
+  }
+  .gap-md-4 {
+    gap: 1.5rem !important;
+  }
+  .gap-md-5 {
+    gap: 3rem !important;
+  }
+}
+
+// Gap per breakpoint lg (max-width: 991px)
+@media (max-width: 991px) {
+  .gap-lg-1 {
+    gap: 0.25rem !important;
+  }
+  .gap-lg-2 {
+    gap: 0.5rem !important;
+  }
+  .gap-lg-3 {
+    gap: 1rem !important;
+  }
+  .gap-lg-4 {
+    gap: 1.5rem !important;
+  }
+  .gap-lg-5 {
+    gap: 3rem !important;
+  }
+}
+
+
