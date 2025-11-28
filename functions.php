@@ -114,7 +114,7 @@ add_filter('gettext', function($translated_text, $text, $domain) {
         // Traduzioni italiane
         if ($current_lang === 'it' || get_locale() === 'it_IT') {
             $translations = array(
-                'Open side menu' => 'Apri menu laterale',
+                'Open side menu' => 'Richiedi Informazioni',
                 'Sidebar' => 'Barra laterale',
                 'Search Results for: %s' => 'Risultati di ricerca per: %s',
                 'Nothing Found for' => 'Nessun risultato per',

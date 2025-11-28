@@ -17,7 +17,7 @@ msgstr ""
 
 #: sidebar.php:25
 msgid "Open side menu"
-msgstr "Apri menu laterale"
+msgstr "Richiedi Informazioni"
 
 #: sidebar.php:30
 msgid "Sidebar"
