@@ -78,7 +78,7 @@ $formazione_query = new WP_Query($args);
 ?>
 
 <!-- Grid container con stessa classe del tuo esempio funzionante -->
-<div class="grid-3 grid-lg-2 grid-md-1 gap-4 grid-box-formazione mb-5 wpgb-content">
+<div class="grid-3 grid-xl-2 grid-md-1 gap-4 grid-box-formazione mb-5 wpgb-content">
      
   <?php if ($formazione_query->have_posts()) : ?>
     <?php while ($formazione_query->have_posts()) : $formazione_query->the_post(); ?>

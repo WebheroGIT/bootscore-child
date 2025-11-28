@@ -58,10 +58,10 @@ function stampa_dirigenza_shortcode($atts = array()) {
             $output .= '<div class="col-md-4 mb-4">
                             <div class="card h-100">
                                 <div class="row g-0 h-100">
-                                    <div class="col-lg-5 col-12">
+                                    <div class="col-xl-5 col-12">
                                         <img src="' . esc_url($foto) . '" class="img-fluid rounded-start object-fit-cover h-100" alt="' . get_the_title() . '">
                                     </div>
-                                    <div class="col-lg-7 col-12 bg-light">
+                                    <div class="col-xl-7 col-12 bg-light">
                                         <div class="card-body">
                                             <p class="text-primary fw-bold">' . esc_html($ruolo) . '</p>
                                             <h3 class="card-title">' . get_the_title() . '</h3>

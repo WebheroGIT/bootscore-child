@@ -1,5 +1,91 @@
 @use 'new-menu-walker.scss' as walker;
 
+// ============================================
+// CUSTOM BREAKPOINT 1280px per navbar
+// ============================================
+
+// Classe custom per nascondere elementi sopra 1280px (equivalente a d-lg-none ma per 1280px)
+.d-custom-1280-none {
+  @media (min-width: 1280px) {
+    display: none !important;
+  }
+}
+
+// Navbar expand custom a 1280px (equivalente a navbar-expand-lg ma per 1280px)
+.navbar-expand-custom-1280 {
+  // Sotto 1280px: comportamento mobile (collassato)
+  @media (max-width: 1279px) {
+    .navbar-nav {
+      flex-direction: column;
+    }
+    
+    .offcanvas {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 100%;
+      visibility: hidden;
+      background-color: var(--bs-offcanvas-bg);
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+      
+      &.show {
+        visibility: visible;
+        transform: translateX(0);
+      }
+    }
+  }
+  
+  // Sopra 1280px: comportamento desktop (espanso)
+  @media (min-width: 1280px) {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    
+    .navbar-nav {
+      flex-direction: row;
+    }
+    .navbar-nav .dropdown-menu {
+      position: absolute;
+    }
+    .nav-item-7334 .dropdown-menu.depth_0.show {
+      left: -110px!important;
+    }
+    
+    .offcanvas {
+      position: static;
+      z-index: auto;
+      flex-grow: 1;
+      width: auto !important;
+      height: auto !important;
+      visibility: visible !important;
+      background-color: transparent !important;
+      border: 0 !important;
+      transform: none !important;
+      transition: none;
+      
+      .offcanvas-header {
+        display: none;
+      }
+      
+      .offcanvas-body {
+        display: flex;
+        flex-grow: 0;
+        padding: 0;
+        overflow-y: visible;
+      }
+    }
+    
+    .navbar-collapse {
+      display: flex !important;
+      flex-basis: auto;
+    }
+  }
+}
+
+// ============================================
+
 // logic css per search item
 .search-form-overlay {
   position: fixed;
@@ -190,20 +276,20 @@
 }
 
 
-@media (max-width: 991px) {
+@media (max-width: 1279px) {
 /* Evita che testi lunghissimi causino overflow orizzontale */
   #bootscore-navbar .depth_0 li > a {
     white-space: normal;     /* consente a capo senza rompere il tuo underline */
     word-break: break-word;  /* gestisce parole lunghe */
-    max-width: 40ch;         /* ampiezza “leggibile” per singola voce */
+    max-width: 40ch;         /* ampiezza "leggibile" per singola voce */
   }
 
 }
 
 
-@media (min-width: 992px) {
+@media (min-width: 1280px) {
   #bootscore-navbar {
-    gap: 8px      /* ampiezza “leggibile” per singola voce */
+    gap: 8px      /* ampiezza "leggibile" per singola voce */
   }
 
   #bootscore-navbar .depth_0 {
@@ -254,7 +340,7 @@
 	background-repeat: no-repeat;
 }
 
-@media(min-width: 1200px) {
+@media(min-width: 1280px) {
 	.btn-my-container {
 		line-height: 65px;
 		flex-basis: 136px;
@@ -269,19 +355,19 @@
 	}
 }
 
-@media(min-width:991px) {
+@media(min-width:1280px) {
   .top-bar-widget .search-toggle-wrapper i {
     color: #fff;
   }
 }
 
-// Nascondi completamente il top-bar-widget sotto i 991px
-@media(max-width: 991px) {
+// Nascondi completamente il top-bar-widget sotto i 1280px
+@media(max-width: 1279px) {
   .top-bar-widget {
     display: none !important;
   }
   
-  // Cambia il background dell'header a bg-primary a 991px
+  // Cambia il background dell'header a bg-primary sotto 1280px
   .site-header {
     background-color: var(--bs-primary, #0d6efd) !important;
   }

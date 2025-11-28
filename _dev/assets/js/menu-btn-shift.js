@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function handleResponsiveElements() {
-        const isMobile = window.innerWidth < 992;
+        const isMobile = window.innerWidth < 1280;
         const isHome = isHomePage();
         
         if (isMobile) {
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const bootscoreNavbar = document.querySelector('#bootscore-navbar');
         
         // IMPORTANTE: Ripristina sempre gli elementi su desktop PRIMA di controllare mobile
-        if (window.innerWidth >= 992) {
+        if (window.innerWidth >= 1280) {
             // Su desktop, assicurati che il pulsante originale sia visibile
             if (myUniOffcanvasClone) {
                 myUniOffcanvasClone.remove();
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Se siamo in mobile e il menu è presente ma il clone non esiste ancora
-        if (window.innerWidth < 992 && offcanvasBody && bootscoreNavbar && !myUniOffcanvasClone && myUniButton) {
+        if (window.innerWidth < 1280 && offcanvasBody && bootscoreNavbar && !myUniOffcanvasClone && myUniButton) {
             // Sposta btn-my-container nell'offcanvas-body, prima del menu
             myUniOffcanvasClone = myUniButton.cloneNode(true);
             myUniButton.style.display = 'none';
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // IMPORTANTE: PRIMA di tutto, su desktop ripristina SEMPRE tutti gli elementi
     // Questo previene che handleResponsiveElements() nasconda elementi su desktop
-    if (window.innerWidth >= 992) {
+    if (window.innerWidth >= 1280) {
         // Trova e ripristina tutti gli elementi possibili su desktop
         const allTopBarWidgets = document.querySelectorAll('.top-bar-widget');
         allTopBarWidgets.forEach(function(widget) {
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
     handleResponsiveElements();
     
     // Controlla se il menu è già presente, altrimenti riprova dopo un breve delay (solo mobile)
-    if (window.innerWidth < 992) {
+    if (window.innerWidth < 1280) {
         if (!document.querySelector('#bootscore-navbar')) {
             // Se il menu non è presente, riprova dopo che il DOM è completamente caricato
             setTimeout(() => {
@@ -275,13 +275,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Aggiorna la posizione del pulsante fixed dopo che tutto è caricato
     setTimeout(() => {
-        if (isHomePage() && window.innerWidth < 992) {
+        if (isHomePage() && window.innerWidth < 1280) {
             updateFixedButtonPosition();
         }
         
         // ULTIMO CONTROLLO: Ripristina SEMPRE tutto su desktop dopo un breve delay
         // Questo previene eventuali problemi di timing o altri script che nascondono elementi
-        if (window.innerWidth >= 992) {
+        if (window.innerWidth >= 1280) {
             const allTopBarWidgets = document.querySelectorAll('.top-bar-widget');
             allTopBarWidgets.forEach(function(widget) {
                 widget.style.display = '';

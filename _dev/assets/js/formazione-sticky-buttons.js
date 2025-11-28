@@ -1,7 +1,7 @@
 /**
  * Sticky buttons per pagine formazione (mobile only)
  * 
- * Da 991px in giù:
+ * Da 1279px in giù:
  * - Button "Richiedi informazioni" della sidebar → sticky sotto header a sinistra
  * - Link "Iscriviti" → sticky sotto header a destra
  * 
@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
                (document.querySelector('.single-formazione') !== null);
     }
     
-    // Verifica se siamo in mobile
+    // Verifica se siamo in mobile (breakpoint 1280px)
     function isMobile() {
-        return window.innerWidth < 992;
+        return window.innerWidth < 1280;
     }
     
     // Se non siamo su formazione o desktop, esci

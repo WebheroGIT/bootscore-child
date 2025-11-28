@@ -23,3 +23,19 @@ msgstr "Richiedi Informazioni"
 msgid "Sidebar"
 msgstr "Barra laterale"
 
+#: search.php:34
+msgid "Search Results for: %s"
+msgstr "Risultati di ricerca per: %s"
+
+#: template-parts/search/content-none.php:45
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
+msgstr "Spiacenti, la ricerca non ha prodotto risultati. Prova con parole chiave diverse."
+
+#: searchform.php:20
+msgid "Search"
+msgstr "Cerca"
+
+#: searchform.php:21
+msgid "Submit search"
+msgstr "Avvia ricerca"
+

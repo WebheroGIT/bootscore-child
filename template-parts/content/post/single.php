@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
     
     <!-- Header del post -->
     <div class="rounded-3 overflow-hidden bg-primary text-white mb-5">
-        <div class="grid-7-5 grid-lg-1 row-iscrizioni-formazione align-items-stretch position-relative">
+        <div class="grid-7-5 grid-xl-1 row-iscrizioni-formazione align-items-stretch position-relative">
             <div class="p-4 flex-grow-1 align-items-center d-flex">
                 <h1 class="mb-2 mt-2"><?php the_title(); ?></h1>
             </div>

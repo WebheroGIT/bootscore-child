@@ -29,7 +29,7 @@ if ($has_valid_cat) :
 ?>
 
 <div class="rounded-3 overflow-hidden bg-primary text-white mb-5">
-  <div class="grid-7-5 grid-lg-1 row-iscrizioni-formazione align-items-stretch position-relative">
+  <div class="grid-7-5 grid-xl-1 row-iscrizioni-formazione align-items-stretch position-relative">
     <a href="https://platform.unimarconi.it/shibd" target="_blank" class="btn btn-secondary btn-iscrizioni-formazione position-absolute bottom-0 end-0 px-4 py-2 w-auto" style="z-index:3;min-width:150px;">Iscriviti</a>
     <div class="">
       <div class="p-4 flex-grow-1">

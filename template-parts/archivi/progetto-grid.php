@@ -47,7 +47,7 @@ if (is_tax()) {
 $progetto_query = new WP_Query($args);
 ?>
 
-<div class="grid-3 grid-lg-2 grid-md-1 gap-4 grid-box-progetto mb-5 wpgb-content">
+<div class="grid-3 grid-xl-2 grid-md-1 gap-4 grid-box-progetto mb-5 wpgb-content">
  
   <?php if ($progetto_query->have_posts()) : ?>
     <?php while ($progetto_query->have_posts()) : $progetto_query->the_post(); ?>

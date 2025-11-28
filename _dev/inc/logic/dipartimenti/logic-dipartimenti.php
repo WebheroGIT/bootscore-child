@@ -41,7 +41,7 @@ function avvisi_dipartimenti_shortcode($atts) {
     }
 
     // Inizia l'output
-    $output = '<div class="avvisi-dipartimenti grid-3 grid-lg-2 grid-md-1 gap-4">';
+    $output = '<div class="avvisi-dipartimenti grid-3 grid-xl-2 grid-md-1 gap-4">';
 
     // Loop attraverso i post
     while ($query->have_posts()) {

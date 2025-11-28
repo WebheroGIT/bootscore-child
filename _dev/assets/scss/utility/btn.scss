@@ -89,7 +89,7 @@ transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-
 .btn-outline-secondary:hover {
     color: #fff!important;
 }
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
     .btn-iscrizioni-formazione {
         width: 100% !important;
         margin-left: 0!important;
@@ -104,4 +104,8 @@ transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-
 
 .btn-outline-light:hover {
     color: #000!important;
+}
+
+.btn {
+    white-space: nowrap;
 }

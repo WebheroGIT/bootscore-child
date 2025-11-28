@@ -114,7 +114,7 @@ get_header();
                     if (!empty($img_html)) {
                 ?>
                 <div class="rounded-3 overflow-hidden bg-primary text-white mb-4">
-                  <div class="grid-7-5 grid-lg-1 row-iscrizioni-formazione align-items-center position-relative">
+                  <div class="grid-7-5 grid-xl-1 row-iscrizioni-formazione align-items-center position-relative">
                     <div class="">
                       <div class="p-4 flex-grow-1">
                         <h1 class="mt-1"><?php echo esc_html($term->name); ?></h1>
@@ -182,7 +182,7 @@ get_header();
                     if (!empty($img_html)) {
                 ?>
                 <div class="rounded-3 overflow-hidden bg-primary text-white mb-4">
-                  <div class="grid-7-5 grid-lg-1 row-iscrizioni-formazione align-items-center position-relative">
+                  <div class="grid-7-5 grid-xl-1 row-iscrizioni-formazione align-items-center position-relative">
                     <div class="">
                       <div class="p-4 flex-grow-1">
                         <h1 class="mt-1"><?php echo esc_html($term->name); ?></h1>

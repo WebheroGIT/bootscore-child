@@ -127,8 +127,8 @@ function bootscore_related_posts() {
           <!-- Add Pagination -->
           <div class="swiper-pagination"></div>
           <!-- Add Arrows -->
-          <div class="swiper-button-next end-0 d-none d-lg-block"></div>
-          <div class="swiper-button-prev start-0 d-none d-lg-block"></div>
+          <div class="swiper-button-next end-0 d-none d-xl-block"></div>
+          <div class="swiper-button-prev start-0 d-none d-xl-block"></div>
 
         </div><!-- .swiper-container -->
       </div><!-- .px-lg-5.position-relative -->

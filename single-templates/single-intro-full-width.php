@@ -25,7 +25,7 @@ get_header();
     <div class="<?= apply_filters('bootscore/class/container', 'container'); ?>">
       <div class="row g-0 align-items-stretch">
         <!-- Left column: title, excerpt, button -->
-        <div class="col-12 col-lg-7 d-flex">
+        <div class="col-12 col-xl-7 d-flex">
           <!-- Add responsive horizontal padding so text aligns with site gutters -->
           <div class="w-100 <?= apply_filters('bootscore/class/content/spacer', 'py-5'); ?>">
             <div class="row">
@@ -60,10 +60,10 @@ get_header();
         </div>
 
         <!-- Right column: featured image full-bleed -->
-        <div class="col-12 col-lg-5">
+        <div class="col-12 col-xl-5">
           <?php if (has_post_thumbnail()) : ?>
             <!-- On lg+, bleed the image to the right viewport edge; on smaller screens, keep normal -->
-            <div class="d-none d-lg-block ms-auto" style="width:auto; margin-right: calc(50% - 50vw); min-height: 260px; height: 100%;">
+            <div class="d-none d-xl-block ms-auto" style="width:auto; margin-right: calc(50% - 50vw); min-height: 260px; height: 100%;">
               <?php
               $thumb_id  = get_post_thumbnail_id();
               $thumb_src = wp_get_attachment_image_src($thumb_id, 'large');
@@ -74,7 +74,7 @@ get_header();
                 <?php the_post_thumbnail('large', ['class' => 'w-100', 'style' => 'height:100%; min-height:260px; object-fit:cover; object-position:center; display:block;']); ?>
               <?php endif; ?>
             </div>
-            <div class="d-lg-none">
+            <div class="d-xl-none">
               <?php the_post_thumbnail('large', ['class' => 'w-100 h-100', 'style' => 'object-fit:cover; object-position:center; display:block;']); ?>
             </div>
           <?php endif; ?>

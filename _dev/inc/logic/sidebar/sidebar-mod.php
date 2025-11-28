@@ -144,12 +144,12 @@ function custom_sidebar_rules() {
         if ($sidebar_content === 'eventi_form') {
             // Sidebar speciale per eventi con WSForm
             ?>
-            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni Evento', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
-                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                         <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
                             <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Richiedi Informazioni', 'bootscore')); ?></span>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
@@ -174,12 +174,12 @@ function custom_sidebar_rules() {
             // Sidebar speciale per formazione/scuole/dottorato con contenuto WYSIWYG personalizzato (corso_wysiwyg_sidebar)
             $corso_wysiwyg_sidebar = rwmb_meta('corso_wysiwyg_sidebar');
             ?>
-            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
-                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                         <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
                             <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Informazioni', 'bootscore')); ?></span>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
@@ -204,12 +204,12 @@ function custom_sidebar_rules() {
             // Sidebar per tutti gli altri post types/pagine con contenuto WYSIWYG personalizzato (all_wysiwyg_sidebar)
             $all_wysiwyg_sidebar = rwmb_meta('all_wysiwyg_sidebar');
             ?>
-            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
-                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                         <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
                             <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Informazioni', 'bootscore')); ?></span>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
@@ -234,12 +234,12 @@ function custom_sidebar_rules() {
             // Sidebar per post type progetto con contenuto WYSIWYG personalizzato
             $progetto_wysiwyg = rwmb_meta('pricerca_campo_sidebar');
             ?>
-            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
-                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                         <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
                             <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Informazioni', 'bootscore')); ?></span>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
@@ -267,12 +267,12 @@ function custom_sidebar_rules() {
                 'type' => 'to',
             ]) : array();
             ?>
-            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Corsi collegati', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class=\"fa-solid fa-ellipsis-vertical\"></i>'); ?>
                     </button>
-                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                         <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
                             <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Corsi collegati', 'bootscore')); ?></span>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
@@ -312,12 +312,12 @@ function custom_sidebar_rules() {
             // Sidebar speciale per formazione con HubSpot ID
             $corso_hubspot_id = rwmb_meta('corso_hubspot_id');
             ?>
-            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-lg-3 order-first order-lg-2'); ?>">
+            <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-lg-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Richiedi informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
-                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-lg offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+                    <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                         <div class="offcanvas-header <?= apply_filters('bootscore/class/offcanvas/header', '', 'sidebar'); ?>">
                             <span class="h5 offcanvas-title" id="sidebarLabel"><?= apply_filters('bootscore/offcanvas/sidebar/title', __('Iscriviti al Corso', 'bootscore')); ?></span>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>

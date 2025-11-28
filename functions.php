@@ -474,3 +474,50 @@ add_action('pre_get_posts', function($query) {
         $query->set('wp_grid_builder', 'wpgb-content');
     }
 });
+
+/**
+ * Override main column class from lg to xl breakpoint
+ * Sovrascrive la classe della colonna principale da col-lg-9 a col-xl-9
+ * per allinearsi al nuovo breakpoint 1200px (xl) invece di 992px (lg)
+ */
+function bootscore_child_main_col_class_xl($string) {
+    if (is_active_sidebar('sidebar-1')) {
+        return "col-xl-9";
+    }
+    return $string;
+}
+// Priorità 20 per sovrascrivere il filtro del parent theme
+add_filter('bootscore/class/main/col', 'bootscore_child_main_col_class_xl', 20);
+
+/**
+ * Override sidebar button class from lg to xl breakpoint
+ * Sovrascrive la classe del bottone sidebar da d-lg-none a d-xl-none
+ * Il bottone appare sotto 1200px (xl) invece di 992px (lg)
+ */
+function bootscore_child_sidebar_button_class_xl($string) {
+    // Sostituisce d-lg-none con d-xl-none
+    return str_replace('d-lg-none', 'd-xl-none', $string);
+}
+add_filter('bootscore/class/sidebar/button', 'bootscore_child_sidebar_button_class_xl', 20);
+
+/**
+ * Override sidebar offcanvas class from lg to xl breakpoint
+ * Sovrascrive offcanvas-lg con offcanvas-xl
+ * L'offcanvas si attiva sotto 1200px (xl) invece di 992px (lg)
+ */
+function bootscore_child_sidebar_offcanvas_class_xl($string) {
+    return str_replace('offcanvas-lg', 'offcanvas-xl', $string);
+}
+add_filter('bootscore/class/sidebar/offcanvas', 'bootscore_child_sidebar_offcanvas_class_xl', 20);
+
+/**
+ * Override sidebar column class from lg to xl breakpoint
+ * Sovrascrive col-lg-3 e order-lg-2 con le versioni xl
+ * Per i casi dove viene usata la sidebar standard del tema padre
+ */
+function bootscore_child_sidebar_col_class_xl($string) {
+    $string = str_replace('col-lg-3', 'col-xl-3', $string);
+    $string = str_replace('order-lg-2', 'order-xl-2', $string);
+    return $string;
+}
+add_filter('bootscore/class/sidebar/col', 'bootscore_child_sidebar_col_class_xl', 20);
