@@ -37,7 +37,7 @@ function avvisi_dipartimenti_shortcode($atts) {
     // Se non ci sono post, restituisci messaggio
     if (!$query->have_posts()) {
         wp_reset_postdata();
-        return '<div class="alert alert-info">Nessun avviso trovato per questa categoria.</div>';
+        return '<div class="alert alert-info">Al momento non risultano avvisi attivi per questo Dipartimento.</div>';
     }
 
     // Inizia l'output

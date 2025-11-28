@@ -90,6 +90,31 @@ add_action( 'wp_enqueue_scripts', 'enqueue_custom_assets' );
 
 require_once get_stylesheet_directory() . '/_dev/inc/logic/logic.php';
 
+/**
+ * Load child theme translations
+ * Carica le traduzioni del tema child (estende quelle del parent)
+ */
+add_action('after_setup_theme', function() {
+    load_child_theme_textdomain('bootscore', get_stylesheet_directory() . '/languages');
+}, 20); // Priorità 20 per caricare dopo il parent theme
+
+/**
+ * Fallback translation filter per testi non tradotti
+ * Traduce manualmente alcune stringhe se le traduzioni non sono caricate
+ */
+add_filter('gettext', function($translated_text, $text, $domain) {
+    // Solo per il textdomain 'bootscore' e se la lingua è italiana
+    if ($domain === 'bootscore' && get_locale() === 'it_IT') {
+        $translations = array(
+            'Open side menu' => 'Richiedi Informazioni',
+            'Sidebar' => 'Barra laterale',
+        );
+        if (isset($translations[$text])) {
+            return $translations[$text];
+        }
+    }
+    return $translated_text;
+}, 10, 3);
 
 // Rimuovi funzione breadcrumb del tema principale
 remove_action('wp_head', 'the_breadcrumb');

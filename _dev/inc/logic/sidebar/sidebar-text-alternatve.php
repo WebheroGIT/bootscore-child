@@ -56,7 +56,7 @@ function sidebar_text_meta_box_callback($post) {
                        name="sidebar_button_text" 
                        value="<?php echo esc_attr($sidebar_button_text); ?>" 
                        style="width: 100%; margin-top: 5px;"
-                       placeholder="<?php _e('es. Apri menu laterale', 'bootscore'); ?>" />
+                       placeholder="<?php _e('es. Richiedi Informazioni', 'bootscore'); ?>" />
                 <p class="description"><?php _e('Testo che appare nel bottone mobile per aprire la sidebar', 'bootscore'); ?></p>
             </td>
         </tr>

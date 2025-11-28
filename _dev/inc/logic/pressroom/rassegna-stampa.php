@@ -38,7 +38,7 @@ function rassegna_shortcode() {
             $output .= '<div class="accordion-item mb-4 rounded-4 overflow-hidden">';  // Stacco tra gli accordion
 
                 // Prima parte: intestazione grigia con campo custom e data
-                $output .= '<div class="accordion-header bg-background-dark text-white p-3" id="' . $accordion_id . 'Heading">';
+                $output .= '<div class="accordion-header bg-grey-medium text-white p-3" id="' . $accordion_id . 'Heading">';
                     $output .= '<div class="d-flex justify-content-between w-100">';
                         if ($rassegna_estata) {
                             $output .= '<strong style="color:#fff;">' . esc_html($rassegna_estata) . '</strong>'; // Visualizza il campo "rassegna_estata" se presente

@@ -112,3 +112,12 @@
 .formazione-info-wrapper ul.list-unstyled li a:hover {
   color: rgb(55 153 117);
 }
+
+@media (min-width: 992px) {
+  .list-columns {
+    -webkit-columns: 40px 2;
+    -moz-columns: 60px 2;
+    columns: 60px 2;
+    gap: var(--space-l);
+  }
+}

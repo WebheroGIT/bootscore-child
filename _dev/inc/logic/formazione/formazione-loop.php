@@ -71,9 +71,9 @@ function formazione_info_shortcode($atts) {
             ?>
             <div class="row mb-5">
                 <?php if ($piani_query->have_posts()) : ?>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <h3>Piani di Studi</h3>
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled list-columns">
                         <?php while ($piani_query->have_posts()) : $piani_query->the_post(); ?>
                             <li class="mb-3">
                                 <a href="<?php the_permalink(); ?>" class="text-primary text-decoration-underline">
@@ -86,7 +86,7 @@ function formazione_info_shortcode($atts) {
                 <?php endif; ?>
                 
                 <?php if ($tirocini_query->have_posts()) : ?>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <h3>Tirocini</h3>
                     <ul class="list-unstyled">
                         <?php while ($tirocini_query->have_posts()) : $tirocini_query->the_post(); ?>

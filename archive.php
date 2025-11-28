@@ -24,7 +24,9 @@ get_header();
         <div class="<?php 
         // Per l'archivio di progetto, usa colonna a larghezza piena (senza sidebar)
         // Per la tassonomia cat-eventi con termine terza-missione, usa colonna a larghezza piena (senza sidebar)
-        if (is_post_type_archive('progetto') || is_tax('cat-eventi', 'terza-missione')) {
+        // Per le categorie native di WordPress (archivi categoria), usa colonna a larghezza piena (senza sidebar)
+        // Per la tassonomia cat-scuole, usa colonna a larghezza piena (senza sidebar)
+        if (is_post_type_archive('progetto') || is_tax('cat-eventi', 'terza-missione') || is_category() || is_tax('cat-scuole')) {
           echo 'col-12';
         } else {
           echo apply_filters('bootscore/class/main/col', 'col');
@@ -36,9 +38,9 @@ get_header();
             <?php the_breadcrumb(); ?>
 
             <?php
-            // Soppressione H1/descrizione standard se cat-formazione ha featured header
+            // Soppressione H1/descrizione standard se cat-formazione o cat-scuole ha featured header
             $suppress_default_header = false;
-            if (is_tax('cat-formazione')) {
+            if (is_tax('cat-formazione') || is_tax('cat-scuole')) {
               $term_tmp = get_queried_object();
               if ($term_tmp && isset($term_tmp->term_id)) {
                 $has_featured_header = false;
@@ -148,6 +150,70 @@ get_header();
               <?php elseif ($is_progetto) : ?>
                 <?php get_template_part('template-parts/archivi/progetto-grid'); ?>
               <?php elseif ($is_category_archive) : ?>
+                <?php
+                // Se siamo in una tassonomia cat-scuole e il termine ha cat_featured, stampa header custom
+                if (is_tax('cat-scuole')) {
+                  $term = get_queried_object();
+                  if ($term && isset($term->term_id)) {
+                    // Se presente immagine featured via Meta Box (campo term 'cat_featured'), mostra header custom
+                    $img_html = '';
+                    if (function_exists('rwmb_meta')) {
+                      $images = rwmb_meta('cat_featured', array('object_type' => 'term', 'limit' => 1), $term->term_id);
+                      if (!empty($images)) {
+                        $image = reset($images);
+                        if (is_array($image)) {
+                          $src_full = !empty($image['full_url']) ? $image['full_url'] : (!empty($image['url']) ? $image['url'] : '');
+                          if (!empty($src_full)) {
+                            $img_html = '<img src="' . esc_url($src_full) . '" class="img-fluid h-100 w-100 img-formazione" alt="" />';
+                          }
+                        }
+                      }
+                    } else {
+                      $legacy = get_term_meta($term->term_id, 'cat_featured', true);
+                      if (!empty($legacy)) {
+                        if (is_numeric($legacy)) {
+                          $img_html = wp_get_attachment_image((int) $legacy, 'large', false, array('class' => 'img-fluid h-100 w-100 img-formazione'));
+                        } elseif (is_string($legacy)) {
+                          $img_html = '<img src="' . esc_url($legacy) . '" class="img-fluid h-100 w-100 img-formazione" alt="" />';
+                        }
+                      }
+                    }
+
+                    if (!empty($img_html)) {
+                ?>
+                <div class="rounded-3 overflow-hidden bg-primary text-white mb-4">
+                  <div class="grid-7-5 grid-lg-1 row-iscrizioni-formazione align-items-center position-relative">
+                    <div class="">
+                      <div class="p-4 flex-grow-1">
+                        <h1 class="mt-1"><?php echo esc_html($term->name); ?></h1>
+                      </div>
+                    </div>
+                    <div class="col-featured position-relative h-100" style="aspect-ratio: 14 / 9">
+                      <div class="img-wrapper position-absolute top-0 start-0 end-0 bottom-0">
+                        <?php echo $img_html; ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <?php
+                    }
+                  }
+                }
+                ?>
+                <?php
+                // Descrizione breve della tassonomia cat-scuole sotto l'header, prima della griglia
+                // Evita duplicati: mostra qui la descrizione SOLO quando l'header standard è stato soppresso
+                if (is_tax('cat-scuole') && !empty($suppress_default_header)) {
+                  $term_for_desc = get_queried_object();
+                  if ($term_for_desc && isset($term_for_desc->term_id)) {
+                    $term_desc_out = term_description($term_for_desc->term_id, 'cat-scuole');
+                    if (!empty($term_desc_out)) {
+                      echo '<div class="entry-summary mb-3">' . wp_kses_post($term_desc_out) . '</div>';
+                    }
+                  }
+                }
+                ?>
+
                 <?php get_template_part('template-parts/archivi/category-grid'); ?>
               <?php else : ?>
                 <?php // Usa il template grid per gli archivi standard ?>
@@ -210,6 +276,19 @@ get_header();
               } else {
                 // Mostra la paginazione normale per altri post types
                 bootscore_pagination();
+                
+                // Se siamo nel term di cat-scuole e c'è cat_descrizione_lunga, stampala sotto la paginazione
+                if (is_tax('cat-scuole')) {
+                  $term = get_queried_object();
+                  if ($term && isset($term->term_id)) {
+                    $cat_descrizione_lunga = function_exists('rwmb_meta')
+                      ? rwmb_meta('cat_descrizione_lunga', array('object_type' => 'term'), $term->term_id)
+                      : get_term_meta($term->term_id, 'cat_descrizione_lunga', true);
+                    if (!empty($cat_descrizione_lunga)) {
+                      echo '<div class="mt-4">' . wp_kses_post($cat_descrizione_lunga) . '</div>';
+                    }
+                  }
+                }
               } ?>
             </div>
 
@@ -219,7 +298,9 @@ get_header();
         <?php 
         // Non mostrare la sidebar nell'archivio di progetto
         // Non mostrare la sidebar nella tassonomia cat-eventi con termine terza-missione
-        if (!is_post_type_archive('progetto') && !is_tax('cat-eventi', 'terza-missione')) {
+        // Non mostrare la sidebar nelle categorie native di WordPress (archivi categoria)
+        // Non mostrare la sidebar nella tassonomia cat-scuole
+        if (!is_post_type_archive('progetto') && !is_tax('cat-eventi', 'terza-missione') && !is_category() && !is_tax('cat-scuole')) {
           get_sidebar(); 
         }
         ?>

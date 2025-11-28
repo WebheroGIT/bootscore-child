@@ -245,7 +245,7 @@
 	height: 40px;
 	line-height: 40px;
 	background-color: var(--secondary);
-  background-image: url("https://dev1965.whtest.it/wp-content/uploads/btn_my.svg");
+  background-image: url("https://www.unimarconi.it/wp-content/uploads/btn_my.svg");
 	text-align: center;
 	border-radius: 6px;
 	border: none;
@@ -362,25 +362,30 @@
   // Container sticky per pulsanti formazione (solo mobile, solo formazione)
   .formazione-sticky-buttons-container {
     position: fixed;
-    background-color: #fff;
     left: 0;
     right: 0;
-    width: 100%;
+    width: 93%;
     z-index: 1019; // Sotto l'header (1020) ma sopra il contenuto
     padding: 0;
     pointer-events: none; // Permetti click attraverso quando non ci sono elementi
-    
+    margin: 5px auto;
     // Quando ci sono elementi, abilita i click
     &.has-sidebar-btn,
     &.has-iscrizione-btn {
       pointer-events: auto;
+    }
+
+    .btn-outline-secondary {
+      background-color: #fff!important;
+      font-size: 0.9rem;
+      padding-left: 5px!important;
     }
     
     // Se ci sono entrambi i pulsanti, usa Grid 1fr 1fr (stessa linea orizzontale)
     &.has-sidebar-btn.has-iscrizione-btn {
       display: grid;
       grid-template-columns: 1fr 1fr; // Due colonne uguali sulla stessa linea
-      gap: 0;
+      gap: 8px;
       align-items: stretch;
     }
     
@@ -442,7 +447,7 @@
 
     .mobile-actions-container {
       justify-content: space-between!important;
-      width: 85%;
+      width: 78%;
     }
 
 }
