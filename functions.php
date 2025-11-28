@@ -101,20 +101,52 @@ add_action('after_setup_theme', function() {
 /**
  * Fallback translation filter per testi non tradotti
  * Traduce manualmente alcune stringhe se le traduzioni non sono caricate
+ * Compatibile con Polylang: funziona sia con get_locale() che con pll_current_language()
  */
 add_filter('gettext', function($translated_text, $text, $domain) {
-    // Solo per il textdomain 'bootscore' e se la lingua è italiana
+    // Solo per il textdomain 'bootscore'
+    if ($domain === 'bootscore') {
+        // Controlla la lingua corrente (compatibile con Polylang)
+        $current_lang = function_exists('pll_current_language') 
+            ? pll_current_language('slug') 
+            : substr(get_locale(), 0, 2);
+        
+        // Traduzioni italiane
+        if ($current_lang === 'it' || get_locale() === 'it_IT') {
+            $translations = array(
+                'Open side menu' => 'Apri menu laterale',
+                'Sidebar' => 'Barra laterale',
+                'Search Results for: %s' => 'Risultati di ricerca per: %s',
+                'Nothing Found for' => 'Nessun risultato per',
+                'Sorry, but nothing matched your search terms. Please try again with some different keywords.' => 'Spiacenti, la ricerca non ha prodotto risultati. Prova con parole chiave diverse.',
+                'Search' => 'Cerca',
+                'Submit search' => 'Avvia ricerca',
+                'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.' => 'Sembra che non riusciamo a trovare quello che stai cercando. Prova con una ricerca.',
+                'Ready to publish your first post? <a href="%1$s">Get started here</a>.' => 'Pronto a pubblicare il tuo primo articolo? <a href="%1$s">Inizia da qui</a>.',
+            );
+            if (isset($translations[$text])) {
+                return $translations[$text];
+            }
+        }
+    }
+    return $translated_text;
+}, 10, 3);
+
+/**
+ * Filtro aggiuntivo per gestire traduzioni con esc_html__ e printf
+ * Specifico per le stringhe che usano placeholder %s
+ */
+add_filter('gettext_with_context', function($translated, $text, $context, $domain) {
     if ($domain === 'bootscore' && get_locale() === 'it_IT') {
         $translations = array(
-            'Open side menu' => 'Richiedi Informazioni',
-            'Sidebar' => 'Barra laterale',
+            'Search Results for: %s' => 'Risultati di ricerca per: %s',
         );
         if (isset($translations[$text])) {
             return $translations[$text];
         }
     }
-    return $translated_text;
-}, 10, 3);
+    return $translated;
+}, 10, 4);
 
 // Rimuovi funzione breadcrumb del tema principale
 remove_action('wp_head', 'the_breadcrumb');

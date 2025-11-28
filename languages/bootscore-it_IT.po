@@ -17,7 +17,7 @@ msgstr ""
 
 #: sidebar.php:25
 msgid "Open side menu"
-msgstr "Richiedi Informazioni"
+msgstr "Apri menu laterale"
 
 #: sidebar.php:30
 msgid "Sidebar"
@@ -26,6 +26,10 @@ msgstr "Barra laterale"
 #: search.php:34
 msgid "Search Results for: %s"
 msgstr "Risultati di ricerca per: %s"
+
+#: template-parts/search/content-none.php:22
+msgid "Nothing Found for"
+msgstr "Nessun risultato per"
 
 #: template-parts/search/content-none.php:45
 msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
@@ -38,4 +42,12 @@ msgstr "Cerca"
 #: searchform.php:21
 msgid "Submit search"
 msgstr "Avvia ricerca"
+
+#: template-parts/search/content-none.php:51
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "Sembra che non riusciamo a trovare quello che stai cercando. Prova con una ricerca."
+
+#: template-parts/search/content-none.php:33
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr "Pronto a pubblicare il tuo primo articolo? <a href=\"%1$s\">Inizia da qui</a>."
 
