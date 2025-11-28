@@ -120,7 +120,7 @@ get_header();
                         <h1 class="mt-1"><?php echo esc_html($term->name); ?></h1>
                       </div>
                     </div>
-                    <div class="col-featured position-relative h-100" style="aspect-ratio: 14 / 9">
+                    <div class="col-featured position-relative h-100 overflow-hidden" style="aspect-ratio: 14 / 9">
                       <div class="img-wrapper position-absolute top-0 start-0 end-0 bottom-0">
                         <?php echo $img_html; ?>
                       </div>
@@ -188,7 +188,7 @@ get_header();
                         <h1 class="mt-1"><?php echo esc_html($term->name); ?></h1>
                       </div>
                     </div>
-                    <div class="col-featured position-relative h-100" style="aspect-ratio: 14 / 9">
+                    <div class="col-featured position-relative h-100 overflow-hidden" style="aspect-ratio: 14 / 9">
                       <div class="img-wrapper position-absolute top-0 start-0 end-0 bottom-0">
                         <?php echo $img_html; ?>
                       </div>
