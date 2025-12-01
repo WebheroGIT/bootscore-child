@@ -45,23 +45,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const sidebarButtonSelector = '#secondary button[data-bs-toggle="offcanvas"][data-bs-target="#sidebar"]';
         sidebarButton = document.querySelector(sidebarButtonSelector);
         
-        // Trova il link "Iscriviti" (può avere classi diverse, cerchiamo per href o testo)
-        const iscrizioneSelectors = [
-            'a.btn-iscrizioni-formazione',
-            'a[href*="platform.unimarconi.it/shibd"]',
-            'a:contains("Iscriviti")'
-        ];
-        
-        for (let selector of iscrizioneSelectors) {
-            iscrizioneButton = document.querySelector(selector);
-            if (iscrizioneButton) break;
+        // Trova il link "Iscriviti" - PRIORITÀ alla classe btn-iscrizioni-formazione
+        // Cerca PRIMA per classe specifica (più precisa) ma ESCLUDI quelli nel header/top-bar
+        const allIscrizioneButtons = document.querySelectorAll('a.btn-iscrizioni-formazione');
+        for (let btn of allIscrizioneButtons) {
+            // Escludi se è nel top-bar, header, masthead, o btn-my-container
+            const isInTopBar = btn.closest('.top-bar-widget') !== null;
+            const isInHeader = btn.closest('header') !== null || btn.closest('#masthead') !== null;
+            const isInBtnMyContainer = btn.closest('.btn-my-container') !== null;
+            
+            if (!isInTopBar && !isInHeader && !isInBtnMyContainer) {
+                iscrizioneButton = btn;
+                break;
+            }
         }
         
-        // Fallback: cerca per testo contenuto
+        // Se non trovato, cerca per href E testo "Iscriviti" MA solo se non è in footer/header/top-bar
         if (!iscrizioneButton) {
-            const allLinks = document.querySelectorAll('a');
+            const allLinks = document.querySelectorAll('a[href*="platform.unimarconi.it/shibd"]');
             for (let link of allLinks) {
-                if (link.textContent.trim() === 'Iscriviti' && link.href.includes('platform.unimarconi.it')) {
+                // Verifica che non sia nel footer, header, top-bar, o btn-my-container
+                const isInFooter = link.closest('footer') !== null;
+                const isInHeader = link.closest('header') !== null || link.closest('#masthead') !== null;
+                const isInTopBar = link.closest('.top-bar-widget') !== null;
+                const isInBtnMyContainer = link.closest('.btn-my-container') !== null;
+                
+                // Verifica che abbia il testo "Iscriviti" e non sia nei contenitori esclusi
+                if (link.textContent.trim().includes('Iscriviti') && !isInFooter && !isInHeader && !isInTopBar && !isInBtnMyContainer) {
                     iscrizioneButton = link;
                     break;
                 }
