@@ -21,7 +21,7 @@ msgstr "Richiedi Informazioni"
 
 #: sidebar.php:30
 msgid "Sidebar"
-msgstr "Barra laterale"
+msgstr "Richiedi Informazioni"
 
 #: search.php:34
 msgid "Search Results for: %s"

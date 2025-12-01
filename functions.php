@@ -115,7 +115,7 @@ add_filter('gettext', function($translated_text, $text, $domain) {
         if ($current_lang === 'it' || get_locale() === 'it_IT') {
             $translations = array(
                 'Open side menu' => 'Richiedi Informazioni',
-                'Sidebar' => 'Barra laterale',
+                'Sidebar' => 'Richiedi Informazioni',
                 'Search Results for: %s' => 'Risultati di ricerca per: %s',
                 'Nothing Found for' => 'Nessun risultato per',
                 'Sorry, but nothing matched your search terms. Please try again with some different keywords.' => 'Spiacenti, la ricerca non ha prodotto risultati. Prova con parole chiave diverse.',
