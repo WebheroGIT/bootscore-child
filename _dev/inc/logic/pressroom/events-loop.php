@@ -182,9 +182,11 @@ function eventi_shortcode($atts) {
                         $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                     $output .= '</div>';
                     // Featured image subito dopo l'header
+                    $image_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
                     $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
-                        $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                        $output .= '<a href="' . esc_url($event['link']) . '" aria-label="' . $image_aria_label . '" title="' . $image_aria_label . '" style="display: block; width: 100%; height: 100%;">';
                             $output .= get_evento_image($event['id']);
+                            $output .= '<span class="visually-hidden-focusable">' . esc_html($event['title']) . '</span>';
                         $output .= '</a>';
                     $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
@@ -196,8 +198,8 @@ function eventi_shortcode($atts) {
                         }
                     $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4">';
-                        $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
-                        $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+                        $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
+                        $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
                     $output .= '</div>';
                 $output .= '</div>';
             $output .= '</div>';
@@ -224,9 +226,11 @@ function eventi_shortcode($atts) {
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
                         // Featured image subito dopo l'header
+                        $image_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
                         $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
-                            $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                            $output .= '<a href="' . esc_url($event['link']) . '" aria-label="' . $image_aria_label . '" title="' . $image_aria_label . '" style="display: block; width: 100%; height: 100%;">';
                                 $output .= get_evento_image($event['id']);
+                                $output .= '<span class="visually-hidden-focusable">' . esc_html($event['title']) . '</span>';
                             $output .= '</a>';
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
@@ -238,8 +242,8 @@ function eventi_shortcode($atts) {
                             }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
-                            $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+                            $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
+                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
                         $output .= '</div>';
                     $output .= '</div>';
                 $output .= '</div>';
@@ -267,9 +271,11 @@ function eventi_shortcode($atts) {
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
                         // Featured image subito dopo l'header
+                        $image_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
                         $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
-                            $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                            $output .= '<a href="' . esc_url($event['link']) . '" aria-label="' . $image_aria_label . '" title="' . $image_aria_label . '" style="display: block; width: 100%; height: 100%;">';
                                 $output .= get_evento_image($event['id']);
+                                $output .= '<span class="visually-hidden-focusable">' . esc_html($event['title']) . '</span>';
                             $output .= '</a>';
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
@@ -281,8 +287,8 @@ function eventi_shortcode($atts) {
                             }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
-                            $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+                            $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
+                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
                         $output .= '</div>';
                     $output .= '</div>';
                 $output .= '</div>';
@@ -316,9 +322,11 @@ function eventi_shortcode($atts) {
                             $output .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>'; // Mese e giorno
                         $output .= '</div>';
                         // Featured image subito dopo l'header
+                        $image_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
                         $output .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
-                            $output .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+                            $output .= '<a href="' . esc_url($event['link']) . '" aria-label="' . $image_aria_label . '" title="' . $image_aria_label . '" style="display: block; width: 100%; height: 100%;">';
                                 $output .= get_evento_image($event['id']);
+                                $output .= '<span class="visually-hidden-focusable">' . esc_html($event['title']) . '</span>';
                             $output .= '</a>';
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
@@ -330,8 +338,8 @@ function eventi_shortcode($atts) {
                             }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
-                            $output .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+                            $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
+                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
                         $output .= '</div>';
                     $output .= '</div>';
                 $output .= '</div>';
@@ -435,9 +443,11 @@ function load_past_events_ajax() {
 					$html .= '<span class="badge bg-white text-dark fs-4 fw-normal">' . format_date_italian($event['start_date'], 'M j') . '</span>';
 				$html .= '</div>';
 				// Featured image subito dopo l'header
+				$image_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
 				$html .= '<div class="card-img-top" style="height: 200px; overflow: hidden; position: relative;">';
-					$html .= '<a href="' . $event['link'] . '" style="display: block; width: 100%; height: 100%;">';
+					$html .= '<a href="' . esc_url($event['link']) . '" aria-label="' . $image_aria_label . '" title="' . $image_aria_label . '" style="display: block; width: 100%; height: 100%;">';
 						$html .= get_evento_image($event['id']);
+						$html .= '<span class="visually-hidden-focusable">' . esc_html($event['title']) . '</span>';
 					$html .= '</a>';
 				$html .= '</div>';
 				$html .= '<div class="card-body bg-light p-4" style="border-bottom: 1px dotted #333;">';
@@ -448,8 +458,8 @@ function load_past_events_ajax() {
 					}
 				$html .= '</div>';
 				$html .= '<div class="card-body bg-light p-4">';
-					$html .= '<h6><a href="' . $event['link'] . '" class="text-dark clickable-parent">' . $event['title'] . '</a></h6>';
-					$html .= '<a href="' . $event['link'] . '" class="text-primary text-decoration-underline mt-3">Vedi evento ></a>';
+					$html .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
+					$html .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
 				$html .= '</div>';
 			$html .= '</div>';
 		$html .= '</div>';
