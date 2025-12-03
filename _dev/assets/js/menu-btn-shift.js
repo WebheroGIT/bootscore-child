@@ -13,6 +13,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const whiteLogo = topBarWidget ? topBarWidget.querySelector('img[src*="logo_unimarconi_bianco.svg"]') : null;
     const whiteLogoContainer = whiteLogo ? whiteLogo.closest('div') : null;
     
+    // Trova il pulsante Contatti nel top-bar-widget
+    // Cerca con più selettori per essere sicuri di trovarlo
+    let contattiButton = null;
+    if (topBarWidget) {
+        // Prova prima con href che contiene "contatti"
+        contattiButton = topBarWidget.querySelector('a[href*="contatti"]');
+        // Se non trovato, cerca per testo "Contatti" nel link
+        if (!contattiButton) {
+            const allLinks = topBarWidget.querySelectorAll('a');
+            allLinks.forEach(function(link) {
+                if (link.textContent.trim() === 'Contatti' || link.getAttribute('title')?.includes('Contatti')) {
+                    contattiButton = link;
+                }
+            });
+        }
+    }
+    
     // Elementi originali parent per ripristino
     const originalMyUniParent = myUniButton?.parentElement;
     const originalSearchParent = searchToggle?.parentElement;
@@ -22,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let myUniOffcanvasClone = null; // Clone separato per l'offcanvas (spostato dentro il menu)
     let myUniFixedClone = null; // Clone separato per il pulsante fixed sotto header (solo home, solo mobile)
     let searchClone = null;
+    let contattiOffcanvasClone = null; // Clone del pulsante Contatti per l'offcanvas (dopo il menu)
     
     // Verifica se siamo sulla home page
     function isHomePage() {
@@ -104,6 +122,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 myUniButton.style.display = '';
                 myUniButton.style.visibility = '';
                 myUniButton.style.opacity = '';
+            }
+            
+            // Rimuovi il clone del pulsante Contatti se presente
+            if (contattiOffcanvasClone) {
+                contattiOffcanvasClone.remove();
+                contattiOffcanvasClone = null;
+            }
+            // IMPORTANTE: Ripristina SEMPRE il pulsante Contatti su desktop
+            if (contattiButton) {
+                contattiButton.style.display = '';
+                contattiButton.style.visibility = '';
+                contattiButton.style.opacity = '';
             }
             
             // Rimuovi il pulsante fixed se presente
@@ -203,6 +233,64 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Funzione per spostare il pulsante Contatti nell'offcanvas-body, DOPO il menu
+    function ensureContattiButtonInOffcanvas() {
+        const offcanvasBody = document.querySelector('#offcanvas-navbar .offcanvas-body');
+        const bootscoreNavbar = document.querySelector('#bootscore-navbar');
+        
+        // IMPORTANTE: Ripristina sempre gli elementi su desktop PRIMA di controllare mobile
+        if (window.innerWidth >= 1280) {
+            // Su desktop, rimuovi il wrapper e il clone se presente
+            if (contattiOffcanvasClone) {
+                const wrapper = contattiOffcanvasClone.closest('.contatti-offcanvas-wrapper');
+                if (wrapper) {
+                    wrapper.remove();
+                } else {
+                    contattiOffcanvasClone.remove();
+                }
+                contattiOffcanvasClone = null;
+            }
+            if (contattiButton) {
+                contattiButton.style.display = '';
+            }
+            return; // Esci perché non dobbiamo fare nulla su desktop
+        }
+        
+        // Se siamo in mobile e il menu è presente ma il clone non esiste ancora
+        if (window.innerWidth < 1280 && offcanvasBody && bootscoreNavbar && !contattiOffcanvasClone) {
+            // Cerca di nuovo il pulsante Contatti se non è stato trovato prima
+            let btnContatti = contattiButton;
+            if (!btnContatti && topBarWidget) {
+                btnContatti = topBarWidget.querySelector('a[href*="contatti"]');
+                // Se ancora non trovato, cerca per testo
+                if (!btnContatti) {
+                    const allLinks = topBarWidget.querySelectorAll('a');
+                    allLinks.forEach(function(link) {
+                        const linkText = link.textContent.trim();
+                        if (linkText === 'Contatti' || link.getAttribute('title')?.includes('Contatti')) {
+                            btnContatti = link;
+                        }
+                    });
+                }
+            }
+            
+            if (btnContatti) {
+                // Clona il pulsante Contatti
+                contattiOffcanvasClone = btnContatti.cloneNode(true);
+                btnContatti.style.display = 'none';
+                
+                // Crea un wrapper div per allinearlo correttamente
+                const contattiWrapper = document.createElement('div');
+                contattiWrapper.className = 'contatti-offcanvas-wrapper mt-4';
+                contattiWrapper.style.width = '100%';
+                contattiWrapper.appendChild(contattiOffcanvasClone);
+                
+                // Inserisci DOPO il menu (#bootscore-navbar)
+                offcanvasBody.appendChild(contattiWrapper);
+            }
+        }
+    }
+    
     // IMPORTANTE: PRIMA di tutto, su desktop ripristina SEMPRE tutti gli elementi
     // Questo previene che handleResponsiveElements() nasconda elementi su desktop
     if (window.innerWidth >= 1280) {
@@ -257,20 +345,34 @@ document.addEventListener('DOMContentLoaded', function() {
             // Se il menu non è presente, riprova dopo che il DOM è completamente caricato
             setTimeout(() => {
                 ensureMyUniButtonInOffcanvas();
+                ensureContattiButtonInOffcanvas();
                 updateFixedButtonPosition();
             }, 100);
+            // Riprova anche dopo un delay maggiore per sicurezza
+            setTimeout(() => {
+                ensureMyUniButtonInOffcanvas();
+                ensureContattiButtonInOffcanvas();
+                updateFixedButtonPosition();
+            }, 500);
         } else {
             ensureMyUniButtonInOffcanvas();
+            ensureContattiButtonInOffcanvas();
             updateFixedButtonPosition();
+            // Riprova anche dopo un breve delay per sicurezza
+            setTimeout(() => {
+                ensureContattiButtonInOffcanvas();
+            }, 200);
         }
     } else {
-        // Su desktop, assicurati che il pulsante non sia nascosto
+        // Su desktop, assicurati che i pulsanti non siano nascosti
         ensureMyUniButtonInOffcanvas();
+        ensureContattiButtonInOffcanvas();
         
         // Ripristina ancora una volta per sicurezza
         if (whiteLogoContainer) whiteLogoContainer.style.display = '';
         if (searchToggle) searchToggle.style.display = '';
         if (myUniButton) myUniButton.style.display = '';
+        if (contattiButton) contattiButton.style.display = '';
     }
     
     // Aggiorna la posizione del pulsante fixed dopo che tutto è caricato
@@ -302,6 +404,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.style.visibility = '';
                 btn.style.opacity = '';
             });
+            
+            // Ripristina tutti i pulsanti Contatti
+            const allContattiButtons = document.querySelectorAll('a[href*="contatti"]');
+            allContattiButtons.forEach(function(btn) {
+                // Solo quelli nel top-bar-widget
+                if (btn.closest('.top-bar-widget')) {
+                    btn.style.display = '';
+                    btn.style.visibility = '';
+                    btn.style.opacity = '';
+                }
+            });
         }
     }, 200);
     
@@ -312,6 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resizeTimer = setTimeout(function() {
             handleResponsiveElements();
             ensureMyUniButtonInOffcanvas();
+            ensureContattiButtonInOffcanvas();
             updateFixedButtonPosition();
         }, 250);
     });
@@ -319,4 +433,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Nota: Non c'è bisogno di aggiornare durante lo scroll perché l'header è sticky
     // e rimane sempre in posizione fissa, quindi il pulsante mantiene sempre la stessa
     // posizione relativa all'header
+    
+    // Listener per quando l'offcanvas viene aperto (evento Bootstrap)
+    const offcanvasElement = document.querySelector('#offcanvas-navbar');
+    if (offcanvasElement) {
+        offcanvasElement.addEventListener('shown.bs.offcanvas', function () {
+            // Quando l'offcanvas è completamente aperto, verifica e sposta il pulsante Contatti
+            if (window.innerWidth < 1280) {
+                ensureContattiButtonInOffcanvas();
+            }
+        });
+    }
 });
