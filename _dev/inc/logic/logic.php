@@ -54,6 +54,8 @@ require_once get_stylesheet_directory(). '/_dev/inc/logic/plugin/plugins.php';
 require_once get_stylesheet_directory(). '/_dev/inc/logic/utility/video-modal.php';
 // struttura post template include
 require_once get_stylesheet_directory(). '/_dev/inc/logic/utility/struttura-post-template.php';
+// Search block accessibility fix include
+require_once get_stylesheet_directory(). '/_dev/inc/logic/utility/search-block.php';
 
 // Video Modal utility include
 require_once get_stylesheet_directory(). '/_dev/assets-admin/admin-search.php';
