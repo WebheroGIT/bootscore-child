@@ -198,8 +198,9 @@ function eventi_shortcode($atts) {
                         }
                     $output .= '</div>';
                     $output .= '<div class="card-body bg-light p-4">';
-                        $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
-                        $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
+                        $title_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
+                        $output .= '<a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent" aria-label="' . $title_aria_label . '" title="' . $title_aria_label . '"><h6>' . esc_html($event['title']) . '</h6></a>';
+                        $output .= '<span class="text-primary text-decoration-underline mt-3">Vedi evento ></span>';
                     $output .= '</div>';
                 $output .= '</div>';
             $output .= '</div>';
@@ -242,8 +243,9 @@ function eventi_shortcode($atts) {
                             }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
-                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
+                            $title_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
+                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent" aria-label="' . $title_aria_label . '" title="' . $title_aria_label . '"><h6>' . esc_html($event['title']) . '</h6></a>';
+                            $output .= '<span class="text-primary text-decoration-underline mt-3">Vedi evento ></span>';
                         $output .= '</div>';
                     $output .= '</div>';
                 $output .= '</div>';
@@ -287,8 +289,9 @@ function eventi_shortcode($atts) {
                             }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
-                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
+                            $title_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
+                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent" aria-label="' . $title_aria_label . '" title="' . $title_aria_label . '"><h6>' . esc_html($event['title']) . '</h6></a>';
+                            $output .= '<span class="text-primary text-decoration-underline mt-3">Vedi evento ></span>';
                         $output .= '</div>';
                     $output .= '</div>';
                 $output .= '</div>';
@@ -338,8 +341,9 @@ function eventi_shortcode($atts) {
                             }
                         $output .= '</div>';
                         $output .= '<div class="card-body bg-light p-4">';
-                            $output .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
-                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
+                            $title_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
+                            $output .= '<a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent" aria-label="' . $title_aria_label . '" title="' . $title_aria_label . '"><h6>' . esc_html($event['title']) . '</h6></a>';
+                            $output .= '<span class="text-primary text-decoration-underline mt-3">Vedi evento ></span>';
                         $output .= '</div>';
                     $output .= '</div>';
                 $output .= '</div>';
@@ -458,8 +462,9 @@ function load_past_events_ajax() {
 					}
 				$html .= '</div>';
 				$html .= '<div class="card-body bg-light p-4">';
-					$html .= '<h6><a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent">' . esc_html($event['title']) . '</a></h6>';
-					$html .= '<a href="' . esc_url($event['link']) . '" class="text-primary text-decoration-underline mt-3" aria-label="' . esc_attr(sprintf(__('Vedi dettagli dell\'evento: %s', 'bootscore'), $event['title'])) . '">Vedi evento ></a>';
+					$title_aria_label = esc_attr(sprintf(__('Vai all\'evento: %s', 'bootscore'), $event['title']));
+					$html .= '<a href="' . esc_url($event['link']) . '" class="text-dark clickable-parent" aria-label="' . $title_aria_label . '" title="' . $title_aria_label . '"><h6>' . esc_html($event['title']) . '</h6></a>';
+					$html .= '<span class="text-primary text-decoration-underline mt-3">Vedi evento ></span>';
 				$html .= '</div>';
 			$html .= '</div>';
 		$html .= '</div>';
