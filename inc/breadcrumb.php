@@ -27,8 +27,8 @@ if (!function_exists('the_breadcrumb')) :
       $post_type_taxonomies = [
         'formazione' => ['cat-formazione'], // Post type 'formazione' usa la tassonomia 'cat-formazione'
         'scuole' => ['cat-scuole'], // Post type 'scuole' usa la tassonomia 'cat-scuole'
+        'eventi' => ['cat-eventi'], // Post type 'eventi' usa la tassonomia 'cat-eventi'
         //'corsi' => ['categoria-corsi'],      // Esempio per altri post types
-        //'eventi' => ['categoria-eventi'],    // Esempio per altri post types
         // Aggiungi qui altri post types e le loro tassonomie
       ];
 
@@ -55,7 +55,31 @@ if (!function_exists('the_breadcrumb')) :
         // Se è un custom post type (diverso da "post" e da "piano")
         elseif ($post_type !== 'post') {
           $post_type_obj = get_post_type_object($post_type);
-          if ($post_type_obj && $post_type_obj->has_archive) {
+          
+          // GESTIONE SPECIALE: Se il post type ha una pagina personalizzata configurata
+          // Configurazione: ID del post/pagina da usare invece dell'archivio
+          $post_type_custom_pages = [
+            'eventi' => 78, // ID del post type 'press' che funge da pagina Eventi
+          ];
+          
+          $has_archive_shown = false;
+          
+          // Se c'è una pagina personalizzata configurata, usala invece dell'archivio
+          if (isset($post_type_custom_pages[$post_type])) {
+            $custom_page_id = $post_type_custom_pages[$post_type];
+            $custom_page = get_post($custom_page_id);
+            
+            // Verifica che il post esista e sia pubblicato
+            if ($custom_page && $custom_page->post_status === 'publish') {
+              $page_link = get_permalink($custom_page->ID);
+              $page_title = get_the_title($custom_page->ID);
+              echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($page_link) . '">' . esc_html($page_title) . '</a></li>';
+              $has_archive_shown = true;
+            }
+          }
+          
+          // Se non abbiamo mostrato una pagina personalizzata, usa l'archivio se disponibile
+          if (!$has_archive_shown && $post_type_obj && $post_type_obj->has_archive) {
             $archive_link = get_post_type_archive_link($post_type);
             echo '<li class="breadcrumb-item"><a class="' . apply_filters('bootscore/class/breadcrumb/item/link', '') . '" href="' . esc_url($archive_link) . '">' . esc_html($post_type_obj->labels->name) . '</a></li>';
           }
