@@ -192,6 +192,11 @@ function remove_custom_taxonomy_prefix($title) {
         // Rimuove anche il prefisso dalla tassonomia 'cat-eventi' (categoria eventi)
         $title = preg_replace('/^Categoria\s+.*?:\s*/', '', $title);
     }
+    
+    if (is_tax('cat-scuole')) {
+        // Rimuove anche il prefisso dalla tassonomia 'cat-scuole' (categoria scuole)
+        $title = preg_replace('/^Categoria\s+.*?:\s*/', '', $title);
+    }
     return $title;
 }
 add_filter('get_the_archive_title', 'remove_custom_taxonomy_prefix');
