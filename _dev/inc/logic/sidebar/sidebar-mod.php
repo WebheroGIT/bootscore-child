@@ -146,7 +146,7 @@ function custom_sidebar_rules() {
             ?>
             <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn fw-semibold btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni Evento', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
                     <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -176,7 +176,7 @@ function custom_sidebar_rules() {
             ?>
             <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn fw-semibold btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
                     <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -206,7 +206,7 @@ function custom_sidebar_rules() {
             ?>
             <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn fw-semibold btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
                     <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -236,7 +236,7 @@ function custom_sidebar_rules() {
             ?>
             <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn fw-semibold btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
                     <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -269,7 +269,7 @@ function custom_sidebar_rules() {
             ?>
             <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn fw-semibold btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Corsi collegati', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class=\"fa-solid fa-ellipsis-vertical\"></i>'); ?>
                     </button>
                     <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -314,7 +314,7 @@ function custom_sidebar_rules() {
             ?>
             <div class="<?= apply_filters('bootscore/class/sidebar/col', 'col-xl-3 order-first order-xl-2'); ?>">
                 <aside id="secondary" class="widget-area">
-                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <button class="<?= apply_filters('bootscore/class/sidebar/button', 'd-xl-none btn fw-semibold btn-outline-secondary w-100 mb-4 d-flex justify-content-between align-items-center'); ?>" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <?= apply_filters('bootscore/offcanvas/sidebar/button/text', __('Richiedi informazioni', 'bootscore')); ?> <?= apply_filters('bootscore/icon/ellipsis-vertical', '<i class="fa-solid fa-ellipsis-vertical"></i>'); ?>
                     </button>
                     <div class="<?= apply_filters('bootscore/class/sidebar/offcanvas', 'offcanvas-xl offcanvas-end'); ?>" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">

@@ -112,11 +112,12 @@ if ($show_header) :
 
       <?php endif; ?>
       <!-- END relazione dipartimento -->
-
+      <h1 class="d-flex flex-column">
         <?php if (!empty($cat_name)) : ?>
-          <small class="text-uppercase fw-semibold"><?php echo esc_html($cat_name); ?></small>
+          <small class="text-uppercase f-small fw-semibold mb-1"><?php echo esc_html($cat_name); ?></small>
         <?php endif; ?>
-        <h1 class="mt-1"><?php the_title(); ?></h1>
+        <span class=""><?php the_title(); ?></span>
+      </h1>
 
         <?php
           // Include con controllo esistenza file

@@ -2,6 +2,9 @@
   .col-featured {
     min-height: 380px;
   }
+  .single-post .col-featured {
+    min-height: auto;
+  }
 }
 
 

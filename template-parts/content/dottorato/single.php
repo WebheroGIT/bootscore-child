@@ -59,9 +59,10 @@ if ($has_valid_cat) :
 
       <?php endif; ?>
       <!-- END relazione dipartimento -->
-
-        <small class="text-uppercase fw-semibold"><?php echo esc_html($cat_name); ?></small>
-        <h1 class="mt-1"><?php the_title(); ?></h1>
+        <h1 class="d-flex flex-column">
+        <small class="text-uppercase f-small fw-semibold"><?php echo esc_html($cat_name); ?></small>
+        <span class="mt-1"><?php the_title(); ?></span>
+        </h1>
 
         <div class="grid-4 text-white text-center mt-4 g-0 border-top border-bottom border-white">
           

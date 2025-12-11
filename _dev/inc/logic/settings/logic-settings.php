@@ -27,7 +27,7 @@ if (!function_exists('bs_cat_formazione_display_name')) {
             'lauree-triennali'  => 'Lauree triennali',
             'laurea-ciclo-unico'  => 'Lauree ciclo unico',
             'dottorati-di-ricerca'  => 'Dottorati di ricerca',
-            'corso-di-formazione'  => 'Corsi di formazione',
+            'corsi-di-formazione'  => 'Corsi di formazione',
            
             // Aggiungere qui altre regole di visualizzazione
         );
